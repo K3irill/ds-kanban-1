@@ -53,7 +53,7 @@ export default function IconButton({
           />
         </span>
       ) : (
-        children
+        <p>{children}</p>
       )}
     </button>
   );
