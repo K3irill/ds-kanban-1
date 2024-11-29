@@ -7,6 +7,7 @@ import '@/styles/variables/fonts.css';
 
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
+import cn from 'classnames';
 
 const inter = localFont({
   src: [
@@ -20,8 +21,8 @@ const inter = localFont({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
+    <div style={{ height: '100%' }} className={cn(inter.className)}>
       <Component {...pageProps} />
-    </main>
+    </div>
   );
 }
