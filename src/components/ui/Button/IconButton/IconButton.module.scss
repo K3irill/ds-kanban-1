@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.4s;
   &:disabled {
     background-color: var(--blue-light-background);
     color: var(--grey-secondary);
@@ -44,6 +45,19 @@
       background-color: var(--blue-light-background);
     }
   }
+
+  &--medium {
+    width: 48px;
+    height: 48px;
+  }
+  &--small {
+    width: 32px;
+    height: 32px;
+    p * {
+      width: 12px;
+      height: 12px;
+    }
+  }
 }
 
 .loading-element {
@@ -57,8 +71,8 @@
 }
 
 .loading-small {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
 
 @keyframes rotating {
