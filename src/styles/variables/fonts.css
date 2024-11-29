@@ -1,6 +1,6 @@
 :root {
   --font-family: 'Inter', sans-serif;
-
+  --font-size: 14px;
   /* Headlines (Desktop) */
   --headline-1-size: 64px;
   --headline-1-line-height: 76px;
