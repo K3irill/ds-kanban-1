@@ -219,7 +219,7 @@
 </defs>
 </symbol>
 
-<symbol id='addTas  ' width="12" height="12" viewBox="0 0 12 12" fill="none">
+<symbol id='addTask' width="12" height="12" viewBox="0 0 12 12" fill="none">
 <g clip-path="url(#clip0_0_7873)">
 <path d="M9.12816 6C9.12816 6.09946 9.08865 6.19484 9.01832 6.26517C8.948 6.33549 8.85261 6.375 8.75316 6.375H6.375V8.75313C6.375 8.85259 6.33549 8.94797 6.26517 9.0183C6.19484 9.08862 6.09946 9.12813 6 9.12813C5.90054 9.12813 5.80516 9.08862 5.73484 9.0183C5.66451 8.94797 5.625 8.85259 5.625 8.75313V6.375H3.24687C3.14741 6.375 3.05203 6.33549 2.9817 6.26517C2.91138 6.19484 2.87187 6.09946 2.87187 6C2.87187 5.90054 2.91138 5.80516 2.9817 5.73484C3.05203 5.66451 3.14741 5.625 3.24687 5.625H5.625V3.24687C5.625 3.14741 5.66451 3.05203 5.73484 2.9817C5.80516 2.91138 5.90054 2.87187 6 2.87187C6.09946 2.87187 6.19484 2.91138 6.26517 2.9817C6.33549 3.05203 6.375 3.14741 6.375 3.24687V5.625H8.75316C8.85261 5.625 8.948 5.66451 9.01832 5.73484C9.08865 5.80516 9.12816 5.90054 9.12816 6ZM12 2.11364V9.88636C11.9994 10.4467 11.7765 10.984 11.3802 11.3802C10.984 11.7765 10.4467 11.9994 9.88636 12H2.11366C1.55328 11.9994 1.01604 11.7765 0.619785 11.3802C0.223534 10.984 0.000638943 10.4467 0 9.88636L0 2.11364C0.000638943 1.55326 0.223534 1.01602 0.619785 0.619768C1.01604 0.223522 1.55328 0.000632729 2.11366 0L9.88636 0C10.4467 0.000632741 10.984 0.223522 11.3802 0.61977C11.7765 1.01602 11.9994 1.55326 12 2.11364ZM11.25 2.11364C11.2496 1.75211 11.1058 1.4055 10.8501 1.14985C10.5945 0.89421 10.2479 0.750409 9.88636 0.75H2.11366C1.75213 0.750403 1.40551 0.894201 1.14986 1.14985C0.894213 1.40549 0.750409 1.7521 0.75 2.11364V9.88636C0.750409 10.2479 0.894213 10.5945 1.14986 10.8502C1.40551 11.1058 1.75213 11.2496 2.11366 11.25H9.88636C10.2479 11.2496 10.5945 11.1058 10.8501 10.8501C11.1058 10.5945 11.2496 10.2479 11.25 9.88636V2.11364Z" fill="white"/>
 </g>
@@ -229,6 +229,7 @@
 </clipPath>
 </defs>
 </symbol>
+
 <symbol id='search' width="25" height="24" viewBox="0 0 25 24" fill="none" >
 <circle cx="11.5" cy="11" r="8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M17 16.958L22 21.958" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -236,6 +237,17 @@
 <symbol id='plus' width="16" height="16" viewBox="0 0 16 16" fill="none" >
 <path d="M8 3.3335L8 12.6668" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M12.6665 8L3.33317 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+
+<symbol id='loading' width="12" height="12" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 1L11 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11 18L11 21" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21 11L18 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 11L1 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.0715 3.92897L15.9502 6.05029" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.05003 15.95L3.92871 18.0713" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3.92848 3.92897L6.0498 6.05029" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.95 15.95L18.0713 18.0713" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
 
 </svg>
