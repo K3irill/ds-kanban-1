@@ -1,0 +1,75 @@
+.button {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:disabled {
+    background-color: var(--blue-light-background);
+    color: var(--grey-secondary);
+    border: 1px solid transparent;
+    cursor: not-allowed;
+  }
+  &--primary {
+    background-color: var(--blue-primary);
+    &:hover {
+      background-color: #4b93ed;
+    }
+    &:not(:active):focus {
+      border: 2px solid #000;
+    }
+    &:active {
+      background-color: var(--blue-dark);
+    }
+    &-load {
+      background-color: var(--blue-dark);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    &:hover {
+      background-color: var(--blue-light-background);
+    }
+    &:not(:active):focus {
+      border: 2px solid #000;
+    }
+    &:active {
+      background-color: var(--blue-light-background);
+      border: 1px solid var(--blue-primary);
+    }
+    &-load {
+      background-color: var(--blue-light-background);
+    }
+  }
+}
+
+.loading-element {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  transform-origin: center;
+  animation: rotating 2s linear infinite;
+}
+
+.loading-small {
+  width: 8px;
+  height: 8px;
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  background-color: var(--blue-dark);
+}
