@@ -19,7 +19,7 @@ interface StandardButtonProps {
 function StandardButton({
   children,
   type = 'button',
-  onClick = () => {},
+  onClick,
   className,
   view = 'primary',
   size = 'normal',
@@ -39,7 +39,15 @@ function StandardButton({
     >
       {icon && iconPosition === 'left' && <span className={styles.icon}>{icon}</span>}
       {children}
-      {loading && <span className={cn(styles['loading-element'])}>O</span>}
+      {loading && (
+        <span
+          className={cn(styles['loading-element'], { [styles['loading-small']]: size === 'small' })}
+        >
+          <svg className={styles['loading-icon']} viewBox="0 0 24 24" width="12" height="12">
+            <use href="sprite.svg#loading" />
+          </svg>
+        </span>
+      )}
       {icon && iconPosition === 'right' && <span className={styles.icon}>{icon}</span>}
     </button>
   );

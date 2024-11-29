@@ -5,6 +5,9 @@
   font-size: var(--button-4-size);
   line-height: 24px;
   transition: background-color 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* For view */
@@ -19,6 +22,9 @@
 .button.primary:active {
   background-color: var(--blue-dark);
 }
+.button.primary:not(:active):focus {
+  border: 2px solid #000;
+}
 /* secondary */
 .button.secondary {
   color: var(--blue-primary);
@@ -32,6 +38,9 @@
   background-color: var(--blue-light-background);
   border: 1px solid transparent;
 }
+.button.secondary:not(:active):focus {
+  border: 1px solid #000;
+}
 /* tertiary */
 
 .button.tertiary {
@@ -44,6 +53,9 @@
 }
 .button.tertiary:active {
   background-color: var(--blue-light);
+}
+.button.tertiary:not(:active):focus {
+  border: 1px solid #000;
 }
 
 /* For size */
@@ -62,9 +74,7 @@
 }
 
 /*  conditional styles */
-.button:not(:active):focus {
-  border: 1px solid #000;
-}
+
 .button:disabled {
   background-color: var(--blue-light-background);
   color: var(--grey-secondary);
@@ -86,20 +96,32 @@
 }
 
 .loading-element {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 12px;
+  height: 12px;
   margin-left: 10px;
-  font-size: 15px;
+}
+.loading-element svg {
+  width: 12px;
+  height: 12px;
+  transform-origin: center;
   animation: rotating 3s linear infinite;
 }
-
+.loading-small {
+  width: 8px;
+  height: 8px;
+}
+.loading-small svg {
+  width: 8px;
+  height: 8px;
+}
 @keyframes rotating {
   0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(0.9);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg) scale(1);
+    transform: rotate(360deg);
   }
 }
