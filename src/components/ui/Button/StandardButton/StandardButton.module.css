@@ -1,0 +1,105 @@
+/* Default style for button */
+.button {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  font-size: var(--button-4-size);
+  line-height: 24px;
+  transition: background-color 0.4s;
+}
+
+/* For view */
+/* normal */
+.button.primary {
+  background-color: var(--blue-primary);
+  color: var(--white-primary);
+}
+.button.primary:hover {
+  background-color: #4b93ed;
+}
+.button.primary:active {
+  background-color: var(--blue-dark);
+}
+/* secondary */
+.button.secondary {
+  color: var(--blue-primary);
+  background: transparent;
+  border: 1px solid var(--blue-primary);
+}
+.button.secondary:hover {
+  background-color: var(--blue-light-background);
+}
+.button.secondary:active {
+  background-color: var(--blue-light-background);
+  border: 1px solid transparent;
+}
+/* tertiary */
+
+.button.tertiary {
+  color: var(--blue-primary);
+  background: transparent;
+  border: 1px solid transparent;
+}
+.button.tertiary:hover {
+  background-color: var(--blue-light-background);
+}
+.button.tertiary:active {
+  background-color: var(--blue-light);
+}
+
+/* For size */
+.button.normal {
+  padding: 10px 31px;
+}
+
+.button.medium {
+  padding: 7px 24px;
+}
+
+.button.small {
+  padding: 0px 6px;
+  font-size: 9px;
+  line-height: 14px;
+}
+
+/*  conditional styles */
+.button:not(:active):focus {
+  border: 1px solid #000;
+}
+.button:disabled {
+  background-color: var(--blue-light-background);
+  color: var(--grey-secondary);
+  border: 1px solid transparent;
+  cursor: not-allowed;
+}
+
+.button.primary--loading {
+  background-color: var(--blue-dark);
+  cursor: wait;
+}
+.button.secondary--loading {
+  background-color: var(--blue-light-background);
+  cursor: wait;
+}
+.button.tertiary--loading {
+  background-color: var(--blue-light);
+  cursor: wait;
+}
+
+.loading-element {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 15px;
+  animation: rotating 3s linear infinite;
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.9);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
