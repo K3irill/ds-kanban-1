@@ -4,13 +4,22 @@ import styles from '@/styles/Home.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   // здесь потом с контекста будем информацию получать, это всё я написал УСЛОВНО для прикола
   const useStore = { isAuthorized: false, isLoading: false };
   const { isAuthorized, isLoading } = useStore;
-  //----------------------------------------------------
+  const router = useRouter();
 
+  const handleSignClick = () => {
+    if (isAuthorized) {
+      router.push('/projects');
+    } else {
+      router.push('/auth');
+    }
+  };
+  //----------------------------------------------------
   return (
     <>
       <Head>
@@ -26,7 +35,7 @@ export default function Home() {
               <Link href="/">
                 <Image src="/logo.svg" alt="ds-logo" width="155" height="50" priority />
               </Link>
-              <StandardButton onClick={() => alert('Пока нет функционала')} loading={isLoading}>
+              <StandardButton onClick={handleSignClick} loading={isLoading}>
                 {isAuthorized ? 'Выйти' : 'Войти'}
               </StandardButton>
             </div>
