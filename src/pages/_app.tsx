@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/reset.css';
 import '@/styles/variables/colors.css';
 import '@/styles/variables/spacing.css';
 import '@/styles/variables/effects.css';
