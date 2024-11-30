@@ -1,3 +1,5 @@
+'use client';
+
 import TestProject from '@/components/projects/TestProject';
 import React from 'react';
 

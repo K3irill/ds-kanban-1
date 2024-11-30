@@ -2,7 +2,7 @@
 
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 import AuthService from '@/services/auth.service';
-import { IUserData } from '@/types/auth.type';
+import { ILoginData } from '@/types/auth.type';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
@@ -10,13 +10,13 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 function LoginForm() {
-  const { handleSubmit, register, reset } = useForm<IUserData>();
+  const { handleSubmit, register, reset } = useForm<ILoginData>();
 
   const router = useRouter();
 
   const { mutate: mutateLogin, isPending } = useMutation({
     mutationKey: ['login'],
-    mutationFn: (data: IUserData) => AuthService.login(data),
+    mutationFn: (data: ILoginData) => AuthService.login(data),
     onSuccess(data) {
       localStorage.setItem('token', data.token);
       reset();
@@ -24,7 +24,7 @@ function LoginForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<IUserData> = (data) => {
+  const onSubmit: SubmitHandler<ILoginData> = (data) => {
     mutateLogin(data);
   };
 

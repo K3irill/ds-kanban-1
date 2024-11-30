@@ -1,13 +1,12 @@
-import { IUserData } from '@/types/auth.type';
+import { API_URL } from '@/api/axios';
+import { IUser, ILoginData } from '@/types/auth.type';
 
 interface TypeAccessToken {
   token: string;
 }
-const API_URL = 'https://trainee-academy.devds.ru/api';
-export const IS_CLIENT = typeof window === 'undefined';
 
 class AuthService {
-  static async login(data: IUserData): Promise<TypeAccessToken> {
+  static async login(data: ILoginData): Promise<TypeAccessToken> {
     const response = await fetch(
       `${API_URL}/auth/token?email=${data.email}&password=${data.email}`,
       {
@@ -24,6 +23,25 @@ class AuthService {
     }
 
     const responseData: TypeAccessToken = await response.json();
+    return responseData;
+  }
+
+  static async getUser(): Promise<IUser> {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_URL}/auth/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Ошибка при выполнении запроса');
+    }
+
+    const responseData: IUser = await response.json();
+
     return responseData;
   }
 }
