@@ -17,7 +17,11 @@ export default function Sidebar() {
       <div className={cn(styles.sidebar__wrapper)}>
         <div className={cn(styles.sidebar__content)}>
           <div className={cn(styles.sidebar__main)}>
-            <div className={cn(styles.sidebar__interactive)}>
+            <div
+              className={cn(styles.sidebar__interactive, {
+                [styles['sidebar__interactive--open']]: isOpen,
+              })}
+            >
               {isOpen && (
                 <Link href="/">
                   <Image src="logo-white.svg" width={105} height={21} alt="logo" />
@@ -56,7 +60,7 @@ export default function Sidebar() {
               [styles['sidebar__links--open']]: isOpen,
             })}
           >
-            {isOpen && <hr className={cn(styles['sidebar__hr-line'])} />}
+            <hr className={cn(styles['sidebar__hr-line'])} />
 
             <ul className={cn(styles.sidebar__links_list)}>
               <li className={cn(styles.sidebar__links_item)}>

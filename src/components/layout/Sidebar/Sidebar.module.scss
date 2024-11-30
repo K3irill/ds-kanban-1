@@ -2,18 +2,13 @@
   background-color: var(--black-primary);
   width: 40px;
   height: 100%;
-  padding: 16px 8px;
+  padding: 17.5px 0px;
 
   &--open {
     padding: 17.5px 16px;
     width: 272px;
   }
-  &__wrapper {
-  }
-  &__content {
-  }
-  &__main {
-  }
+
   &__switch-btn {
     background-color: #2d2d2d;
     display: flex;
@@ -25,9 +20,12 @@
   }
   &__interactive {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 24px;
+    &--open {
+      justify-content: space-between;
+    }
   }
   &__signout-btn {
     border-radius: 4px;
@@ -71,11 +69,11 @@
         }
       }
     }
-  }
-  &--open {
-    a {
-      justify-content: start;
-      padding: 12px;
+    &--open {
+      a {
+        justify-content: start;
+        padding: 12px;
+      }
     }
   }
 }
