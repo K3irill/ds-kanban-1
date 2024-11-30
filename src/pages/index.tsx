@@ -16,7 +16,7 @@ export default function Home() {
     if (isAuthorized) {
       router.push('/projects');
     } else {
-      router.push('/auth');
+      router.push('/login');
     }
   };
   //----------------------------------------------------

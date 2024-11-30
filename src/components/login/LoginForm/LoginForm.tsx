@@ -9,13 +9,13 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-function AuthForm() {
+function LoginForm() {
   const { handleSubmit, register, reset } = useForm<IUserData>();
 
   const router = useRouter();
 
   const { mutate: mutateLogin, isPending } = useMutation({
-    mutationKey: ['auth'],
+    mutationKey: ['login'],
     mutationFn: (data: IUserData) => AuthService.login(data),
     onSuccess(data) {
       localStorage.setItem('token', data.token);
@@ -43,4 +43,4 @@ function AuthForm() {
   );
 }
 
-export default AuthForm;
+export default LoginForm;
