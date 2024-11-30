@@ -37,7 +37,7 @@ export default function Sidebar() {
             {isOpen && (
               <div className={cn(styles['sidebar__user-info'])}>
                 <User
-                  user_avatar="/test.jpg"
+                  user_avatar="/avatar-test.jpg"
                   user_name="Админ Питоновский"
                   user_position="Web-дизайнер"
                 />
