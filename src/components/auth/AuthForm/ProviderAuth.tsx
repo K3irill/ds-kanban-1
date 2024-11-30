@@ -7,10 +7,10 @@ interface PropsProvidersAuth {
   children: ReactNode;
 }
 
-function ProvidersAuth({ children }: PropsProvidersAuth) {
+function ProviderAuth({ children }: PropsProvidersAuth) {
   const [client] = useState(() => new QueryClient());
 
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }
 
-export default ProvidersAuth;
+export default ProviderAuth;

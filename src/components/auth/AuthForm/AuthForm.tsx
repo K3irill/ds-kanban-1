@@ -20,7 +20,7 @@ function AuthForm() {
     onSuccess(data) {
       localStorage.setItem('token', data.token);
       reset();
-      router.push('/');
+      router.push('/projects');
     },
   });
 
