@@ -1,12 +1,15 @@
 import axios, { CreateAxiosDefaults } from 'axios';
 import { getAccessToken } from '@/services/auth.helper';
-import { getContentType } from './api.helper';
 
 const API_URL = 'https://trainee-academy.devds.ru/api';
 
+export const IS_CLIENT = typeof window === 'undefined';
+
 const axiosOptions: CreateAxiosDefaults = {
   baseURL: API_URL,
-  headers: getContentType(),
+  headers: {
+    'Content-Type': 'application/json',
+  },
   withCredentials: true,
 };
 
