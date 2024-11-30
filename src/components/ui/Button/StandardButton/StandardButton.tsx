@@ -15,6 +15,7 @@ interface StandardButtonProps {
   loading?: boolean;
   icon?: string;
   iconPosition?: 'left' | 'right';
+  isDisabled?: boolean;
 }
 
 function StandardButton({
@@ -27,6 +28,7 @@ function StandardButton({
   loading,
   icon,
   iconPosition,
+  isDisabled = false,
   ...rest
 }: StandardButtonProps) {
   return (
@@ -36,6 +38,7 @@ function StandardButton({
       })}
       onClick={!loading ? onClick : undefined}
       type={type}
+      disabled={isDisabled}
       {...rest}
     >
       {icon && iconPosition === 'left' && <span className={styles.icon}>{icon}</span>}
