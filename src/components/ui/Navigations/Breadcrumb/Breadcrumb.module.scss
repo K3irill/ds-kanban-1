@@ -1,0 +1,33 @@
+.element {
+  color: var(--grey-secondary);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  span {
+    transition: color 0.4s;
+    margin-left: 2px;
+    position: relative;
+    &::after {
+      transition: opacity 0.4s;
+      content: '';
+      opacity: 0;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      background-color: var(--blue-primary);
+    }
+  }
+  & span:hover {
+    color: var(--blue-primary);
+    &::after {
+      opacity: 1;
+    }
+  }
+  &:not(:active):focus {
+    border: 2px solid #000;
+  }
+  &--active {
+    color: var(--blue-primary);
+  }
+}
