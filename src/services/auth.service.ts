@@ -1,48 +1,25 @@
-import { API_URL } from '@/api/axios';
+import { axiosClassic, instance } from '@/api/axios';
 import { IUser, ILoginData } from '@/types/auth.type';
+import { saveTokenStorage } from './auth.helper';
 
 interface TypeAccessToken {
   token: string;
 }
 
 class AuthService {
-  static async login(data: ILoginData): Promise<TypeAccessToken> {
-    const response = await fetch(
-      `${API_URL}/auth/token?email=${data.email}&password=${data.email}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }
+  static async login(data: ILoginData) {
+    const response = await axiosClassic.post<TypeAccessToken>(
+      `/auth/token?email=${data.email}&password=${data.email}`,
+      data
     );
 
-    if (!response.ok) {
-      throw new Error('Ошибка при выполнение запроса');
-    }
-
-    const responseData: TypeAccessToken = await response.json();
-    return responseData;
+    if (response.data.token) saveTokenStorage(response.data.token);
+    return response;
   }
 
-  static async getUser(): Promise<IUser> {
-    const token = localStorage.getItem('token');
-
-    const response = await fetch(`${API_URL}/auth/user`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Ошибка при выполнении запроса');
-    }
-
-    const responseData: IUser = await response.json();
-
-    return responseData;
+  static async getUser() {
+    const response = await instance.get<IUser>(`/auth/user`);
+    return response;
   }
 }
 

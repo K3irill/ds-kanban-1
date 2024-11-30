@@ -5,12 +5,13 @@ import StandardButton from '@/components/ui/Button/StandardButton/StandardButton
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import AuthService from '@/services/auth.service';
+import { getAccessToken, removeAccessFromStorage } from '@/services/auth.helper';
 
 function TestProject() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getAccessToken();
     if (!token) router.push('/login');
   }, []);
 
@@ -23,7 +24,7 @@ function TestProject() {
   return (
     <StandardButton
       onClick={() => {
-        localStorage.removeItem('token');
+        removeAccessFromStorage();
         router.push('/login');
       }}
     >

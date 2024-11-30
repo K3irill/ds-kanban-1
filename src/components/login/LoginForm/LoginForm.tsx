@@ -17,8 +17,7 @@ function LoginForm() {
   const { mutate: mutateLogin, isPending } = useMutation({
     mutationKey: ['login'],
     mutationFn: (data: ILoginData) => AuthService.login(data),
-    onSuccess(data) {
-      localStorage.setItem('token', data.token);
+    onSuccess() {
       reset();
       router.push('/projects');
     },
