@@ -4,7 +4,6 @@
   border-radius: 4px;
   span {
     transition: color 0.4s;
-    margin-left: 2px;
     position: relative;
     &::after {
       transition: opacity 0.4s;
@@ -29,5 +28,8 @@
   }
   &--active {
     color: var(--blue-primary);
+  }
+  &__slash {
+    margin-right: 2px;
   }
 }

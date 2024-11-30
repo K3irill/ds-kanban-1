@@ -22,7 +22,7 @@ export default function Breadcrumb({
       href={href}
       className={cn(styles.element, className, { [styles[`element--active`]]: isActive })}
     >
-      {isFirst ? '/' : ''}
+      {isFirst ? '' : <span className={styles.element__slash}>/</span>}
       <span>{children}</span>
     </Link>
   );
