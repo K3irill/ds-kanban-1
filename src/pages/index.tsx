@@ -6,17 +6,13 @@ import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 
 export default function Home() {
-  // здесь потом с контекста будем информацию получать, это всё я написал УСЛОВНО для прикола
+  // здесь потом с контекста будем информацию получать, это я написал УСЛОВНО для прикола
   const useStore = { isAuthorized: false, isLoading: false };
   const { isAuthorized, isLoading } = useStore;
   const router = useRouter();
 
   const handleSignClick = (): void => {
-    if (isAuthorized) {
-      router.push('/projects');
-    } else {
-      router.push('/auth');
-    }
+    router.push('/auth');
   };
   //----------------------------------------------------
   return (
