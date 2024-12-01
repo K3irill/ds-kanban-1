@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 import { IUser } from '@/types/auth.type';
 import { getAccessToken, removeAccessFromStorage, saveTokenStorage } from '@/services/auth.helper';
@@ -8,12 +10,23 @@ interface AuthState {
   token: string | null;
   setUser: (user: IUser, token: string) => void;
   logout: () => void;
+  initialize: () => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
-  isAuthorized: !!localStorage.getItem('ACCESS_TOKEN'),
+  isAuthorized: false,
   user: null,
-  token: getAccessToken(),
+  token: null,
+
+  initialize: () => {
+    if (typeof window !== 'undefined') {
+      const token = getAccessToken();
+      set({
+        isAuthorized: !!token,
+        token,
+      });
+    }
+  },
 
   setUser: (user, token) => {
     saveTokenStorage(token);
