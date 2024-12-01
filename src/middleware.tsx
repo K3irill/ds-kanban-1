@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// Применяется только к маршрутам, начинающимся с /projects/
+// Применяется middleware только к пути, начинающимся с /projects/
 export const config = {
   matcher: '/projects/:path*',
 };
