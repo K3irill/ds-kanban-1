@@ -60,10 +60,9 @@ export default function Sidebar() {
                   user_position="Web-дизайнер"
                 />
                 <button
-                  onClick={() => {
-                    router.push('/login');
-                    removeFromStorage();
-                  }}
+
+                  onClick={() => router.push('/login')}
+
                   type="button"
                   className={styles['sidebar__signout-btn']}
                 >
