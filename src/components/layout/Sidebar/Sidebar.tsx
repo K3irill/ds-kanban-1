@@ -4,7 +4,7 @@ import Link from 'next/link';
 import User from '@/components/user/User';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAccessToken, removeFromStorage } from '@/services/auth.helper';
+import { getAccessToken, removeAccessFromStorage } from '@/services/auth.helper';
 import { useQuery } from '@tanstack/react-query';
 import AuthService from '@/services/auth.service';
 import styles from './Sidebar.module.scss';
@@ -60,16 +60,10 @@ export default function Sidebar() {
                   user_position="Web-дизайнер"
                 />
                 <button
-<<<<<<< HEAD
                   onClick={() => {
                     router.push('/login');
-                    removeFromStorage();
+                    removeAccessFromStorage();
                   }}
-=======
-
-                  onClick={() => router.push('/login')}
-
->>>>>>> e0a55c8520fc9ac317e416f4393ec3d4f2d47c9f
                   type="button"
                   className={styles['sidebar__signout-btn']}
                 >
