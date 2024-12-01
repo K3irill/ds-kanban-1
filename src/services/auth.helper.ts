@@ -9,6 +9,6 @@ export const saveTokenStorage = (accessToken: string) => {
   Cookies.set('ACCESS_TOKEN', accessToken);
 };
 
-export const removeFromStorage = () => {
+export const removeAccessFromStorage = () => {
   Cookies.remove('ACCESS_TOKEN');
 };
