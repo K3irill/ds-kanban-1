@@ -5,7 +5,11 @@ import User from '@/components/user/User';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/store';
+import { getAccessToken, removeAccessFromStorage } from '@/services/auth.helper';
+import { useQuery } from '@tanstack/react-query';
+import AuthService from '@/services/auth.service';
 import styles from './Sidebar.module.scss';
+
 // ------------------------------------------------------------
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
@@ -17,10 +21,23 @@ export default function Sidebar() {
     console.log(user);
   });
 
+
   const handleLogoutBtn = () => {
     logout();
     router.push('/login');
   };
+
+  useEffect(() => {
+    const token = getAccessToken();
+    if (!token) router.push('/login');
+  }, []);
+
+  const { data } = useQuery({
+    queryKey: ['projects'],
+    queryFn: () => AuthService.getUser(),
+  });
+
+
   return (
     <aside className={cn(styles.sidebar, { [styles['sidebar--open']]: isOpen })}>
       <div className={cn(styles.sidebar__wrapper)}>
@@ -55,7 +72,9 @@ export default function Sidebar() {
                   user_position="Web-дизайнер"
                 />
                 <button
+
                   onClick={handleLogoutBtn}
+
                   type="button"
                   className={styles['sidebar__signout-btn']}
                 >

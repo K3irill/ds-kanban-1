@@ -44,7 +44,6 @@ export const UserSchema = z.object({
   can_grade: z.boolean(),
   nota_email: z.any(),
 });
-
 export type IUser = z.infer<typeof UserSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type ILoginData = z.infer<typeof iLoginDataShema>;

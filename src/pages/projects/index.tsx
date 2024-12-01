@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import Head from 'next/head';
@@ -18,4 +20,3 @@ export default function index() {
     </>
   );
 }
-
