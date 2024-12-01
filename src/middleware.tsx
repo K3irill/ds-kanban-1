@@ -1,21 +1,24 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
-// This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('token');
-  // Проверка, существует ли кукис
-  console.log(token);
+  const { cookies } = request;
+
+  // Получение токен
+  const token = cookies.get('ACCESS_TOKEN');
+
+  // если токена нет, делаем редирект на логин
   if (!token) {
-    // Если кукиса нет, перенаправляем на страницу входа
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Если кукис существует, продолжаем обработку запроса
   return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
+// Применяется middleware только к пути, начинающимся с /projects/
 export const config = {
-  matcher: '/about/:path*',
+  matcher: '/projects/:path*',
 };
+
+// на будущее
+// const redirectToLogin = (request: NextRequest) =>
+//   NextResponse.redirect(new URL('/404', request.url));

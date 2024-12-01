@@ -15,6 +15,7 @@ export default function index() {
       </Head>
       <div style={{ display: 'flex', height: '100%' }}>
         <Sidebar />
+
         <main> Project page</main>
       </div>
     </>

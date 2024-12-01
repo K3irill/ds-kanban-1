@@ -1,0 +1,26 @@
+.form {
+	max-width: 600px;
+	margin: 0 auto;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	row-gap: 20px;
+}
+.wrapperInput {
+	&:not(:last-child) {
+		margin-bottom: 10px;
+	}
+
+	input {
+		padding: 5px;
+		width: 100%;
+		background-color: #f1f1f1;
+		margin-bottom: 10px;
+		border-radius: 4px;
+	}
+}
+
+.errorMessage {
+	color: red;
+}

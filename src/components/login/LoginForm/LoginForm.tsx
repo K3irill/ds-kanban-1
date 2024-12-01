@@ -3,15 +3,27 @@
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 import { getAccessToken } from '@/services/auth.helper';
 import AuthService from '@/services/auth.service';
+import { ILoginData, iLoginDataShema } from '@/types/auth.type';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useAuthStore from '@/store/store';
-import { ILoginData } from '@/types/auth.type';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import styles from './LoginForm.module.scss';
+
 function LoginForm() {
-  const { handleSubmit, register, reset } = useForm<ILoginData>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm<ILoginData>({
+    resolver: zodResolver(iLoginDataShema),
+  });
+
   const { setUser } = useAuthStore();
   const router = useRouter();
 
@@ -36,12 +48,16 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <input type="email" {...register('email', { required: true })} />
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.wrapperInput}>
+        <input type="text" {...register('email')} />
+        {errors.email && <div className={styles.errorMessage}>{`${errors.email.message}`}</div>}
       </div>
-      <div>
-        <input type="password" {...register('password', { required: true })} />
+      <div className={styles.wrapperInput}>
+        <input type="password" {...register('password')} />
+        {errors.password && (
+          <div className={styles.errorMessage}>{`${errors.password.message}`}</div>
+        )}
       </div>
       <StandardButton type="submit" loading={isPending}>
         Вход
