@@ -2,11 +2,10 @@ import cn from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import User from '@/components/user/User';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAccessToken, removeAccessFromStorage } from '@/services/auth.helper';
-import { useQuery } from '@tanstack/react-query';
-import AuthService from '@/services/auth.service';
+import { removeAccessFromStorage } from '@/services/auth.helper';
+
 import styles from './Sidebar.module.scss';
 
 // ------------------------------------------------------------
@@ -15,16 +14,6 @@ import styles from './Sidebar.module.scss';
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
-
-  useEffect(() => {
-    const token = getAccessToken();
-    if (!token) router.push('/login');
-  }, []);
-
-  const { data } = useQuery({
-    queryKey: ['projects'],
-    queryFn: () => AuthService.getUser(),
-  });
 
   return (
     <aside className={cn(styles.sidebar, { [styles['sidebar--open']]: isOpen })}>
@@ -61,7 +50,7 @@ export default function Sidebar() {
                 />
                 <button
                   onClick={() => {
-                    router.push('/login');
+                    router.push('/');
                     removeAccessFromStorage();
                   }}
                   type="button"

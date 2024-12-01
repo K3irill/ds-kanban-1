@@ -6,7 +6,10 @@ export const getAccessToken = () => {
 };
 
 export const saveTokenStorage = (accessToken: string) => {
-  Cookies.set('ACCESS_TOKEN', accessToken);
+  Cookies.set('ACCESS_TOKEN', accessToken, {
+    sameSite: 'strict',
+    expires: 1,
+  });
 };
 
 export const removeAccessFromStorage = () => {
