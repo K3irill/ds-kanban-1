@@ -1,6 +1,5 @@
 'use client';
 
-import Cookies from 'js-cookie';
 import { create } from 'zustand';
 import { IUser } from '@/types/auth.type';
 

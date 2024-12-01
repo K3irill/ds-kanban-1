@@ -6,7 +6,6 @@ import {
   accessTokenShema,
   TypeAccessToken,
 } from '@/types/auth.type';
-
 import { ZodError } from 'zod';
 import { saveTokenStorage } from './auth.helper';
 
@@ -25,8 +24,8 @@ class AuthService {
   }
 
   static async getUser() {
-    const response = await instance.get<{ data: IUser }>(`/auth/user`);
     try {
+      const response = await instance.get<{ data: IUser }>(`/auth/user`);
       const fetchedUser = UserSchema.parse(response.data.data);
 
       return fetchedUser;

@@ -1,10 +1,17 @@
 'use client';
 
-import React from 'react';
+import cn from 'classnames';
+import React, { useEffect } from 'react';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import Head from 'next/head';
+import ProjectService from '@/services/project.service';
+import styles from './Projects.module.scss';
 
-export default function index() {
+export default function ProjectPage() {
+  useEffect(() => {
+    ProjectService.getProjects().then((data) => console.log(data));
+  }, []);
+
   return (
     <>
       <Head>
@@ -13,7 +20,7 @@ export default function index() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={{ display: 'flex', height: '100%' }}>
+      <div className={cn(styles.projects)}>
         <Sidebar />
 
         <main> Project page</main>
@@ -21,3 +28,5 @@ export default function index() {
     </>
   );
 }
+// dsdeveloper1@digital-sector.ru
+// bBQEchjVs7zZGPgp96kTRm
