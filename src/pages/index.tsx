@@ -11,8 +11,11 @@ export default function Home() {
   const { isAuthorized, isLoading } = useStore;
   const router = useRouter();
 
+
+
   const handleSignClick = (): void => {
     router.push('/auth');
+
   };
   //----------------------------------------------------
   return (
