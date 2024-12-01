@@ -4,7 +4,8 @@ import Link from 'next/link';
 import User from '@/components/user/User';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { removeAccessFromStorage } from '@/services/auth.helper';
+
+import useAuthStore from '@/store/store';
 
 import styles from './Sidebar.module.scss';
 
@@ -12,8 +13,17 @@ import styles from './Sidebar.module.scss';
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
 export default function Sidebar() {
+  const { logout, user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
+  // useEffect(() => {
+  //   console.log(user);
+  // });
+
+  const handleLogoutBtn = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <aside className={cn(styles.sidebar, { [styles['sidebar--open']]: isOpen })}>
@@ -44,15 +54,12 @@ export default function Sidebar() {
             {isOpen && (
               <div className={cn(styles['sidebar__user-info'])}>
                 <User
-                  user_avatar="/avatar-test.jpg"
-                  user_name="Админ Питоновский"
-                  user_position="Web-дизайнер"
+                  user_avatar={user?.avatar || '/avatar-test.jpg'}
+                  user_name={`${user?.name} ${user?.surname}`}
+                  user_position={user?.position || `1`}
                 />
                 <button
-                  onClick={() => {
-                    router.push('/');
-                    removeAccessFromStorage();
-                  }}
+                  onClick={handleLogoutBtn}
                   type="button"
                   className={styles['sidebar__signout-btn']}
                 >

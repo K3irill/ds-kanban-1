@@ -4,17 +4,17 @@ import styles from '@/styles/Home.module.scss';
 import { useRouter } from 'next/router';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
+import useAuthStore from '@/store/store';
+//----------------------------------------------------
 
 export default function Home() {
-  // здесь потом с контекста будем информацию получать, это я написал УСЛОВНО для прикола
-  const useStore = { isAuthorized: false, isLoading: false };
-  const { isAuthorized, isLoading } = useStore;
+  const { logout, isAuthorized } = useAuthStore();
   const router = useRouter();
 
   const handleSignClick = (): void => {
+    logout();
     router.push('/login');
   };
-  //----------------------------------------------------
   return (
     <>
       <Head>
@@ -24,11 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={cn(styles.page)}>
-        <Header
-          handleSignClick={handleSignClick}
-          isLoading={isLoading}
-          isAuthorized={isAuthorized}
-        />
+        <Header handleSignClick={handleSignClick} isLoading={false} isAuthorized={isAuthorized} />
         <main className={cn(styles.main)}>
           <div className={cn(styles.main__wrapper)}>
             <h1>Что нибудь попозже придумаем</h1>

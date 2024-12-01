@@ -1,9 +1,12 @@
 'use client';
 
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
+import { getAccessToken } from '@/services/auth.helper';
 import AuthService from '@/services/auth.service';
 import { ILoginData, iLoginDataShema } from '@/types/auth.type';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useAuthStore from '@/store/store';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -17,19 +20,26 @@ function LoginForm() {
     register,
     formState: { errors },
     reset,
-    setError,
   } = useForm<ILoginData>({
     resolver: zodResolver(iLoginDataShema),
   });
 
+  const { setUser } = useAuthStore();
   const router = useRouter();
 
   const { mutate: mutateLogin, isPending } = useMutation({
     mutationKey: ['login'],
     mutationFn: (data: ILoginData) => AuthService.login(data),
-    onSuccess() {
-      reset();
-      router.push('/projects');
+    onSuccess: async () => {
+      try {
+        const user = await AuthService.getUser();
+        const token = getAccessToken();
+        setUser(user, token);
+        reset();
+        router.push('/projects');
+      } catch (error) {
+        console.error('Ошибка загрузки данных пользователя:', error);
+      }
     },
   });
 
@@ -49,7 +59,7 @@ function LoginForm() {
           <div className={styles.errorMessage}>{`${errors.password.message}`}</div>
         )}
       </div>
-      <StandardButton type="submit" isDisabled={isPending}>
+      <StandardButton type="submit" loading={isPending}>
         Вход
       </StandardButton>
     </form>
