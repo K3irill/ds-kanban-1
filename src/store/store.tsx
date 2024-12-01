@@ -27,7 +27,8 @@ const useAuthStore = create<AuthState>((set) => ({
       });
     }
   },
-
+  // dsdeveloper1@digital-sector.ru
+  // bBQEchjVs7zZGPgp96kTRm
   setUser: (user, token) => {
     saveTokenStorage(token);
     set({

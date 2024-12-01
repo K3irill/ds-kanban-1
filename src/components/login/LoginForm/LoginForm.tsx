@@ -43,7 +43,7 @@ function LoginForm() {
       <div>
         <input type="password" {...register('password', { required: true })} />
       </div>
-      <StandardButton type="submit" isDisabled={isPending}>
+      <StandardButton type="submit" loading={isPending}>
         Вход
       </StandardButton>
     </form>
