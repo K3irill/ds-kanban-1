@@ -1,4 +1,18 @@
-.projects {
+.project-page {
   display: flex;
   height: 100%;
+}
+
+.projects {
+  width: 100%;
+  padding: 32px;
+
+  &__breadcrumb {
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: var(--neutral-200);
+    ul {
+      display: flex;
+    }
+  }
 }
