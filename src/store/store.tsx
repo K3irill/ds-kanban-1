@@ -1,8 +1,17 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import { create } from 'zustand';
 import { IUser } from '@/types/auth.type';
-import { getAccessToken, removeAccessFromStorage, saveTokenStorage } from '@/services/auth.helper';
+
+import {
+  getAccessToken,
+  getUserData,
+  removeAccessFromStorage,
+  removeUserData,
+  saveTokenStorage,
+  saveUserData,
+} from '@/services/auth.helper';
 
 interface AuthState {
   isAuthorized: boolean;
@@ -21,16 +30,26 @@ const useAuthStore = create<AuthState>((set) => ({
   initialize: () => {
     if (typeof window !== 'undefined') {
       const token = getAccessToken();
-      set({
-        isAuthorized: !!token,
-        token,
-      });
+      const user = getUserData();
+
+      if (token && user) {
+        set({
+          isAuthorized: true,
+          token,
+          user: JSON.parse(user),
+        });
+      } else {
+        set({
+          isAuthorized: false,
+          token: null,
+          user: null,
+        });
+      }
     }
   },
-  // dsdeveloper1@digital-sector.ru
-  // bBQEchjVs7zZGPgp96kTRm
   setUser: (user, token) => {
     saveTokenStorage(token);
+    saveUserData(user);
     set({
       isAuthorized: true,
       user,
@@ -39,6 +58,7 @@ const useAuthStore = create<AuthState>((set) => ({
   },
   logout: () => {
     removeAccessFromStorage();
+    removeUserData();
     set({
       isAuthorized: false,
       user: null,
