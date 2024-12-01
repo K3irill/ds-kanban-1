@@ -5,9 +5,8 @@ import User from '@/components/user/User';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuthStore from '@/store/store';
-import { getAccessToken, removeAccessFromStorage } from '@/services/auth.helper';
-import { useQuery } from '@tanstack/react-query';
-import AuthService from '@/services/auth.service';
+import { getAccessToken } from '@/services/auth.helper';
+
 import styles from './Sidebar.module.scss';
 
 // ------------------------------------------------------------
@@ -21,7 +20,6 @@ export default function Sidebar() {
     console.log(user);
   });
 
-
   const handleLogoutBtn = () => {
     logout();
     router.push('/login');
@@ -31,12 +29,6 @@ export default function Sidebar() {
     const token = getAccessToken();
     if (!token) router.push('/login');
   }, []);
-
-  const { data } = useQuery({
-    queryKey: ['projects'],
-    queryFn: () => AuthService.getUser(),
-  });
-
 
   return (
     <aside className={cn(styles.sidebar, { [styles['sidebar--open']]: isOpen })}>
@@ -67,14 +59,12 @@ export default function Sidebar() {
             {isOpen && (
               <div className={cn(styles['sidebar__user-info'])}>
                 <User
-                  user_avatar="/avatar-test.jpg"
-                  user_name="Админ Питоновский"
-                  user_position="Web-дизайнер"
+                  user_avatar={user?.avatar || '/avatar-test.jpg'}
+                  user_name={`${user?.name} ${user?.surname}`}
+                  user_position={user?.position || `1`}
                 />
                 <button
-
                   onClick={handleLogoutBtn}
-
                   type="button"
                   className={styles['sidebar__signout-btn']}
                 >
