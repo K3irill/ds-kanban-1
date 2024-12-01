@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const iLoginDataShema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(8).max(20),
 });
 
 export const accessTokenShema = z.object({
@@ -44,6 +44,7 @@ export const UserSchema = z.object({
   can_grade: z.boolean(),
   nota_email: z.any(),
 });
+
 export type IUser = z.infer<typeof UserSchema>;
 export type Project = z.infer<typeof projectSchema>;
 export type ILoginData = z.infer<typeof iLoginDataShema>;

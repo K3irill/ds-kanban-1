@@ -19,7 +19,6 @@ function TestProject() {
     queryKey: ['projects'],
     queryFn: () => AuthService.getUser(),
   });
-  console.log(data);
 
   return (
     <StandardButton
