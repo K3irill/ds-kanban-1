@@ -1,23 +1,21 @@
 import Head from 'next/head';
 import cn from 'classnames';
 import styles from '@/styles/Home.module.scss';
-import Link from 'next/link';
-import Image from 'next/image';
-import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 import { useRouter } from 'next/router';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
 
 export default function Home() {
-  // здесь потом с контекста будем информацию получать, это всё я написал УСЛОВНО для прикола
+  // здесь потом с контекста будем информацию получать, это я написал УСЛОВНО для прикола
   const useStore = { isAuthorized: false, isLoading: false };
   const { isAuthorized, isLoading } = useStore;
   const router = useRouter();
 
-  const handleSignClick = () => {
-    if (isAuthorized) {
-      router.push('/projects');
-    } else {
-      router.push('/login');
-    }
+
+
+  const handleSignClick = (): void => {
+    router.push('/auth');
+
   };
   //----------------------------------------------------
   return (
@@ -29,34 +27,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={cn(styles.page)}>
-        <header className={cn(styles.header)}>
-          <div className={cn(styles.header__wrapper)}>
-            <div className={cn(styles.header__content)}>
-              <Link href="/">
-                <Image src="/logo.svg" alt="ds-logo" width="155" height="50" priority />
-              </Link>
-              <StandardButton onClick={handleSignClick} loading={isLoading}>
-                {isAuthorized ? 'Выйти' : 'Войти'}
-              </StandardButton>
-            </div>
-          </div>
-        </header>
+        <Header
+          handleSignClick={handleSignClick}
+          isLoading={isLoading}
+          isAuthorized={isAuthorized}
+        />
         <main className={cn(styles.main)}>
           <div className={cn(styles.main__wrapper)}>
             <h1>Что нибудь попозже придумаем</h1>
           </div>
         </main>
-        <footer className={cn(styles.footer)}>
-          <div className={cn(styles.footer__wrapper)}>
-            <div className={cn(styles.footer__content)}>
-              <ul>
-                <li>Ионова Диана</li>
-                <li>Гришин Денис</li>
-                <li>Колесниченко Кирилл</li>
-              </ul>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );
