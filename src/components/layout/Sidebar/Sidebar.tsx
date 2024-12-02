@@ -37,7 +37,7 @@ export default function Sidebar() {
             >
               {isOpen && (
                 <Link href="/">
-                  <Image src="logo-white.svg" width={105} height={21} alt="logo" />
+                  <Image src="/logo-white.svg" width={105} height={21} alt="logo" />
                 </Link>
               )}
 

@@ -11,8 +11,52 @@
     padding: 12px 20px;
     border-radius: 8px;
     background-color: var(--neutral-200);
+    margin-bottom: 40px;
     ul {
       display: flex;
     }
+  }
+  &__header {
+    margin-bottom: 24px;
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+    }
+  }
+  &__projects-wrapper {
+  }
+  &__inputs-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  &__projects-activities {
+    margin-bottom: 40px;
+  }
+  &__inputs-wrapper {
+    label {
+      span {
+        color: var(--neutral-500);
+        margin-bottom: 6px;
+      }
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  &__projects-section {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(264px, 1fr));
+    gap: 16px;
+  }
+  &__projects-section-favorite {
+    h2 {
+      font-weight: 600;
+    }
+  }
+  &__hr-line {
+    width: 100%;
+    margin: 40px 0;
   }
 }
