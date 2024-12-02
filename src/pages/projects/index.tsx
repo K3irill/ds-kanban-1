@@ -11,7 +11,7 @@ import styles from './Projects.module.scss';
 
 export default function ProjectPage() {
   useEffect(() => {
-    ProjectService.getProjects().then((data) => console.log(data));
+    ProjectService.getListProjects().then((data) => console.log(data));
   }, []);
 
   return (
