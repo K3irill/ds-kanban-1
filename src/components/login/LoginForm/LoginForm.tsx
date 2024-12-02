@@ -49,18 +49,26 @@ function LoginForm() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <div className={styles.title}>Вход</div>
       <div className={styles.wrapperInput}>
-        <input type="text" {...register('email')} />
-        {errors.email && <div className={styles.errorMessage}>{`${errors.email.message}`}</div>}
+        <label className={styles.label} htmlFor="loginEmail">
+          Электронная почта
+        </label>
+        <input
+          placeholder="Электронная почта"
+          id="login-email"
+          type="text"
+          {...register('email')}
+        />
+        {errors.email && <div className={styles.errorMessage}>{errors.email.message}</div>}
       </div>
       <div className={styles.wrapperInput}>
-        <input type="password" {...register('password')} />
-        {errors.password && (
-          <div className={styles.errorMessage}>{`${errors.password.message}`}</div>
-        )}
+        <label htmlFor="loginPassword">Пароль</label>
+        <input placeholder="Пароль" type="password" id="loginPassword" {...register('password')} />
+        {errors.password && <div className={styles.errorMessage}>{errors.password.message}</div>}
       </div>
-      <StandardButton type="submit" loading={isPending}>
-        Вход
+      <StandardButton type="submit" className={styles.submit} loading={isPending}>
+        Войти
       </StandardButton>
     </form>
   );

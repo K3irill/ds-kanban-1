@@ -1,26 +1,39 @@
 .form {
-	max-width: 600px;
+	max-width: 302px;
 	margin: 0 auto;
 	height: 100%;
 	display: flex;
 	justify-content: center;
+
 	flex-direction: column;
-	row-gap: 20px;
+	row-gap: 24px;
+}
+.title {
+	text-align: center;
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1.4;
 }
 .wrapperInput {
-	&:not(:last-child) {
-		margin-bottom: 10px;
+	label {
+		margin-bottom: 6px;
+		font-size: 14px;
+		color: var(--neutral-500);
+		display: inline-block;
+		line-height: 1.2;
 	}
 
 	input {
-		padding: 5px;
+		padding: 11px 15px;
 		width: 100%;
-		background-color: #f1f1f1;
-		margin-bottom: 10px;
+		background-color: #f4f6f8;
 		border-radius: 4px;
 	}
 }
 
 .errorMessage {
 	color: red;
+}
+.form .submit {
+	padding: 6px 10px;
 }
