@@ -1,39 +1,30 @@
 'use client';
 
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import Breadcrumb from '@/components/ui/Navigations/Breadcrumb/Breadcrumb';
 import ProjectCard from '@/components/projectCard/projectCard';
-import { IProjectData } from '@/types/project.type';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { Projects } from '@/types/project.type';
 import styles from './Projects.module.scss';
 
 const fetchProjects = async (): Promise<Projects> => ProjectService.getListProjects();
+
 export default function ProjectPage() {
-  const [projects, setProjects] = useState<IProjectData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: projects,
+    isLoading,
+    error,
+  }: UseQueryResult<Projects, Error> = useQuery<Projects>({
+    queryKey: ['projects'],
+    queryFn: fetchProjects,
+  });
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const projectList = await ProjectService.getProjects();
-        setProjects(projectList);
-      } catch (err) {
-        setError('Ошибка загрузки проектов');
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  const favoriteProjects = projects.filter((project) => project.is_favorite);
-  const otherProjects = projects.filter((project) => !project.is_favorite);
+  const favoriteProjects = projects?.filter((project) => project.is_favorite) || [];
+  const otherProjects = projects?.filter((project) => !project.is_favorite) || [];
 
   return (
     <>
@@ -100,14 +91,18 @@ export default function ProjectPage() {
 
             {isLoading && <p>Загрузка...</p>}
 
-            {error && <p className={cn(styles['error-message'])}>{error}</p>}
+            {error && (
+              <p className={cn(styles['error-message'])}>
+                {error instanceof Error ? error.message : 'Ошибка загрузки проектов'}
+              </p>
+            )}
 
             {!isLoading && !error && (
               <>
                 {favoriteProjects.length > 0 && (
-                  <div className={cn(styles['projects__projects-section-favorite '])}>
+                  <div className={cn(styles['projects__projects-section-favorite'])}>
                     <h2>Избранное</h2>
-                    <div className={cn(styles['projects__projects-section '])}>
+                    <div className={cn(styles['projects__projects-section'])}>
                       {favoriteProjects.map((project) => (
                         <ProjectCard
                           key={project.id}
@@ -119,11 +114,11 @@ export default function ProjectPage() {
                         />
                       ))}
                     </div>
-                    <hr className={cn(styles['projects__hr-line '])} />
+                    <hr className={cn(styles['projects__hr-line'])} />
                   </div>
                 )}
 
-                {otherProjects.length > 0 ? (
+                {otherProjects.length > 0 && (
                   <div className={cn(styles['projects__projects-section'])}>
                     {otherProjects.map((project) => (
                       <ProjectCard
@@ -136,8 +131,6 @@ export default function ProjectPage() {
                       />
                     ))}
                   </div>
-                ) : (
-                  <p>Нет данных</p>
                 )}
               </>
             )}

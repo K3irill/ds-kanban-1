@@ -1,6 +1,5 @@
 import { instance } from '@/api/api';
-import { Projects } from '@/types/project.type';
-import { projectSchema } from '@/types/user.type';
+import { Projects, projectsSchema } from '@/types/project.type';
 
 import { ZodError } from 'zod';
 
@@ -9,7 +8,7 @@ class ProjectService {
   static async getListProjects() {
     const response = await instance.get<{ data: Projects }>(`/project`);
     try {
-      const fetchedProjects = projectSchema.parse(response.data.data);
+      const fetchedProjects = projectsSchema.parse(response.data.data);
 
       return fetchedProjects;
     } catch (error) {
@@ -25,7 +24,7 @@ class ProjectService {
     const response = await instance.get<{ data: Projects }>(`/project/${slug}`);
     try {
       console.log(response.data.data);
-      const fetchedProjects = projectSchema.parse(response.data.data);
+      const fetchedProjects = projectsSchema.parse(response.data.data);
 
       return fetchedProjects;
     } catch (error) {
