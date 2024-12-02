@@ -1,9 +1,8 @@
 'use client';
 
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
-import { getAccessToken } from '@/services/auth.helper';
-import AuthService from '@/services/auth.service';
-import { ILoginData, iLoginDataShema } from '@/types/auth.type';
+import UserService from '@/services/user.service';
+import { ILoginData, iLoginDataShema } from '@/types/user.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useAuthStore from '@/store/store';
 
@@ -12,6 +11,10 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { AxiosError } from 'axios';
+
+import { getAccessToken } from '@/services/services.helper';
+import ProjectService from '@/services/project.service';
 import styles from './LoginForm.module.scss';
 
 function LoginForm() {
@@ -20,6 +23,7 @@ function LoginForm() {
     register,
     formState: { errors },
     reset,
+    setError,
   } = useForm<ILoginData>({
     resolver: zodResolver(iLoginDataShema),
   });
@@ -29,17 +33,24 @@ function LoginForm() {
 
   const { mutate: mutateLogin, isPending } = useMutation({
     mutationKey: ['login'],
-    mutationFn: (data: ILoginData) => AuthService.login(data),
+    mutationFn: (data: ILoginData) => UserService.login(data),
     onSuccess: async () => {
-      try {
-        const user = await AuthService.getUser();
-        const token = getAccessToken();
-        setUser(user, token);
-        reset();
-        router.push('/projects');
-      } catch (error) {
-        console.error('Ошибка загрузки данных пользователя:', error);
+      const user = await UserService.getIUser();
+      const token = getAccessToken();
+      // @ts-ignore
+      setUser(user, token);
+
+      reset();
+      router.push('/projects');
+    },
+    onError: (error) => {
+      const err = error as AxiosError;
+
+      if (err.status === 403 || err.status === 401) {
+        setError('email', { type: 'custom', message: 'Неверный логин или пароль' });
+        return;
       }
+      console.error('Ошибка:', error);
     },
   });
 

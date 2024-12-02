@@ -1,10 +1,14 @@
 'use client';
 
 import { create } from 'zustand';
-import { IUser } from '@/types/auth.type';
-import { getAccessToken, removeAccessFromStorage, saveTokenStorage } from '@/services/auth.helper';
+import { IUser } from '@/types/user.type';
+import {
+  getAccessToken,
+  removeAccessFromStorage,
+  saveTokenStorage,
+} from '@/services/services.helper';
 
-interface AuthState {
+export interface AuthState {
   isAuthorized: boolean;
   user: IUser | null;
   token: string | null;

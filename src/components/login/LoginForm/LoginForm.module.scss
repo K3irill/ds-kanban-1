@@ -28,11 +28,15 @@
 		width: 100%;
 		background-color: #f4f6f8;
 		border-radius: 4px;
+		&:invalid {
+			background-color: var(--red-light-background);
+		}
 	}
 }
 
 .errorMessage {
-	color: red;
+	color: var(--pink-secondary);
+	margin-top: 6px;
 }
 .form .submit {
 	padding: 6px 10px;

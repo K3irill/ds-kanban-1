@@ -1,8 +1,14 @@
 import { z } from 'zod';
 
 export const iLoginDataShema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(25),
+  email: z
+    .string()
+    .nonempty({ message: 'Нужно заполнить' })
+    .email({ message: 'Введите электронную почту' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Нужно заполнить' })
+    .min(8, { message: 'Пароль должна содержать не менее 8 символов' }),
 });
 
 export const accessTokenShema = z.object({
