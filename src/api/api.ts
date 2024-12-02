@@ -1,5 +1,5 @@
 import axios, { CreateAxiosDefaults } from 'axios';
-import { getAccessToken } from '@/services/auth.helper';
+import { getAccessToken } from '@/services/services.helper';
 
 const API_URL = 'https://trainee-academy.devds.ru/api';
 
