@@ -4,13 +4,7 @@ export const ProjectDataSchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
-  logo: z.object({
-    id: z.number(),
-    original_name: z.string(),
-    link: z.string(),
-    created_at: z.string(),
-    updated_at: z.string(),
-  }),
+  logo: z.string(),
   role: z.object({
     id: z.number(),
     name: z.string(),
@@ -24,6 +18,7 @@ export const ProjectDataSchema = z.object({
   }),
   begin: z.string(),
   end: z.string(),
+  is_favorite: z.boolean(),
 });
 
 export const ProjectSchema = z.object({
