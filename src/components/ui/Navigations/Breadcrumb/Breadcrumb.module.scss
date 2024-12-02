@@ -2,7 +2,8 @@
   color: var(--grey-secondary);
   border: 2px solid transparent;
   border-radius: 4px;
-  span {
+  display: flex;
+  p {
     transition: color 0.4s;
     position: relative;
     &::after {
@@ -11,25 +12,26 @@
       opacity: 0;
       width: 100%;
       position: absolute;
-      bottom: 0;
+      bottom: -2px;
       left: 0;
       height: 1px;
       background-color: var(--blue-primary);
     }
   }
-  & span:hover {
+  & p:hover {
     color: var(--blue-primary);
     &::after {
       opacity: 1;
     }
   }
-  &:not(:active):focus {
-    border: 2px solid #000;
-  }
+  // &:not(:active):focus {
+  //   border: 2px solid #000;
+  // }
   &--active {
     color: var(--blue-primary);
   }
   &__slash {
-    margin-right: 2px;
+    color: var(--grey-secondary);
+    padding: 0 12px;
   }
 }

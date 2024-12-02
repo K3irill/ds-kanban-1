@@ -1,12 +1,15 @@
 'use client';
 
 import { create } from 'zustand';
-import { IUser } from '@/types/user.type';
 import {
   getAccessToken,
+  getUserData,
   removeAccessFromStorage,
+  removeUserData,
   saveTokenStorage,
+  saveUserData,
 } from '@/services/services.helper';
+import { IUser } from '@/types/user.type';
 
 export interface AuthState {
   isAuthorized: boolean;
@@ -25,16 +28,26 @@ const useAuthStore = create<AuthState>((set) => ({
   initialize: () => {
     if (typeof window !== 'undefined') {
       const token = getAccessToken();
-      set({
-        isAuthorized: !!token,
-        token,
-      });
+      const user = getUserData();
+
+      if (token && user) {
+        set({
+          isAuthorized: true,
+          token,
+          user: JSON.parse(user),
+        });
+      } else {
+        set({
+          isAuthorized: false,
+          token: null,
+          user: null,
+        });
+      }
     }
   },
-  // dsdeveloper1@digital-sector.ru
-  // bBQEchjVs7zZGPgp96kTRm
   setUser: (user, token) => {
     saveTokenStorage(token);
+    saveUserData(user);
     set({
       isAuthorized: true,
       user,
@@ -43,6 +56,7 @@ const useAuthStore = create<AuthState>((set) => ({
   },
   logout: () => {
     removeAccessFromStorage();
+    removeUserData();
     set({
       isAuthorized: false,
       user: null,

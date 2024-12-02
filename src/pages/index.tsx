@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import useAuthStore from '@/store/store';
+import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 //----------------------------------------------------
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
         <main className={cn(styles.main)}>
           <div className={cn(styles.main__wrapper)}>
             <h1>Что нибудь попозже придумаем</h1>
+            <StandardButton onClick={() => router.push('/projects')}>Проекты</StandardButton>
           </div>
         </main>
         <Footer />
