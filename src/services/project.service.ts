@@ -21,6 +21,7 @@ class ProjectService {
   }
 
   // тянем проект по slug
+  // нету типов
   static async getProject(slug: string) {
     const response = await instance.get<{ data: Projects }>(`/project/${slug}`);
     try {
