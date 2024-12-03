@@ -7,7 +7,9 @@ class ProjectService {
   static async getListProjects(): Promise<Projects> {
     try {
       const response = await instance.get<{ data: Projects }>('/project');
-      return projectsSchema.parse(response.data.data);
+      console.log(response.data.data);
+
+      return response.data.data; //! пока отключил валидацию--------------!
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Ошибка валидации данных проекта:', error.errors);

@@ -53,11 +53,15 @@
   }
   &__projects-section-favorite {
     h2 {
+      font-size: 16px;
       font-weight: 600;
+      margin-bottom: 16px;
     }
   }
   &__hr-line {
     width: 100%;
     margin: 40px 0;
+    height: 1px;
+    background-color: var(--neutral-300);
   }
 }
