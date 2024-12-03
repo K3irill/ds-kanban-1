@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
@@ -9,11 +9,15 @@ import ProjectCard from '@/components/projectCard/projectCard';
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
+import useAuthStore from '@/store/store';
 import styles from './ProjectsPage.module.scss';
 
 const fetchProjects = async (): Promise<Projects> => ProjectService.getListProjects();
 
 export default function ProjectsPage() {
+  const [isArchived, setIsArchived] = useState(false);
+  const { user } = useAuthStore();
+
   const {
     data: projects,
     isLoading,
@@ -25,11 +29,34 @@ export default function ProjectsPage() {
 
   const favoriteProjects = projects?.filter((project) => project.is_favorite) || [];
   const otherProjects = projects?.filter((project) => !project.is_favorite) || [];
+  const archivedProjects = projects?.filter((project) => project.is_archived) || [];
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты', isActive: true },
   ];
+
+  const renderProjects = (projectsToRender: Projects, sectionTitle?: string) => {
+    if (!projectsToRender.length) return null;
+
+    return (
+      <div>
+        {sectionTitle && <h2>{sectionTitle}</h2>}
+        <div className={cn(styles['projects__projects-section'])}>
+          {projectsToRender.map((project) => (
+            <ProjectCard
+              key={project.id}
+              slug={project.slug}
+              logo={project.logo}
+              name={project.name}
+              count={project.user_count}
+              isFavorite={project.is_favorite}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -69,10 +96,18 @@ export default function ProjectsPage() {
                 </label>
               </div>
             </div>
-            <label htmlFor="archive-projects">
-              <input type="checkbox" name="archive-projects" id="archive-projects" />
-              Показать архивные проекты
-            </label>
+            {user?.is_admin && (
+              <label htmlFor="archive-projects">
+                <input
+                  type="checkbox"
+                  name="archive-projects"
+                  id="archive-projects"
+                  checked={isArchived}
+                  onChange={(e) => setIsArchived(e.target.checked)}
+                />
+                Показать архивные проекты
+              </label>
+            )}
           </div>
 
           {isLoading && (
@@ -83,43 +118,16 @@ export default function ProjectsPage() {
 
           {error && <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>}
 
-          {!isLoading && !error && (
-            <>
-              {favoriteProjects.length > 0 && (
-                <div className={cn(styles['projects__projects-section-favorite'])}>
-                  <h2>Избранное</h2>
-                  <div className={cn(styles['projects__projects-section'])}>
-                    {favoriteProjects.map((project) => (
-                      <ProjectCard
-                        key={project.id}
-                        slug={project.slug}
-                        logo={project.logo}
-                        name={project.name}
-                        count={project.user_count}
-                        isFavorite={project.is_favorite}
-                      />
-                    ))}
-                  </div>
-                  <hr className={cn(styles['projects__hr-line'])} />
-                </div>
-              )}
-
-              {otherProjects.length > 0 && (
-                <div className={cn(styles['projects__projects-section'])}>
-                  {otherProjects.map((project) => (
-                    <ProjectCard
-                      key={project.id}
-                      slug={project.slug}
-                      logo={project.logo}
-                      name={project.name}
-                      count={project.user_count}
-                      isFavorite={project.is_favorite}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+          {!isLoading &&
+            !error &&
+            (isArchived ? (
+              renderProjects(archivedProjects, 'Архивные проекты')
+            ) : (
+              <>
+                {renderProjects(favoriteProjects, 'Избранные проекты')}
+                {renderProjects(otherProjects)}
+              </>
+            ))}
         </div>
       </ProjectLayout>
     </>
