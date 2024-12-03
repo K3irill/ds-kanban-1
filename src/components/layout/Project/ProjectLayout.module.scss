@@ -1,0 +1,20 @@
+.page-layout {
+  display: flex;
+  height: 100%;
+
+  &__content {
+    width: 100%;
+    padding: 32px;
+    position: relative;
+  }
+
+  &__breadcrumb {
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: var(--neutral-200);
+    margin-bottom: 40px;
+    ul {
+      display: flex;
+    }
+  }
+}

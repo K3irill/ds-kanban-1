@@ -1,37 +1,36 @@
 import { instance } from '@/api/api';
-import { Projects, projectsSchema } from '@/types/project.type';
-
+import { Projects, Project, projectsSchema } from '@/types/project.type';
 import { ZodError } from 'zod';
 
 class ProjectService {
-  // тянем список проектов
-  static async getListProjects() {
-    const response = await instance.get<{ data: Projects }>(`/project`);
+  // Получаем список проектов
+  static async getListProjects(): Promise<Projects> {
     try {
-      const fetchedProjects = projectsSchema.parse(response.data.data);
-
-      return fetchedProjects;
+      const response = await instance.get<{ data: Projects }>('/project');
+      return projectsSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
-        console.error(error);
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
       }
-      return error;
+      throw error;
     }
   }
 
-  // тянем проект по slug
-  static async getProject(slug: string) {
-    const response = await instance.get<{ data: Projects }>(`/project/${slug}`);
+  // Получаем проект по slug
+  static async getProject(slug: string): Promise<Project> {
     try {
+      const response = await instance.get<{ data: Project }>(`/project/${slug}`);
       console.log(response.data.data);
-      const fetchedProjects = projectsSchema.parse(response.data.data);
-
-      return fetchedProjects;
+      return response.data.data; //! пока отключил валидацию--------------!
     } catch (error) {
       if (error instanceof ZodError) {
-        console.error(error);
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
       }
-      return error;
+      throw error;
     }
   }
 }

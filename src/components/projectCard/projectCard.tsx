@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styles from './projectCard.module.scss';
 
 interface ProjectCardProps {
-  logo: string;
+  logo: string | null;
   name: string;
   count: number;
   slug: string;
