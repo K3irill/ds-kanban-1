@@ -1,5 +1,5 @@
 import { instance } from '@/api/api';
-import { Projects, Project, projectsSchema } from '@/types/project.type';
+import { Projects, Project } from '@/types/project.type';
 import { ZodError } from 'zod';
 
 class ProjectService {
@@ -32,6 +32,40 @@ class ProjectService {
       } else {
         console.error('Ошибка при получении данных:', error);
       }
+      throw error;
+    }
+  }
+
+  static async addProjectToFavorite(id: number, type: string): Promise<Project> {
+    try {
+      const response = await instance.post<{ data: Project }>('/favorite', {
+        data: { id, type },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        },
+      });
+      console.log(response);
+      return response.data.data;
+    } catch (error) {
+      console.error('Ошибка при добавлении в избранное:', error);
+      throw error;
+    }
+  }
+
+  static async deleteProjectToFavorite(id: number, type: string): Promise<Project> {
+    try {
+      const response = await instance.delete<{ data: Project }>('/favorite', {
+        data: { id, type },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        },
+      });
+      console.log(response);
+      return response.data.data;
+    } catch (error) {
+      console.error('Ошибка при удалении из избранного:', error);
       throw error;
     }
   }

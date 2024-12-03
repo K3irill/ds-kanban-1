@@ -10,11 +10,14 @@ import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
 import useAuthStore from '@/store/store';
+import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import styles from './ProjectsPage.module.scss';
+//----------------------------------------------------
 
 const fetchProjects = async (): Promise<Projects> => ProjectService.getListProjects();
 
 export default function ProjectsPage() {
+  const { addToFavorite, removeFromFavorite, isLoadingFavorite } = useFavoriteMutation();
   const [isArchived, setIsArchived] = useState(false);
   const { user } = useAuthStore();
 
@@ -27,8 +30,10 @@ export default function ProjectsPage() {
     queryFn: fetchProjects,
   });
 
-  const favoriteProjects = projects?.filter((project) => project.is_favorite) || [];
-  const otherProjects = projects?.filter((project) => !project.is_favorite) || [];
+  const favoriteProjects =
+    projects?.filter((project) => project.is_favorite && !project.is_archived) || [];
+  const otherProjects =
+    projects?.filter((project) => !project.is_favorite && !project.is_archived) || [];
   const archivedProjects = projects?.filter((project) => project.is_archived) || [];
 
   const breadcrumbs = [
@@ -36,24 +41,38 @@ export default function ProjectsPage() {
     { href: '/projects', label: 'Проекты', isActive: true },
   ];
 
-  const renderProjects = (projectsToRender: Projects, sectionTitle?: string) => {
+  const onFavoriteToggle = (id: number, isFavorite: boolean) => {
+    if (isFavorite) {
+      removeFromFavorite.mutate(id);
+    } else {
+      addToFavorite.mutate(id);
+    }
+  };
+  const renderProjects = (
+    projectsToRender: Projects,
+    sectionTitle?: string,
+    favoriteSection?: boolean
+  ) => {
     if (!projectsToRender.length) return null;
 
     return (
-      <div>
+      <div className={cn(styles['projects__projects-section-wrapper'])}>
         {sectionTitle && <h2>{sectionTitle}</h2>}
         <div className={cn(styles['projects__projects-section'])}>
           {projectsToRender.map((project) => (
             <ProjectCard
               key={project.id}
+              id={project.id}
               slug={project.slug}
               logo={project.logo}
               name={project.name}
               count={project.user_count}
               isFavorite={project.is_favorite}
+              onFavoriteToggle={onFavoriteToggle}
             />
           ))}
         </div>
+        {favoriteSection && <hr className={cn(styles['projects__hr-line'])} />}
       </div>
     );
   };
@@ -109,22 +128,26 @@ export default function ProjectsPage() {
               </label>
             )}
           </div>
-
           {isLoading && (
             <div className={cn('loader-container')}>
               <Loader />
             </div>
           )}
 
-          {error && <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>}
+          {isLoadingFavorite && (
+            <div className={cn('loader-container')}>
+              <Loader />
+            </div>
+          )}
 
+          {error && <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>}
           {!isLoading &&
             !error &&
             (isArchived ? (
               renderProjects(archivedProjects, 'Архивные проекты')
             ) : (
               <>
-                {renderProjects(favoriteProjects, 'Избранные проекты')}
+                {renderProjects(favoriteProjects, 'Избранные проекты', true)}
                 {renderProjects(otherProjects)}
               </>
             ))}
