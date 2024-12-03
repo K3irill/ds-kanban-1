@@ -29,6 +29,8 @@ export default function ProjectCard({
       onFavoriteToggle(id, !!isFavorite);
     }
   };
+  console.log(logo);
+
   return (
     <Link href={`/projects/${slug}`}>
       <div className={cn(styles['project-card'])}>
@@ -38,6 +40,7 @@ export default function ProjectCard({
           width={32}
           height={32}
           alt="project-logo"
+          unoptimized
         />
         <button
           onClick={handleFavoriteClick}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { ChangeEvent, useMemo, useState } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
@@ -13,10 +13,18 @@ import useAuthStore from '@/store/store';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
+/* eslint-disable no-nested-ternary */
+
+const SECTION_TITLES = {
+  favorite: 'Избранные проекты',
+  archived: 'Архивные проекты',
+};
 
 const fetchProjects = async (): Promise<Projects> => ProjectService.getListProjects();
 
 export default function ProjectsPage() {
+  const [nameValueProject, setNameValueProject] = useState('');
+  const [numberValueProject, setNumberValueProject] = useState('');
   const { addToFavorite, removeFromFavorite, isLoadingFavorite } = useFavoriteMutation();
   const [isArchived, setIsArchived] = useState(false);
   const { user } = useAuthStore();
@@ -30,11 +38,42 @@ export default function ProjectsPage() {
     queryFn: fetchProjects,
   });
 
-  const favoriteProjects =
-    projects?.filter((project) => project.is_favorite && !project.is_archived) || [];
-  const otherProjects =
-    projects?.filter((project) => !project.is_favorite && !project.is_archived) || [];
-  const archivedProjects = projects?.filter((project) => project.is_archived) || [];
+  const filteredByNameProjects = useMemo(
+    () =>
+      (nameValueProject.length > 2 &&
+        projects?.filter(
+          (project) =>
+            project.name.toLowerCase().includes(nameValueProject.toLowerCase()) &&
+            !project.is_archived
+        )) ||
+      [],
+    [projects, nameValueProject]
+  );
+
+  const filteredByNumberProjects = useMemo(
+    () =>
+      (numberValueProject &&
+        projects?.filter(
+          (project) => project.id.toString().includes(numberValueProject) && !project.is_archived
+        )) ||
+      [],
+    [projects, numberValueProject]
+  );
+
+  const archivedProjects = useMemo(
+    () => projects?.filter((project) => project.is_archived) || [],
+    [projects]
+  );
+
+  const favoriteProjects = useMemo(
+    () => projects?.filter((project) => project.is_favorite && !project.is_archived) || [],
+    [projects]
+  );
+
+  const otherProjects = useMemo(
+    () => projects?.filter((project) => !project.is_favorite && !project.is_archived) || [],
+    [projects]
+  );
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
@@ -64,7 +103,7 @@ export default function ProjectsPage() {
               key={project.id}
               id={project.id}
               slug={project.slug}
-              logo={project.logo}
+              logo={project.logo ? project.logo.link : null}
               name={project.name}
               count={project.user_count}
               isFavorite={project.is_favorite}
@@ -75,6 +114,14 @@ export default function ProjectsPage() {
         {favoriteSection && <hr className={cn(styles['projects__hr-line'])} />}
       </div>
     );
+  };
+
+  const onChangeInputNameProject = (e: ChangeEvent<HTMLInputElement>) => {
+    setNameValueProject(e.target.value);
+  };
+
+  const onChangeInputNumberProject = (e: ChangeEvent<HTMLInputElement>) => {
+    setNumberValueProject(e.target.value);
   };
 
   return (
@@ -98,6 +145,8 @@ export default function ProjectsPage() {
                 <label htmlFor="project-name">
                   <span>Название проекта</span>
                   <input
+                    value={nameValueProject}
+                    onChange={(e) => onChangeInputNameProject(e)}
                     id="project-name"
                     style={{ background: 'var(--blue-light-background)' }}
                     type="text"
@@ -109,6 +158,8 @@ export default function ProjectsPage() {
                   <span>Номер задачи</span>
                   <input
                     id="project-number"
+                    value={numberValueProject}
+                    onChange={onChangeInputNumberProject}
                     style={{ background: 'var(--blue-light-background)' }}
                     type="text"
                   />
@@ -128,28 +179,31 @@ export default function ProjectsPage() {
               </label>
             )}
           </div>
-          {isLoading && (
-            <div className={cn('loader-container')}>
+
+          {(isLoading || isLoadingFavorite) && (
+            <div className="loader-container">
               <Loader />
             </div>
           )}
-
-          {isLoadingFavorite && (
-            <div className={cn('loader-container')}>
-              <Loader />
-            </div>
-          )}
-
           {error && <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>}
+
           {!isLoading &&
             !error &&
             (isArchived ? (
-              renderProjects(archivedProjects, 'Архивные проекты')
-            ) : (
+              renderProjects(archivedProjects, SECTION_TITLES.archived)
+            ) : (nameValueProject.trim() === '' || nameValueProject.length < 3) &&
+              numberValueProject.trim() === '' ? (
               <>
                 {renderProjects(favoriteProjects, 'Избранные проекты', true)}
                 {renderProjects(otherProjects)}
               </>
+            ) : filteredByNameProjects.length > 0 || filteredByNumberProjects.length > 0 ? (
+              <>
+                {renderProjects(filteredByNameProjects)}
+                {renderProjects(filteredByNumberProjects)}
+              </>
+            ) : (
+              <p className={styles['error-message']}>Задача не найдена</p>
             ))}
         </div>
       </ProjectLayout>
