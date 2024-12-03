@@ -38,13 +38,19 @@ class ProjectService {
 
   static async addProjectToFavorite(id: number, type: string): Promise<Project> {
     try {
-      const response = await instance.post<{ data: Project }>('/favorite', {
-        data: { id, type },
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: '*/*',
+      const response = await instance.post<{ data: Project }>(
+        '/favorite',
+        {
+          id,
+          type,
         },
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          },
+        }
+      );
       console.log(response);
       return response.data.data;
     } catch (error) {
