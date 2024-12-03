@@ -1,12 +1,13 @@
 .project-page {
   display: flex;
   height: 100%;
+  position: relative;
 }
 
 .projects {
   width: 100%;
   padding: 32px;
-
+  position: relative;
   &__breadcrumb {
     padding: 12px 20px;
     border-radius: 8px;
