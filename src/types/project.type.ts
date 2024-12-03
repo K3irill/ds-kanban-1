@@ -36,6 +36,7 @@ export const usersProjectSchema = z.array(
   z.object({
     id: z.number(),
     name: z.string(),
+
     surname: z.string(),
     patronymic: z.string(),
     position: z.string(),
@@ -52,6 +53,7 @@ export const usersProjectSchema = z.array(
     grade: z.null(),
     can_grade: z.boolean(),
     nota_email: z.nullable(z.any()),
+
   })
 );
 
