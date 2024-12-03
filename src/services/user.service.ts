@@ -11,12 +11,13 @@ import { ZodError } from 'zod';
 import { saveTokenStorage } from './services.helper';
 
 class UserService {
+  // идем получать токен
   static async login(data: ILoginData) {
-    const response = await axiosClassic.post<TypeAccessToken>(
-      `/auth/token?email=${data.email}&password=${data.password}`,
-      data
-    );
     try {
+      const response = await axiosClassic.post<TypeAccessToken>(
+        `/auth/token?email=${data.email}&password=${data.password}`,
+        data
+      );
       const fetchedToken = accessTokenShema.parse(response.data);
       saveTokenStorage(fetchedToken.token);
       return fetchedToken;
@@ -28,11 +29,10 @@ class UserService {
 
   // тянем профиль юзера который залогинился
   static async getIUser() {
-    const response = await instance.get<{ data: IUser }>(`/auth/user`);
     try {
-      const fetchedUser = UserSchema.parse(response.data.data);
+      const response = await instance.get<{ data: IUser }>(`/auth/user`);
 
-      return fetchedUser;
+      return UserSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error(error);
@@ -43,12 +43,10 @@ class UserService {
 
   // тянем профиль юзера по id(любого)
   static async getUserId(id: number) {
-    const response = await instance.get<{ data: IUser }>(`/user/${id}}`);
-
     try {
-      const fetchedUser = UserSchema.parse(response.data.data);
+      const response = await instance.get<{ data: IUser }>(`/user/${id}}`);
 
-      return fetchedUser;
+      return UserSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error(error);

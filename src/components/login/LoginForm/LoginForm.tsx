@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
 import styles from './LoginForm.module.scss';
+import Input from '../../ui/Input/Input';
 
 function LoginForm() {
   const {
@@ -59,23 +60,27 @@ function LoginForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.title}>Вход</div>
-      <div className={styles.wrapperInput}>
-        <label className={styles.label} htmlFor="loginEmail">
-          Электронная почта
-        </label>
-        <input
-          placeholder="Электронная почта"
-          id="login-email"
-          type="text"
-          {...register('email')}
-        />
-        {errors.email && <div className={styles.errorMessage}>{errors.email.message}</div>}
-      </div>
-      <div className={styles.wrapperInput}>
-        <label htmlFor="loginPassword">Пароль</label>
-        <input placeholder="Пароль" type="password" id="loginPassword" {...register('password')} />
-        {errors.password && <div className={styles.errorMessage}>{errors.password.message}</div>}
-      </div>
+
+      <Input
+        labelText="Электронная почта"
+        type="text"
+        name="email"
+        id="loginEmail"
+        register={register}
+        placeholder="Пароль"
+        error={errors.email}
+      />
+
+      <Input
+        labelText="Пароль"
+        type="password"
+        name="password"
+        id="loginPassword"
+        register={register}
+        placeholder="Пароль"
+        error={errors.password}
+      />
+
       <StandardButton type="submit" className={styles.submit} loading={isPending}>
         Войти
       </StandardButton>

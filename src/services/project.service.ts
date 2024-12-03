@@ -1,15 +1,15 @@
 import { instance } from '@/api/api';
-import { Projects, Project } from '@/types/project.type';
+import { ListProjects, listProjectsSchema, Project, projectSchema } from '@/types/project.type';
+
 import { ZodError } from 'zod';
 
 class ProjectService {
   // Получаем список проектов
-  static async getListProjects(): Promise<Projects> {
+  static async getListProjects(): Promise<ListProjects> {
     try {
-      const response = await instance.get<{ data: Projects }>('/project');
-      console.log(response.data.data);
+      const response = await instance.get<{ data: ListProjects }>('/project');
 
-      return response.data.data; //! пока отключил валидацию--------------!
+      return listProjectsSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Ошибка валидации данных проекта:', error.errors);
@@ -24,8 +24,8 @@ class ProjectService {
   static async getProject(slug: string): Promise<Project> {
     try {
       const response = await instance.get<{ data: Project }>(`/project/${slug}`);
-      console.log(response.data.data);
-      return response.data.data; //! пока отключил валидацию--------------!
+
+      return projectSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Ошибка валидации данных проекта:', error.errors);
@@ -38,19 +38,10 @@ class ProjectService {
 
   static async addProjectToFavorite(id: number, type: string): Promise<Project> {
     try {
-      const response = await instance.post<{ data: Project }>(
-        '/favorite',
-        {
-          id,
-          type,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: '*/*',
-          },
-        }
-      );
+      const response = await instance.post<{ data: Project }>('/favorite', {
+        id,
+        type,
+      });
       console.log(response);
       return response.data.data;
     } catch (error) {
@@ -63,10 +54,6 @@ class ProjectService {
     try {
       const response = await instance.delete<{ data: Project }>('/favorite', {
         data: { id, type },
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: '*/*',
-        },
       });
       console.log(response);
       return response.data.data;

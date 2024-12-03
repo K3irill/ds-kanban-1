@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { Projects } from '@/types/project.type';
+import { listProjects } from '@/types/project.type';
 import ProjectCard from '@/components/projectCard/projectCard';
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
@@ -14,7 +14,7 @@ import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 
-const fetchProjects = async (): Promise<Projects> => ProjectService.getListProjects();
+const fetchProjects = async (): Promise<listProjects> => ProjectService.getListProjects();
 
 export default function ProjectsPage() {
   const { addToFavorite, removeFromFavorite, isLoadingFavorite } = useFavoriteMutation();
@@ -25,7 +25,7 @@ export default function ProjectsPage() {
     data: projects,
     isLoading,
     error,
-  }: UseQueryResult<Projects, Error> = useQuery<Projects>({
+  }: UseQueryResult<listProjects, Error> = useQuery<listProjects>({
     queryKey: ['projects'],
     queryFn: fetchProjects,
   });
@@ -49,7 +49,7 @@ export default function ProjectsPage() {
     }
   };
   const renderProjects = (
-    projectsToRender: Projects,
+    projectsToRender: listProjects,
     sectionTitle?: string,
     favoriteSection?: boolean
   ) => {
