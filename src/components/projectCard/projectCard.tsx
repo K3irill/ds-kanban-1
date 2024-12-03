@@ -9,9 +9,26 @@ interface ProjectCardProps {
   count: number;
   slug: string;
   isFavorite?: boolean;
+  onFavoriteToggle?: (a: number, b: boolean) => void;
+  id: number;
 }
 
-export default function ProjectCard({ logo, name, count, slug, isFavorite }: ProjectCardProps) {
+export default function ProjectCard({
+  id,
+  logo,
+  name,
+  count,
+  slug,
+  isFavorite,
+  onFavoriteToggle,
+}: ProjectCardProps) {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (onFavoriteToggle) {
+      onFavoriteToggle(id, !!isFavorite);
+    }
+  };
   return (
     <Link href={`/projects/${slug}`}>
       <div className={cn(styles['project-card'])}>
@@ -22,7 +39,11 @@ export default function ProjectCard({ logo, name, count, slug, isFavorite }: Pro
           height={32}
           alt="project-logo"
         />
-        <button className={cn(styles['project-card__favorite-btn'])} type="button">
+        <button
+          onClick={handleFavoriteClick}
+          className={cn(styles['project-card__favorite-btn'])}
+          type="button"
+        >
           <svg className="social-icon" viewBox="0 0 18 18" width="18" height="18">
             <use href={`/sprite.svg#favorite${isFavorite ? 'Active' : ''}`} />
           </svg>
