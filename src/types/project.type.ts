@@ -5,7 +5,7 @@ export const projectsSchema = z.array(
     id: z.number(),
     name: z.string(),
     slug: z.string(),
-    logo: z.union([z.string(), z.null()]),
+    logo: z.union([z.object({ id: z.number(), link: z.string() }), z.null()]),
     is_favorite: z.boolean(),
     user_count: z.number(),
     is_archived: z.number(),
