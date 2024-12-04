@@ -25,10 +25,17 @@ export const genderSchema = z.object({
   name: z.string(),
 });
 
-export const projectSchema = z.object({
+export const iProjectSchema = z.object({
   id: z.number(),
-  capabilities: z.array(z.any()),
+  capabilities: z.array(z.string()),
   role: roleSchema,
+});
+
+export const avatarSchema = z.object({
+  userId: z.number(),
+  id: z.number(),
+  title: z.string(),
+  completed: z.boolean(),
 });
 
 export const UserSchema = z.object({
@@ -41,16 +48,17 @@ export const UserSchema = z.object({
   is_admin: z.boolean(),
   is_manager: z.boolean(),
   email: z.string(),
-  projects: z.array(projectSchema),
+  projects: z.array(iProjectSchema),
   gender: genderSchema,
-  avatar: z.any(),
+  avatar: z.nullable(avatarSchema),
   telegram: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
   can_grade: z.boolean(),
-  nota_email: z.any(),
+  nota_email: z.nullable(z.any()),
 });
 export type IUser = z.infer<typeof UserSchema>;
-export type Project = z.infer<typeof projectSchema>;
+export type IProject = z.infer<typeof iProjectSchema>;
 export type ILoginData = z.infer<typeof iLoginDataShema>;
 export type TypeAccessToken = z.infer<typeof accessTokenShema>;
+export type Avatar = z.infer<typeof avatarSchema>;
