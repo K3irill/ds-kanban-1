@@ -29,6 +29,12 @@
   // }
   &--active {
     color: var(--blue-primary);
+    cursor: default;
+    & p:hover {
+      &::after {
+        opacity: 0;
+      }
+    }
   }
   &__slash {
     color: var(--grey-secondary);

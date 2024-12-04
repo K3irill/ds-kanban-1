@@ -9,7 +9,7 @@ class ProjectService {
     try {
       const response = await instance.get<{ data: ListProjects }>('/project');
 
-      return listProjectsSchema.parse(response.data.data);
+      return response.data.data; // listProjectsSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Ошибка валидации данных проекта:', error.errors);
@@ -25,7 +25,7 @@ class ProjectService {
     try {
       const response = await instance.get<{ data: Project }>(`/project/${slug}`);
 
-      return projectSchema.parse(response.data.data);
+      return response.data.data; // projectSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {
         console.error('Ошибка валидации данных проекта:', error.errors);
