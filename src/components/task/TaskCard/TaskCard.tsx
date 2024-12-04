@@ -1,12 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
+import Link from 'next/link';
 import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
 
-const TaskCard = ({ id, priority, name, users, task_type, task_component }) => (
-  <div className={cn(styles.task)}>
+const TaskCard = ({ link, id, priority, name, users, task_type, task_component }) => (
+  <Link href={link} className={cn(styles.task)}>
     <div className={cn(styles.task__header)}>
       <p className={cn(styles['task__task-id'])}>
         id: <span>{id}</span>
@@ -26,7 +27,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => (
       <TaskComponent type={task_component} />
       <TaskType type={task_type} />
     </div>
-  </div>
+  </Link>
 );
 
 export default TaskCard;

@@ -75,6 +75,7 @@ export default function KanbanPage() {
                 )}
                 <TaskColumn heading="Новые" taskCount={0}>
                   <TaskCard
+                    link="#"
                     id={1}
                     priority={1}
                     name={1}
