@@ -9,6 +9,8 @@ import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import Loader from '@/components/ui/Loader/loader';
+import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
+import TaskCard from '@/components/task/TaskCard/TaskCard';
 import styles from './KanbanPage.module.scss';
 
 const fetchProjectBySlug = async (slug: string): Promise<Project> =>
@@ -50,21 +52,58 @@ export default function KanbanPage() {
             <Loader />
           </div>
         ) : (
-          <div className={cn(styles['project-kanban'])}>
+          <>
             <div className={cn(styles['project-kanban__header'])}>
               <h1>{project?.name || 'Загрузка...'}</h1>
             </div>
-
-            <div className={cn(styles['project-kanban__tasks-container'])}>
-              {error && <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>}
-
-              {!isLoading && !error && (
-                <div className={cn(styles['project-kanban__projects-activities'])}>
-                  <p>содержимое проекта</p>
-                </div>
-              )}
+            <div className={cn(styles['project-kanban__filters'])}>
+              <div className={cn(styles['project-kanban__inputs'])}>
+                {/* инпуты */}
+                <label htmlFor="">
+                  <span>Название задачи</span>
+                  <input type="text" />
+                </label>
+              </div>
+              <div className={cn(styles['project-kanban__calendars'])}>
+                {/* дата начала дата завершения */}
+              </div>
             </div>
-          </div>
+            <div className={cn(styles['project-kanban__tasks-wrapper'])}>
+              <div className={cn(styles['project-kanban__tasks-container'])}>
+                {error && (
+                  <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>
+                )}
+                <TaskColumn heading="Новые" taskCount={0}>
+                  <TaskCard
+                    id={1}
+                    priority={1}
+                    name={1}
+                    users={1}
+                    task_type={1}
+                    task_component={1}
+                  />
+                </TaskColumn>
+                <TaskColumn heading="В работе" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+                <TaskColumn heading="Выполнены" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+                <TaskColumn heading="Ревью" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+                <TaskColumn heading="Готовы к тестированию" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+                <TaskColumn heading="В тестировании" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+                <TaskColumn heading="Решены" taskCount={0}>
+                  <div>some</div>
+                </TaskColumn>
+              </div>
+            </div>
+          </>
         )}
       </ProjectLayout>
     </>

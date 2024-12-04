@@ -1,0 +1,26 @@
+.task {
+  background-color: white;
+  padding: 14px 12px;
+  border-radius: 6px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  &__task-id {
+    color: var(--grey-primary);
+  }
+  &__task-name {
+    font-weight: 600;
+    line-height: 16.8px;
+    margin-bottom: 12px;
+  }
+  &__user {
+    color: var(--grey-primary);
+    margin-bottom: 12px;
+  }
+  &__footer {
+    display: flex;
+    gap: 4px;
+  }
+}

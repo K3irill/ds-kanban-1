@@ -1,0 +1,45 @@
+.task-type {
+  font-size: 12px;
+  padding: 2.5px 6px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 4px;
+  font-weight: 500;
+  &--task {
+    color: var(--blue-primary);
+    background-color: var(--blue-light-background);
+  }
+
+  &--bug {
+    color: var(--red-primary);
+    background-color: var(--red-light-background);
+  }
+
+  &--improvement {
+    color: var(--green-primary);
+    background-color: var(--green-light-background);
+  }
+  &--feature {
+    color: var(--yellow-primary);
+    background-color: var(--yellow-light-background);
+  }
+
+  &--epic {
+    color: var(--purple-primary);
+    background-color: var(--purple-light-background);
+  }
+
+  &--release {
+    color: var(--orange-primary);
+    background-color: var(--orange-light-background);
+  }
+  &--backlog {
+    color: var(--grey-secondary);
+    background-color: var(--neutral-200);
+  }
+
+  &--guarantee {
+    color: var(--grey-secondary);
+    background-color: var(--neutral-200);
+  }
+}
