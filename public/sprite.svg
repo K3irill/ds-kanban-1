@@ -133,9 +133,9 @@
 <path d="M11.667 17.3613C11.2775 17.9471 10.6115 18.3331 9.8554 18.3331C9.09925 18.3331 8.43327 17.9471 8.04381 17.3613" stroke="#ABBED1" stroke-width="1.5" stroke-linecap="round"/>
 </symbol>
 
-<symbol id='close' width="24" height="24" viewBox="0 0 24 24" fill="none">
-<path d="M18 6L6 18" stroke="#ABBED1" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6 6L18 18" stroke="#ABBED1" stroke-linecap="round" stroke-linejoin="round"/>
+<symbol id='close' width="24" height="24" viewBox="0 0 24 24" >
+ <path d="M18 6L6 18" stroke="#000" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 6L18 18" stroke="#000" strokeLinecap="round" strokeLinejoin="round" />
 </symbol>
 
 <symbol id='upArrow' width="12" height="6" viewBox="0 0 12 6" fill="none">

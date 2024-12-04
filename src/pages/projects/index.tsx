@@ -141,6 +141,9 @@ export default function ProjectsPage() {
                   type="text"
                   labelText="Название проекта"
                   value={nameValueProject}
+                  onClear={() => setNameValueProject('')}
+                  isClear
+                  placeholder="Введите название"
                 />
               </div>
               <div className={cn(styles['projects__inputs-wrapper'])}>
@@ -149,6 +152,7 @@ export default function ProjectsPage() {
                   onChange={(e) => setNumberValueProject(e.target.value)}
                   type="text"
                   labelText="Номер задачи"
+                  placeholder="Введите номер задачи"
                   value={numberValueProject}
                 />
               </div>

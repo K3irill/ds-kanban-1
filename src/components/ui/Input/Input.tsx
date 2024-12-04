@@ -16,6 +16,8 @@ interface PropsInput {
   name?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onClear?: () => void;
+  isClear?: boolean;
 }
 
 const Input: React.FC<PropsInput> = ({
@@ -23,6 +25,8 @@ const Input: React.FC<PropsInput> = ({
   error,
   register,
   onChange,
+  onClear,
+  isClear = false,
   name = '',
   placeholder = '',
   id = '',
@@ -42,6 +46,14 @@ const Input: React.FC<PropsInput> = ({
       type={type}
       value={value}
     />
+    {/* кнопка очистить инпут */}
+    {isClear && value !== '' && (
+      <button onClick={() => onClear?.()} className={styles.clearBtn} type="button">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use href="/sprite.svg#close" />
+        </svg>
+      </button>
+    )}
     {error && <div className={styles.errorMessage}>{error.message}</div>}
   </div>
 );
