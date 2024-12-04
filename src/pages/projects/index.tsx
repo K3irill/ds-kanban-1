@@ -4,7 +4,7 @@ import React, { ChangeEvent, useMemo, useState } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { listProjects } from '@/types/project.type';
+import { ListProjects } from '@/types/project.type';
 import ProjectCard from '@/components/projectCard/projectCard';
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
@@ -20,7 +20,7 @@ const SECTION_TITLES = {
   archived: 'Архивные проекты',
 };
 
-const fetchProjects = async (): Promise<listProjects> => ProjectService.getListProjects();
+const fetchProjects = async (): Promise<ListProjects> => ProjectService.getListProjects();
 
 export default function ProjectsPage() {
   const [nameValueProject, setNameValueProject] = useState('');
@@ -33,7 +33,7 @@ export default function ProjectsPage() {
     data: projects,
     isLoading,
     error,
-  }: UseQueryResult<listProjects, Error> = useQuery<listProjects>({
+  }: UseQueryResult<ListProjects, Error> = useQuery<ListProjects>({
     queryKey: ['projects'],
     queryFn: fetchProjects,
   });
@@ -88,7 +88,7 @@ export default function ProjectsPage() {
     }
   };
   const renderProjects = (
-    projectsToRender: listProjects,
+    projectsToRender: ListProjects,
     sectionTitle?: string,
     favoriteSection?: boolean
   ) => {
