@@ -1,0 +1,37 @@
+.column {
+  &__heading-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 9.5px;
+  }
+  &__taskCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    color: var(--blue-primary);
+    background-color: var(--neutral-200);
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  &__heading {
+    font-weight: 500;
+    margin-right: 10px;
+  }
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 264px;
+    flex-shrink: 0;
+    height: 100%;
+    background-color: var(--neutral-200);
+    border-radius: 12px;
+    padding: 12px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(171, 190, 209) rgb(244, 246, 248);
+    box-shadow: rgb(244, 246, 248) 4px 0px 0px;
+  }
+}
