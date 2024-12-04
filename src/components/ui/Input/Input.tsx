@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { FieldError, UseFormRegister } from 'react-hook-form';
 import { ILoginData } from '@/types/user.type';
@@ -10,31 +10,37 @@ interface PropsInput {
   type: 'password' | 'text';
   placeholder?: string;
   id?: string;
-  register: UseFormRegister<TypeData>;
+  register?: UseFormRegister<TypeData>;
   error?: FieldError | undefined;
   labelText?: string;
-  name: string;
+  name?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<PropsInput> = ({
   type,
-  placeholder = '',
-  name,
-  register,
   error,
+  register,
+  onChange,
+  name = '',
+  placeholder = '',
   id = '',
   labelText = '',
+  value = '',
 }) => (
   <div className={styles.wrapperInput}>
     {labelText && <label htmlFor={id}>{labelText}</label>}
     <input
       className={error && styles.errorInput}
       // @ts-ignore
-      {...register(name)}
+      {...(register ? register(name) : {})}
       name={name}
       placeholder={placeholder}
       id={id}
+      onChange={(e) => onChange?.(e)}
       type={type}
+      value={value}
     />
     {error && <div className={styles.errorMessage}>{error.message}</div>}
   </div>

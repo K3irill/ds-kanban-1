@@ -11,6 +11,7 @@ import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
 import useAuthStore from '@/store/store';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
+import Input from '@/components/ui/Input/Input';
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
@@ -116,14 +117,6 @@ export default function ProjectsPage() {
     );
   };
 
-  const onChangeInputNameProject = (e: ChangeEvent<HTMLInputElement>) => {
-    setNameValueProject(e.target.value);
-  };
-
-  const onChangeInputNumberProject = (e: ChangeEvent<HTMLInputElement>) => {
-    setNumberValueProject(e.target.value);
-  };
-
   return (
     <>
       <Head>
@@ -142,28 +135,22 @@ export default function ProjectsPage() {
           <div className={cn(styles['projects__projects-activities'])}>
             <div className={cn(styles['projects__inputs-container'])}>
               <div className={cn(styles['projects__inputs-wrapper'])}>
-                <label htmlFor="project-name">
-                  <span>Название проекта</span>
-                  <input
-                    value={nameValueProject}
-                    onChange={(e) => onChangeInputNameProject(e)}
-                    id="project-name"
-                    style={{ background: 'var(--blue-light-background)' }}
-                    type="text"
-                  />
-                </label>
+                <Input
+                  id="project-name"
+                  onChange={(e) => setNameValueProject(e.target.value)}
+                  type="text"
+                  labelText="Название проекта"
+                  value={nameValueProject}
+                />
               </div>
               <div className={cn(styles['projects__inputs-wrapper'])}>
-                <label htmlFor="project-number">
-                  <span>Номер задачи</span>
-                  <input
-                    id="project-number"
-                    value={numberValueProject}
-                    onChange={onChangeInputNumberProject}
-                    style={{ background: 'var(--blue-light-background)' }}
-                    type="text"
-                  />
-                </label>
+                <Input
+                  id="project-number"
+                  onChange={(e) => setNumberValueProject(e.target.value)}
+                  type="text"
+                  labelText="Номер задачи"
+                  value={numberValueProject}
+                />
               </div>
             </div>
             {user?.is_admin && (
