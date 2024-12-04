@@ -8,7 +8,6 @@
   }
   &__filters {
     margin-bottom: 40px;
-    // flex: 1 0 auto;
   }
   &__tasks-wrapper {
     // overflow: hidden;
@@ -24,7 +23,7 @@
     overflow-y: hidden;
     overflow-x: scroll;
     display: grid;
-    grid-template-columns: repeat(8, minmax(264px, 1fr));
+    grid-template-columns: repeat(8, 264px);
     height: 100%;
     gap: 16px;
   }
