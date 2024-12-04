@@ -2,7 +2,6 @@ import React from 'react';
 
 import { FieldError, UseFormRegister } from 'react-hook-form';
 import { ILoginData } from '@/types/user.type';
-import cn from 'classnames';
 import styles from './Input.module.scss';
 
 type TypeData = ILoginData;
@@ -29,7 +28,7 @@ const Input: React.FC<PropsInput> = ({
   <div className={styles.wrapperInput}>
     {labelText && <label htmlFor={id}>{labelText}</label>}
     <input
-      className={cn(styles.input, error && styles.errorInput)}
+      className={error && styles.errorInput}
       // @ts-ignore
       {...register(name)}
       name={name}
