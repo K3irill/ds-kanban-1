@@ -31,7 +31,7 @@ export default function KanbanPage() {
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
-    { href: '/projects', label: 'Проекты', isActive: true },
+    { href: '/projects', label: 'Проекты' },
     ...(project ? [{ href: `/projects/${slug}`, label: project.name, isActive: true }] : []),
   ];
 

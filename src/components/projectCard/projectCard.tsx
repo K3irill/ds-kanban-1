@@ -36,7 +36,7 @@ export default function ProjectCard({
       <div className={cn(styles['project-card'])}>
         <Image
           className={cn(styles['project-card__logo'])}
-          src={logo || '/avatar-test.jpg'}
+          src={(logo && `https://trainee-academy.devds.ru/${logo}`) || '/avatar-test.jpg'}
           width={32}
           height={32}
           alt="project-logo"
