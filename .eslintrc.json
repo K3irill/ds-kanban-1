@@ -10,6 +10,9 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "react/function-component-definition": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

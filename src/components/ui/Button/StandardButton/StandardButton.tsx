@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import cn from 'classnames';
+import Image from 'next/image';
 import styles from './StandardButton.module.css';
 // ------------------------------------------------------------
 /* eslint-disable react/button-has-type */
@@ -14,6 +15,7 @@ interface StandardButtonProps {
   loading?: boolean;
   icon?: string;
   iconPosition?: 'left' | 'right';
+  isDisabled?: boolean;
 }
 
 function StandardButton({
@@ -26,6 +28,7 @@ function StandardButton({
   loading,
   icon,
   iconPosition,
+  isDisabled = false,
   ...rest
 }: StandardButtonProps) {
   return (
@@ -35,18 +38,17 @@ function StandardButton({
       })}
       onClick={!loading ? onClick : undefined}
       type={type}
+      disabled={isDisabled}
       {...rest}
     >
       {icon && iconPosition === 'left' && <span className={styles.icon}>{icon}</span>}
       {children}
       {loading && (
-        <span
+        <p
           className={cn(styles['loading-element'], { [styles['loading-small']]: size === 'small' })}
         >
-          <svg className={styles['loading-icon']} viewBox="0 0 24 24" width="12" height="12">
-            <use href="sprite.svg#loading" />
-          </svg>
-        </span>
+          <Image src="/icons/Loading.svg" alt="loading" width="20" height="20" />
+        </p>
       )}
       {icon && iconPosition === 'right' && <span className={styles.icon}>{icon}</span>}
     </button>

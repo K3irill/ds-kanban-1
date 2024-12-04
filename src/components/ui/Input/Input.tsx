@@ -1,98 +1,44 @@
-import { forwardRef, useState } from 'react';
-import classNames from 'classnames';
-import { InputProps } from './Input.types';
-import styles from './Input.module.css';
+import React from 'react';
 
-export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const [isFocused, setIsFocused] = useState(false);
+import { FieldError, UseFormRegister } from 'react-hook-form';
+import { ILoginData } from '@/types/user.type';
+import cn from 'classnames';
+import styles from './Input.module.scss';
 
-  const {
-    value,
-    name,
-    label,
-    type = 'text',
-    inputSize = 'md',
-    variant = 'default',
+type TypeData = ILoginData;
 
-    className,
-    containerClassName,
-    labelClassName,
-    inputClassName,
+interface PropsInput {
+  type: 'password' | 'text';
+  placeholder?: string;
+  id?: string;
+  register: UseFormRegister<TypeData>;
+  error?: FieldError | undefined;
+  labelText?: string;
+  name: string;
+}
 
-    error,
-    disabled,
-    readOnly,
-    isRequired,
+const Input: React.FC<PropsInput> = ({
+  type,
+  placeholder = '',
+  name,
+  register,
+  error,
+  id = '',
+  labelText = '',
+}) => (
+  <div className={styles.wrapperInput}>
+    {labelText && <label htmlFor={id}>{labelText}</label>}
+    <input
+      className={cn(styles.input, error && styles.errorInput)}
+      // @ts-ignore
+      {...register(name)}
+      name={name}
+      placeholder={placeholder}
+      id={id}
+      type={type}
+    />
+    {error && <div className={styles.errorMessage}>{error.message}</div>}
+  </div>
+);
 
-    helperText,
-    placeholder,
-
-    leftIcon,
-    rightIcon,
-    clearIcon,
-
-    onClear,
-    onSearchChange,
-    onFocus,
-    onBlur,
-    onChange,
-    ...rest
-  } = props;
-
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(true);
-    onFocus?.(e);
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(false);
-    onBlur?.(e);
-  };
-
-  const containerClasses = classNames(styles.container, containerClassName);
-
-  const labelClasses = classNames(styles.label, { [styles.required]: isRequired }, labelClassName);
-
-  const inputClasses = classNames(
-    styles.input,
-    {
-      [styles.error]: error,
-      [styles.disabled]: disabled,
-    },
-    className
-  );
-
-  return (
-    <div className={containerClasses}>
-      {label && (
-        <label htmlFor={name} className={labelClasses}>
-          {label}
-        </label>
-      )}
-
-      <input
-        ref={ref}
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        disabled={disabled}
-        readOnly={readOnly}
-        placeholder={placeholder}
-        className={inputClasses}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onChange={onChange}
-        {...rest}
-      />
-
-      {helperText && (
-        <span className={classNames(styles.helper, { [styles.errorHelper]: error })}>
-          {helperText}
-        </span>
-      )}
-    </div>
-  );
-});
-
-Input.displayName = 'Input';
+export default Input;

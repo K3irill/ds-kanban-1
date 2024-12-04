@@ -1,0 +1,23 @@
+.wrapperInput {
+	label {
+		margin-bottom: 6px;
+		font-size: 14px;
+		color: var(--neutral-500);
+		display: inline-block;
+		line-height: 1.2;
+	}
+
+	input {
+		padding: 11px 15px;
+		width: 100%;
+		background-color: var(--neutral-200);
+		border-radius: 4px;
+	}
+	.errorInput {
+		background-color: var(--red-light-background);
+	}
+}
+.errorMessage {
+	color: var(--pink-secondary);
+	margin-top: 6px;
+}

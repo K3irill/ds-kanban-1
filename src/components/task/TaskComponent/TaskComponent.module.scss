@@ -1,0 +1,38 @@
+.task-component {
+  font-size: 12px;
+  padding: 2.5px 6px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 4px;
+  font-weight: 500;
+  color: var(--white-primary);
+  &--dev {
+    background-color: var(--blue-primary);
+  }
+
+  &--design {
+    background-color: var(--pink-primary);
+  }
+
+  &--markup {
+    background-color: var(--yellow-primary);
+  }
+  &--test {
+    background-color: var(--lagoon-background);
+  }
+
+  &--content {
+    background-color: var(--red-primary);
+  }
+
+  &--manage {
+    background-color: var(--orange-primary);
+  }
+  &--front {
+    background-color: var(--green-primary);
+  }
+
+  &--admin {
+    background-color: var(--blue-dark);
+  }
+}

@@ -1,0 +1,43 @@
+.element {
+  color: var(--grey-secondary);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  display: flex;
+  p {
+    transition: color 0.4s;
+    position: relative;
+    &::after {
+      transition: opacity 0.4s;
+      content: '';
+      opacity: 0;
+      width: 100%;
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      height: 1px;
+      background-color: var(--blue-primary);
+    }
+  }
+  & p:hover {
+    color: var(--blue-primary);
+    &::after {
+      opacity: 1;
+    }
+  }
+  // &:not(:active):focus {
+  //   border: 2px solid #000;
+  // }
+  &--active {
+    color: var(--blue-primary);
+    cursor: default;
+    & p:hover {
+      &::after {
+        opacity: 0;
+      }
+    }
+  }
+  &__slash {
+    color: var(--grey-secondary);
+    padding: 0 12px;
+  }
+}

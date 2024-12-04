@@ -1,6 +1,21 @@
 import Head from 'next/head';
+import cn from 'classnames';
+import styles from '@/styles/Home.module.scss';
+import { useRouter } from 'next/router';
+import Header from '@/components/layout/Header/Header';
+import Footer from '@/components/layout/Footer/Footer';
+import useAuthStore from '@/store/store';
+import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
+//----------------------------------------------------
 
 export default function Home() {
+  const { logout, isAuthorized } = useAuthStore();
+  const router = useRouter();
+
+  const handleSignClick = (): void => {
+    logout();
+    router.push('/login');
+  };
   return (
     <>
       <Head>
@@ -9,10 +24,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <header />
-        <main />
-        <footer />
+      <div className={cn(styles.page)}>
+        <Header handleSignClick={handleSignClick} isLoading={false} isAuthorized={isAuthorized} />
+        <main className={cn(styles.main)}>
+          <div className={cn(styles.main__wrapper)}>
+            <h1>Что нибудь попозже придумаем</h1>
+            <StandardButton onClick={() => router.push('/projects')}>Проекты</StandardButton>
+          </div>
+        </main>
+        <Footer />
       </div>
     </>
   );

@@ -1,12 +1,11 @@
-import '@/styles/globals.css';
-import '@/styles/reset.css';
-import '@/styles/variables/colors.css';
-import '@/styles/variables/spacing.css';
-import '@/styles/variables/effects.css';
-import '@/styles/variables/fonts.css';
+import '@/styles/globals.scss';
 
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
+import cn from 'classnames';
+import Provider from '@/provider/Provider';
+import useAuthStore from '@/store/store';
+import { useEffect } from 'react';
 
 const inter = localFont({
   src: [
@@ -19,9 +18,17 @@ const inter = localFont({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const initialize = useAuthStore((state) => state.initialize);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
   return (
-    <main className={inter.className}>
-      <Component {...pageProps} />
-    </main>
+    <div style={{ height: '100%' }} className={cn(inter.className)}>
+      <Provider>
+        <Component {...pageProps} />
+      </Provider>
+    </div>
   );
 }
