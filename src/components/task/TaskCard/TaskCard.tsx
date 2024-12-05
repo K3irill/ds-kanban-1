@@ -24,7 +24,8 @@ const TaskCard = ({ link, id, priority, name, users, task_type, task_component }
       ))} */}
     </div>
     <div className={cn(styles.task__footer)}>
-      <TaskComponent type={task_component} />
+      {task_component && <TaskComponent component={task_component} />}
+
       <TaskType type={task_type} />
     </div>
   </Link>

@@ -16,9 +16,6 @@ export default function Sidebar() {
   const { logout, user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
-  // useEffect(() => {
-  //   console.log(user);
-  // });
 
   const handleLogoutBtn = () => {
     logout();
