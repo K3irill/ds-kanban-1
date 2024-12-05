@@ -29,7 +29,6 @@ export default function ProjectCard({
       onFavoriteToggle(id, !!isFavorite);
     }
   };
-  console.log(logo);
 
   return (
     <Link href={`/projects/${slug}`}>
