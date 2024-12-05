@@ -14,7 +14,7 @@ import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
 import styles from './LoginForm.module.scss';
-import Input from '../../ui/Input/Input';
+import Input, { useInputValidation } from '@/components/ui/Input/Input';
 
 function LoginForm() {
   const {
@@ -23,6 +23,7 @@ function LoginForm() {
     formState: { errors },
     reset,
     setError,
+    clearErrors,
   } = useForm<ILoginData>({
     resolver: zodResolver(iLoginDataShema),
   });
@@ -57,28 +58,55 @@ function LoginForm() {
     mutateLogin(data);
   };
 
+  const emailValidation = useInputValidation(errors.email);
+  const passwordValidation = useInputValidation(errors.password);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    if (email && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+      setError('email', { type: 'manual', message: 'Неверный формат email' });
+    } else {
+      clearErrors('email');
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const password = e.target.value;
+    if (password && password.length < 9) {
+      setError('password', { type: 'manual', message: 'Пароль слишком короткий' });
+    } else {
+      clearErrors('password');
+    }
+  };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.title}>Вход</div>
 
       <Input
-        labelText="Электронная почта"
+        label="Электронная почта"
         type="text"
         name="email"
         id="loginEmail"
         register={register}
-        placeholder="Пароль"
+        placeholder="Электронная почта"
         error={errors.email}
+        status={emailValidation.status}
+        statusMessage={emailValidation.message}
+        onChange={handleEmailChange}
       />
 
       <Input
-        labelText="Пароль"
+        label="Пароль"
         type="password"
         name="password"
         id="loginPassword"
         register={register}
         placeholder="Пароль"
         error={errors.password}
+        status={passwordValidation.status}
+        statusMessage={passwordValidation.message}
+        onChange={handlePasswordChange}
       />
 
       <StandardButton type="submit" className={styles.submit} loading={isPending}>

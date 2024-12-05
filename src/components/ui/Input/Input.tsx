@@ -1,61 +1,121 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState } from 'react';
 
 import { FieldError, UseFormRegister } from 'react-hook-form';
 import { ILoginData } from '@/types/user.type';
+import cn from 'classnames';
 import styles from './Input.module.scss';
 
-type TypeData = ILoginData;
+export type InputStatus = 'warning' | 'error' | 'success';
+export type InputType = 'search' | 'password' | 'text' | 'date';
 
-interface PropsInput {
-  type: 'password' | 'text';
-  placeholder?: string;
-  id?: string;
-  register?: UseFormRegister<TypeData>;
-  error?: FieldError | undefined;
-  labelText?: string;
+const ICONS = {
+  search: `/sprite.svg#inputSearch`,
+  eyeOff: `/sprite.svg#eyeOff`,
+  warning: `/sprite.svg#warning`,
+  error: `/sprite.svg#error`,
+  success: `/sprite.svg#success`,
+};
+
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  type?: InputType;
+  status?: InputStatus;
+  statusMessage?: string;
+  register?: UseFormRegister<ILoginData>;
+  error?: FieldError;
   name?: string;
-  value?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClear?: () => void;
-  isClear?: boolean;
 }
 
-const Input: React.FC<PropsInput> = ({
-  type,
-  error,
-  register,
-  onChange,
-  onClear,
-  isClear = false,
-  name = '',
-  placeholder = '',
-  id = '',
-  labelText = '',
-  value = '',
+export const useInputValidation = (error?: FieldError) => ({
+  status: error ? ('error' as InputStatus) : undefined,
+  message: error?.message,
+});
+
+const PasswordIcon: React.FC<{ visible: boolean; onToggle: () => void }> = ({
+  visible,
+  onToggle,
 }) => (
-  <div className={styles.wrapperInput}>
-    {labelText && <label htmlFor={id}>{labelText}</label>}
-    <input
-      className={error && styles.errorInput}
-      // @ts-ignore
-      {...(register ? register(name) : {})}
-      name={name}
-      placeholder={placeholder}
-      id={id}
-      onChange={(e) => onChange?.(e)}
-      type={type}
-      value={value}
-    />
-    {/* кнопка очистить инпут */}
-    {isClear && value !== '' && (
-      <button onClick={() => onClear?.()} className={styles.clearBtn} type="button">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use href="/sprite.svg#close" />
-        </svg>
-      </button>
-    )}
-    {error && <div className={styles.errorMessage}>{error.message}</div>}
-  </div>
+  <svg
+    className={cn(styles.icon, styles.iconPassword, { [styles.iconActive]: visible })}
+    aria-label="Toggle password visibility"
+    role="button"
+    tabIndex={0}
+    onClick={onToggle}
+    onMouseDown={(e) => e.preventDefault()}
+  >
+    <use href={ICONS.eyeOff} />
+  </svg>
 );
+
+const Input: React.FC<InputProps> = ({
+  label,
+  type = 'text',
+  className,
+  status,
+  statusMessage,
+  register,
+  error,
+  name = '',
+  ...props
+}) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const isPasswordType = type === 'password';
+
+  return (
+    <div
+      className={cn(styles.inputWrapper, {
+        [styles[status as string]]: status,
+        [styles.error]: error,
+      })}
+    >
+      {label && (
+        <label htmlFor={props.id} className={styles.label}>
+          {label}
+        </label>
+      )}
+
+      <div
+        className={cn(styles.inputContainer, {
+          [styles.iconLeft]: type === 'search',
+          [styles.iconRight]: isPasswordType,
+        })}
+      >
+        {type === 'search' && (
+          <svg className={`${styles.icon} ${styles.iconSearch}`} aria-hidden="true">
+            <use href={ICONS.search} />
+          </svg>
+        )}
+        {isPasswordType && (
+          <PasswordIcon
+            visible={passwordVisible}
+            onToggle={() => setPasswordVisible(!passwordVisible)}
+          />
+        )}
+        <input
+          className={cn(styles.input, className, { [styles.errorInput]: error })}
+          type={isPasswordType ? (passwordVisible ? 'text' : 'password') : type}
+          {...(register ? register(name as keyof ILoginData) : {})}
+          {...props}
+        />
+      </div>
+
+      {(statusMessage || error) && (
+        <div
+          className={cn(styles.statusContainer, {
+            [styles.visible]: statusMessage || error,
+          })}
+        >
+          {status && (
+            <svg className={styles.statusIcon} aria-hidden="true">
+              <use href={ICONS[status]} />
+            </svg>
+          )}
+          <span className={styles.statusMessage}>{error?.message || statusMessage || ' '}</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Input;

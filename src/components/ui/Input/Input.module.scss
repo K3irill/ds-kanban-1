@@ -1,46 +1,38 @@
 .wrapperInput {
-	position: relative;
-	label {
-		margin-bottom: 6px;
-		font-size: 14px;
-		color: var(--neutral-500);
+  label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--neutral-500);
+    display: inline-block;
+    line-height: 1.2;
+  }
 
-		line-height: 1.2;
-	}
-
-	input {
-		padding: 11px 20px;
-		padding-right: 30px;
-		width: 100%;
-		background-color: var(--neutral-200);
-		border-radius: 4px;
-		position: relative;
-		z-index: 0;
-		font-size: 14px;
-		&::placeholder {
-			color: var(--neutral-500);
-		}
-	}
-	.errorInput {
-		background-color: var(--red-light-background);
-	}
+  input {
+    padding: 11px 15px;
+    width: 100%;
+    background-color: var(--neutral-200);
+    border-radius: 4px;
+  }
+  .errorInput {
+    background-color: var(--red-light-background);
+  }
 }
 .errorMessage {
-	color: var(--pink-secondary);
-	margin-top: 6px;
+  color: var(--pink-secondary);
+  margin-top: 6px;
 }
 
 .clearBtn {
-	position: absolute;
-	top: calc(50% + 2px);
+  position: absolute;
+  top: calc(50% + 2px);
 
-	right: 15px;
+  right: 15px;
 
-	z-index: 8;
-	cursor: pointer;
-	svg {
-		width: 20px;
-		height: 20px;
-		stroke: #000;
-	}
+  z-index: 8;
+  cursor: pointer;
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: #000;
+  }
 }
