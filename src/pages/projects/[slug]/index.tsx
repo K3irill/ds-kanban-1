@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { Project } from '@/types/project.type';
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
@@ -11,25 +11,45 @@ import { useRouter } from 'next/router';
 import Loader from '@/components/ui/Loader/loader';
 import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
+import TaskService from '@/services/task.service';
+import { AxiosError } from 'axios';
+import useProject from '@/hooks/useProject';
 import styles from './KanbanPage.module.scss';
-
-const fetchProjectBySlug = async (slug: string): Promise<Project> =>
-  ProjectService.getProject(slug);
 
 export default function KanbanPage() {
   const router = useRouter();
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  const {
-    data: project,
-    isLoading,
-    error,
-  }: UseQueryResult<any, Error> = useQuery<any>({
-    queryKey: ['project', projectSlug],
-    queryFn: () => fetchProjectBySlug(projectSlug || ''),
-    enabled: !!projectSlug,
-  });
+  const { project, isLoading, error } = useProject(projectSlug || '');
+  // const {
+  //   data: project,
+  //   isLoading,
+  //   error,
+  //   isSuccess,
+  //   isError,
+  // }: UseQueryResult<any, Error> = useQuery<any>({
+  //   queryKey: ['project', projectSlug],
+  //   queryFn: () => fetchProjectBySlug(projectSlug || ''),
+  //   enabled: !!projectSlug,
+  // });
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     console.log('Запрос успешный');
+  //   }
+  // }, [isSuccess, project]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     console.log('Ошибка');
+  //   }
+  // }, [isError]);
+
+  // const { data: tasks } = useQuery({
+  //   queryKey: ['project', projectSlug],
+  //   queryFn: () => TaskService.getTasks(projectSlug || ''),
+  //   enabled: !!projectSlug,
+  // });
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
