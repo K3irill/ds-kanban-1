@@ -20,8 +20,9 @@ export default function KanbanPage() {
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
   const { project, isLoading, error } = useProject(projectSlug || '');
+
   const { tasks } = useTasks(projectSlug || '');
-  debugger;
+
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты' },

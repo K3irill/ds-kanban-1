@@ -24,6 +24,7 @@ const useProject = (projectSlug: string) => {
       console.log('Запрос успешный');
     }
   }, [isSuccess, project]);
+
   useEffect(() => {
     if (isError) {
       console.log('Ошибка');
