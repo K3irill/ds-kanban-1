@@ -1,3 +1,4 @@
+import ProjectService from '@/services/project.service';
 import TaskService from '@/services/task.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
@@ -11,7 +12,7 @@ const useTasks = (projectSlug: string) => {
     isLoading: isLoadingTasks,
   }: UseQueryResult<any, Error> = useQuery<any>({
     queryKey: ['tasks', projectSlug],
-    queryFn: () => TaskService.getTasks(projectSlug || ''),
+    queryFn: () => ProjectService.getListTasks(projectSlug || ''),
     enabled: !!projectSlug,
   });
 

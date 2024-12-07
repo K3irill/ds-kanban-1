@@ -7,7 +7,7 @@ import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
 
 const TaskCard = ({ link, id, priority, name, users, task_type, task_component }) => (
-  <Link href={link} className={cn(styles.task)}>
+  <Link href={id} className={cn(styles.task)}>
     <div className={cn(styles.task__header)}>
       <p className={cn(styles['task__task-id'])}>
         id: <span>{id}</span>
