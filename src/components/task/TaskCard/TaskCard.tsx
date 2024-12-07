@@ -19,7 +19,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }
       <div className={cn(styles['task__users-wrap'])}>
         {users.map((user, index) => (
           <span className={cn(styles.task__user)} key={user.id}>
-            {user.name}
+            {`${user.name} ${user.surname}`}
             {index < users.length - 1 && ','}
           </span>
         ))}
