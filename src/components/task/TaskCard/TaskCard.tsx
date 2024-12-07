@@ -20,7 +20,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }
         {users.map((user, index) => (
           <span className={cn(styles.task__user)} key={user.id}>
             {user.name}
-            {users.length > 1 && users.at(-1) !== index - 1 && ','}
+            {index < users.length - 1 && ','}
           </span>
         ))}
       </div>

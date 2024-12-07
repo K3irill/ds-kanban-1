@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import Loader from '@/components/ui/Loader/loader';
 import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
-
 import useProject from '@/hooks/useProject';
 import useTasks from '@/hooks/useTasks';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
 import styles from './KanbanPage.module.scss';
+//----------------------------------------------------
+/* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function KanbanPage() {
       </Head>
 
       <ProjectLayout breadcrumbs={breadcrumbs}>
-        {isLoading && isLoadingUsers && isLoadingTasks ? (
+        {isLoading ? (
           <div className={cn('loader-container')}>
             <Loader />
           </div>
@@ -87,15 +87,18 @@ export default function KanbanPage() {
             </div>
             <div className={cn(styles['project-kanban__tasks-wrapper'])}>
               <div className={cn(styles['project-kanban__tasks-container'])}>
-                {isLoadingTasks && <Loader />}
-                {error && (
+                {isLoadingTasks ? (
+                  <div className={cn('loader-container')}>
+                    <Loader />
+                  </div>
+                ) : error ? (
                   <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>
-                )}
-                {project &&
-                  listTasks &&
+                ) : (
+                  project &&
+                  project.flow.possibleProjectStages.length > 0 &&
                   project.flow.possibleProjectStages.map((stages) => {
-                    const filteredTasks = listTasks.filter((task) => task.stage === stages.id);
-                    console.log(listTasks);
+                    const filteredTasks =
+                      listTasks?.filter((task) => task.stage === stages.id) || [];
 
                     return (
                       <TaskColumn
@@ -103,29 +106,32 @@ export default function KanbanPage() {
                         heading={stages.name}
                         taskCount={filteredTasks.length}
                       >
-                        {filteredTasks.map((task) => {
-                          const taskTypeLabel = taskTypes && taskTypes[task.task_type];
-                          const taskPriorityLabel = taskPriority && taskPriority[task.priority - 1];
-                          const taskUsers = filteredUsers[task.id] || [];
+                        {filteredTasks.length > 0 &&
+                          filteredTasks.map((task) => {
+                            const taskTypeLabel = taskTypes && taskTypes[task.task_type];
+                            const taskPriorityLabel =
+                              taskPriority && taskPriority[task.priority - 1];
+                            const taskUsers = filteredUsers[task.id] || [];
 
-                          return (
-                            <TaskCard
-                              key={task.id}
-                              id={task.id}
-                              priority={taskPriorityLabel}
-                              name={task.name}
-                              users={taskUsers}
-                              task_type={taskTypeLabel}
-                              epic={task.epic_name}
-                              task_component={
-                                project.flow.possibleProjectComponents[task.component]
-                              }
-                            />
-                          );
-                        })}
+                            return (
+                              <TaskCard
+                                key={task.id}
+                                id={task.id}
+                                priority={taskPriorityLabel}
+                                name={task.name}
+                                users={taskUsers}
+                                task_type={taskTypeLabel}
+                                epic={task.epic_name}
+                                task_component={
+                                  project.flow.possibleProjectComponents[task.component]
+                                }
+                              />
+                            );
+                          })}
                       </TaskColumn>
                     );
-                  })}
+                  })
+                )}
               </div>
             </div>
           </>
