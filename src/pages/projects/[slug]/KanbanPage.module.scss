@@ -101,7 +101,7 @@
 }
 
 .combobox-input:focus {
-  border-color: #3498db;
+  border-color: var(--blue-primary);
   outline: none;
 }
 
@@ -131,10 +131,12 @@
 }
 
 .combobox-option:hover {
+  background-color: var(--blue-primary);
   color: #fff;
 }
 
 .combobox-option.selected {
+  background-color: var(--blue-primary);
   color: #fff;
 }
 
@@ -158,7 +160,7 @@
 
 .loader {
   border: 4px solid #f3f3f3;
-
+  border-top: 4px solid var(--blue-primary);
   border-radius: 50%;
   width: 20px;
   height: 20px;
