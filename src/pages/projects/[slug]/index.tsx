@@ -53,7 +53,12 @@ export default function KanbanPage() {
   useEffect(() => {
     console.log(projectUsers);
   }, [projectUsers]);
-  if (!router.isReady) return <Loader />;
+  if (!router.isReady)
+    return (
+      <div className={cn('loader-container')}>
+        <Loader />
+      </div>
+    );
   return (
     <>
       <Head>
@@ -64,7 +69,7 @@ export default function KanbanPage() {
       </Head>
 
       <ProjectLayout breadcrumbs={breadcrumbs}>
-        {isLoading ? (
+        {isLoading && isLoadingUsers && isLoadingTasks ? (
           <div className={cn('loader-container')}>
             <Loader />
           </div>
