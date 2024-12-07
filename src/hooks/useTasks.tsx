@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 
 const useTasks = (projectSlug: string) => {
   const {
-    data: tasks,
+    data: listTasks,
     isError,
     isSuccess,
-    isLoading,
+    isLoading: isLoadingTasks,
   }: UseQueryResult<any, Error> = useQuery<any>({
     queryKey: ['tasks', projectSlug],
     queryFn: () => TaskService.getTasks(projectSlug || ''),
@@ -19,14 +19,14 @@ const useTasks = (projectSlug: string) => {
     if (isSuccess) {
       console.log('Запрос успешный');
     }
-  }, [isSuccess, tasks]);
+  }, [isSuccess]);
   useEffect(() => {
     if (isError) {
       console.log('Ошибка');
     }
   }, [isError]);
 
-  return { tasks, isLoading, isSuccess, isError };
+  return { listTasks, isLoadingTasks, isSuccess, isError };
 };
 
 export default useTasks;
