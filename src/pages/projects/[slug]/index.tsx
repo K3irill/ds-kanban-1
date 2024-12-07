@@ -15,11 +15,13 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/react';
+import useAuthStore from '@/store/store';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
+  const { user } = useAuthStore();
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [taskNameValue, setTaskNameValue] = useState('');
   const [onlyMyTask, setOnlyMyTask] = useState(false);
@@ -96,6 +98,9 @@ export default function KanbanPage() {
   useEffect(() => {
     let filtered = listTasks || [];
 
+    if (onlyMyTask) {
+      filtered = filtered.filter((task) => task.users && task.users.includes(user.id));
+    }
     if (selectedPerson) {
       filtered = filtered.filter((task) => task.users && task.users.includes(selectedPerson.id));
     }
@@ -115,13 +120,7 @@ export default function KanbanPage() {
     }
 
     setFilteredTasks(filtered);
-  }, [selectedPerson, selectedType, selectedComponent, taskNameValue, listTasks]);
-
-  useEffect(() => {
-    console.log(taskTypes);
-    console.log(selectedType);
-    console.log(filteredTasks);
-  }, [taskTypes, selectedType, filteredTasks]);
+  }, [onlyMyTask, selectedPerson, selectedType, selectedComponent, taskNameValue, listTasks]);
 
   if (!router.isReady)
     return (
