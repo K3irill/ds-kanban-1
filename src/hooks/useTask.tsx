@@ -9,10 +9,11 @@ const useTask = (taskSlug: string) => {
     data: task,
     isError,
     isSuccess,
-    isLoading: isLoadingTask,
+
+    isFetching,
   }: UseQueryResult<any, Error> = useQuery<any>({
     queryKey: ['task', taskSlug],
-    queryFn: () => TaskService.getTask(taskSlug || ''),
+    queryFn: () => TaskService.getTask(taskSlug),
     enabled: !!taskSlug,
   });
 
@@ -21,7 +22,7 @@ const useTask = (taskSlug: string) => {
   }, [isSuccess]);
   useEffect(() => {}, [isError]);
 
-  return { task, isLoadingTask, isSuccess, isError };
+  return { task, isFetching, isSuccess, isError };
 };
 
 export default useTask;

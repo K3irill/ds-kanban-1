@@ -1,0 +1,67 @@
+.files {
+}
+.dropzone {
+  padding: 24px 0;
+  border: 1px dashed var(--grey-secondary);
+  border-radius: 8px;
+
+  color: var(--grey-secondary);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+.icon {
+  width: 16px;
+  height: 16px;
+}
+.fileList {
+  display: flex;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.blockFile {
+  width: calc(33.3333333333% - 8.6666666667px);
+
+  height: auto;
+
+  background-color: var(--neutral-200);
+
+  border-radius: 12px;
+}
+.imgFile {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  padding: 8px;
+  img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 100%;
+    object-position: center;
+    border-radius: 8px;
+  }
+}
+
+.contetnFile {
+  padding: 4px;
+}
+.nameFile {
+  margin-bottom: 4px;
+  color: var(--blue-primary);
+}
+.dateFile {
+  color: var(--grey-secondary);
+}

@@ -69,6 +69,7 @@ class ProjectService {
   static async getListTasks(slug: string): Promise<Project> {
     try {
       const response = await instance.get<{ data: Project }>(`/project/${slug}/task`);
+
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {

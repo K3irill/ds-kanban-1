@@ -21,7 +21,7 @@ export default function KanbanPage() {
 
   const { project, isLoading, error } = useProject(projectSlug || '');
 
-  const { listTasks, isLoadingTasks } = useTasks(project?.slug || '');
+  const { listTasks, isLoadingTasks } = useTasks(projectSlug || '');
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
@@ -32,7 +32,7 @@ export default function KanbanPage() {
   useEffect(() => {
     console.log(project);
     console.log(listTasks);
-  }, [project]);
+  }, []);
 
   if (!router.isReady) return <Loader />;
   return (
