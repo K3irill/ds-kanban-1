@@ -36,6 +36,17 @@ const useTasks = (projectSlug: string) => {
     enabled: !!projectSlug,
   });
 
+  const {
+    data: taskComponent,
+    isError: isErrorTaskComponent,
+    isSuccess: isSuccessTaskComponent,
+    isLoading: isLoadingTaskComponent,
+  }: UseQueryResult<any, Error> = useQuery<any>({
+    queryKey: ['taskComponent'],
+    queryFn: () => ProjectService.getTaskComponent(),
+    enabled: !!projectSlug,
+  });
+
   useEffect(() => {
     if (isSuccessTasks) {
       console.log('Задачи загружены');
@@ -73,6 +84,10 @@ const useTasks = (projectSlug: string) => {
     isErrorTasks,
     isErrorTaskTypes,
     isErrorTaskPriority,
+    taskComponent,
+    isErrorTaskComponent,
+    isSuccessTaskComponent,
+    isLoadingTaskComponent,
   };
 };
 
