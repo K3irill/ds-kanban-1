@@ -9,7 +9,6 @@ class TaskService {
   static async getTasks(slug: string): Promise<any> {
     try {
       const response = await instance.get<{ data: any }>(`/project/${slug}/task`);
-
       return response.data.data; // projectSchema.parse(response.data.data);
     } catch (error) {
       if (error instanceof ZodError) {

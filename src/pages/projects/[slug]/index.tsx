@@ -17,8 +17,8 @@ import styles from './KanbanPage.module.scss';
 export default function KanbanPage() {
   const router = useRouter();
   const { slug } = router.query;
-  const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
+  const projectSlug = Array.isArray(slug) ? slug[0] : slug;
   const { project, isLoading, error } = useProject(projectSlug || '');
 
   const { listTasks, isLoadingTasks } = useTasks(projectSlug || '');
@@ -32,7 +32,9 @@ export default function KanbanPage() {
   useEffect(() => {
     console.log(project);
     console.log(listTasks);
-  }, []);
+  }, [project]);
+
+  if (!router.isReady) return <Loader />;
   return (
     <>
       <Head>
