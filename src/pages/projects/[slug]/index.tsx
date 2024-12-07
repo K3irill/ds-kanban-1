@@ -19,7 +19,7 @@ export default function KanbanPage() {
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  const { project, isLoading, error, projectUsers } = useProject(projectSlug || '');
+  const { project, isLoading, error, projectUsers, isLoadingUsers } = useProject(projectSlug || '');
 
   const { listTasks, taskTypes, taskPriority, isLoadingTasks } = useTasks(project?.slug || '');
   const [filteredUsers, setFilteredUsers] = useState<{ [key: number]: any[] }>({});
@@ -64,7 +64,7 @@ export default function KanbanPage() {
       </Head>
 
       <ProjectLayout breadcrumbs={breadcrumbs}>
-        {isLoading ? (
+        {isLoading && isLoadingUsers && isLoadingTasks ? (
           <div className={cn('loader-container')}>
             <Loader />
           </div>

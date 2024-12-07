@@ -10,21 +10,16 @@
     margin-bottom: 40px;
   }
   &__tasks-wrapper {
-    // overflow: hidden;
-    // margin: 0px -32px;
-    // padding: 0px 32px;
-    // overflow: scroll;
-    // scrollbar-width: thin;
-    height: 100%;
-  }
-  &__tasks-container {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgb(171, 190, 209) rgb(244, 246, 248);
-    overflow-y: hidden;
-    overflow-x: scroll;
-    display: grid;
-    grid-template-columns: repeat(8, 264px);
-    height: 100%;
+  }
+  &__tasks-container {
+    display: flex;
     gap: 16px;
+    min-width: max-content;
   }
 }
