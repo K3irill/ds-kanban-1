@@ -19,6 +19,12 @@ const useProject = (projectSlug: string) => {
     enabled: !!projectSlug,
   });
 
+  const { data: projectUsers }: UseQueryResult<any, Error> = useQuery<any>({
+    queryKey: ['projectUser'],
+    queryFn: () => ProjectService.getProjectUser(projectSlug),
+    enabled: !!projectSlug,
+  });
+
   useEffect(() => {
     if (isSuccess) {
       console.log('Запрос успешный');
@@ -31,7 +37,7 @@ const useProject = (projectSlug: string) => {
     }
   }, [isError]);
 
-  return { project, isLoading, error, isSuccess, isError };
+  return { project, isLoading, error, isSuccess, isError, projectUsers };
 };
 
 export default useProject;

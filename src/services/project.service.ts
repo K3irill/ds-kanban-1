@@ -35,6 +35,22 @@ class ProjectService {
       throw error;
     }
   }
+  // добавляем проект в избранное
+
+  static async getProjectUser(slug: string): Promise<Project> {
+    try {
+      const response = await instance.get<{ data: Project }>(`/project/${slug}/user`);
+
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
+      }
+      throw error;
+    }
+  }
 
   // добавляем проект в избранное
   static async addProjectToFavorite(id: number, type: string): Promise<Project> {
@@ -81,7 +97,37 @@ class ProjectService {
     }
   }
 
-  // создаем новую задачу
+  // получаем типы задач
+  static async getTaskTypes(): Promise<Project> {
+    try {
+      const response = await instance.get<{ data: Project }>(`/task_type`);
+
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
+      }
+      throw error;
+    }
+  }
+
+  // получаем приоритеты задач
+  static async getTaskPriority(): Promise<Project> {
+    try {
+      const response = await instance.get<{ data: Project }>(`/priority`);
+
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
+      }
+      throw error;
+    }
+  }
 }
 
 export default ProjectService;

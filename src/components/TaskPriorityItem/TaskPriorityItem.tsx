@@ -7,22 +7,20 @@ interface PriorityItemProps {
 
 const TASK_PRIORITY = [
   {
-    name: 'Низкий',
-    type: 'low',
+    type: 'high',
   },
+
   {
-    name: 'Средний',
     type: 'medium',
   },
   {
-    name: 'Высокий',
-    type: 'high',
+    type: 'low',
   },
 ];
 
-const TaskPriorityItem = ({ type: type_id }: PriorityItemProps) => (
-  <div className={cn(styles.priority, styles[`priority--${TASK_PRIORITY[type_id].type}`])}>
-    <span>{TASK_PRIORITY[type_id].name}</span>
+const TaskPriorityItem = ({ priority }: PriorityItemProps) => (
+  <div className={cn(styles.priority, styles[`priority--${TASK_PRIORITY[priority.id - 1].type}`])}>
+    <span>{priority.name}</span>
   </div>
 );
 

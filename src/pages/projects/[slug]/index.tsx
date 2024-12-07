@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
@@ -19,9 +19,10 @@ export default function KanbanPage() {
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  const { project, isLoading, error } = useProject(projectSlug || '');
+  const { project, isLoading, error, projectUsers } = useProject(projectSlug || '');
 
-  const { listTasks, isLoadingTasks } = useTasks(project?.slug || '');
+  const { listTasks, taskTypes, taskPriority, isLoadingTasks } = useTasks(project?.slug || '');
+  const [filteredUsers, setFilteredUsers] = useState<{ [key: number]: any[] }>({});
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
@@ -30,10 +31,28 @@ export default function KanbanPage() {
   ];
 
   useEffect(() => {
-    console.log(project);
-    console.log(listTasks);
-  }, [project]);
+    if (projectUsers && listTasks) {
+      const userMap: { [key: number]: any[] } = {};
 
+      listTasks.forEach((task) => {
+        const usersForTask = projectUsers.filter(
+          (user) => task.users && task.users.includes(user.id)
+        );
+        userMap[task.id] = usersForTask;
+      });
+
+      setFilteredUsers(userMap);
+    }
+  }, [projectUsers, listTasks]);
+
+  // useEffect(() => {
+  //   console.log(project);
+  //   console.log(listTasks);
+  //   console.log(projectUsers);
+  // }, [project]);
+  useEffect(() => {
+    console.log(projectUsers);
+  }, [projectUsers]);
   if (!router.isReady) return <Loader />;
   return (
     <>
@@ -76,23 +95,34 @@ export default function KanbanPage() {
                   listTasks &&
                   project.flow.possibleProjectStages.map((stages) => {
                     const filteredTasks = listTasks.filter((task) => task.stage === stages.id);
+                    console.log(listTasks);
+
                     return (
                       <TaskColumn
                         key={stages.id}
                         heading={stages.name}
                         taskCount={filteredTasks.length}
                       >
-                        {filteredTasks.map((task) => (
-                          <TaskCard
-                            key={task.id}
-                            id={task.id}
-                            priority={task.priority}
-                            name={task.name}
-                            users={task.users}
-                            task_type={task.task_type}
-                            task_component={project.flow.possibleProjectComponents[task.component]}
-                          />
-                        ))}
+                        {filteredTasks.map((task) => {
+                          const taskTypeLabel = taskTypes && taskTypes[task.task_type];
+                          const taskPriorityLabel = taskPriority && taskPriority[task.priority - 1];
+                          const taskUsers = filteredUsers[task.id] || [];
+
+                          return (
+                            <TaskCard
+                              key={task.id}
+                              id={task.id}
+                              priority={taskPriorityLabel}
+                              name={task.name}
+                              users={taskUsers}
+                              task_type={taskTypeLabel}
+                              epic={task.epic_name}
+                              task_component={
+                                project.flow.possibleProjectComponents[task.component]
+                              }
+                            />
+                          );
+                        })}
                       </TaskColumn>
                     );
                   })}
