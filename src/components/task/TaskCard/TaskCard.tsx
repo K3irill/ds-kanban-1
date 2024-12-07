@@ -23,13 +23,13 @@ const TaskCard = ({ link, id, priority, name, users, task_type, task_component }
           {users.length > 1 && users.at(-1) !== index - 1 && ','}
         </span>
       ))} */}
-      </div>
-      <div className={cn(styles.task__footer)}>
-        <TaskComponent type={task_component} />
-        <TaskType type={task_type} />
-      </div>
-    </Link>
-  );
-};
+    </div>
+    <div className={cn(styles.task__footer)}>
+      {task_component && <TaskComponent component={task_component} />}
+
+      <TaskType type={task_type} />
+    </div>
+  </Link>
+);
 
 export default TaskCard;

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
@@ -15,7 +15,9 @@ import styles from './KanbanPage.module.scss';
 
 const fetchProjectBySlug = async (slug: string): Promise<Project> =>
   ProjectService.getProject(slug);
-
+const fetchListTasksBySlug = async (slug: string): Promise<Project> =>
+  ProjectService.getListTasks(slug);
+const PROJECT_STAGES = 'flow.possibleProjectStages';
 export default function KanbanPage() {
   const router = useRouter();
   const { slug } = router.query;
@@ -31,12 +33,25 @@ export default function KanbanPage() {
     enabled: !!projectSlug,
   });
 
+  const {
+    data: listTasks,
+    isLoadingTasks,
+    errorTasks,
+  }: UseQueryResult<any, Error> = useQuery<any>({
+    queryKey: ['listTasks', projectSlug],
+    queryFn: () => fetchListTasksBySlug(projectSlug || ''),
+    enabled: !!projectSlug,
+  });
+
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты' },
     ...(project ? [{ href: `/projects/${slug}`, label: project.name, isActive: true }] : []),
   ];
-
+  useEffect(() => {
+    console.log(project);
+    console.log(listTasks);
+  }, []);
   return (
     <>
       <Head>
@@ -70,38 +85,35 @@ export default function KanbanPage() {
             </div>
             <div className={cn(styles['project-kanban__tasks-wrapper'])}>
               <div className={cn(styles['project-kanban__tasks-container'])}>
+                {isLoadingTasks && <Loader />}
                 {error && (
                   <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>
                 )}
-                <TaskColumn heading="Новые" taskCount={0}>
-                  <TaskCard
-                    link="#"
-                    id={1}
-                    priority={1}
-                    name={1}
-                    users={1}
-                    task_type={1}
-                    task_component={1}
-                  />
-                </TaskColumn>
-                <TaskColumn heading="В работе" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
-                <TaskColumn heading="Выполнены" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
-                <TaskColumn heading="Ревью" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
-                <TaskColumn heading="Готовы к тестированию" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
-                <TaskColumn heading="В тестировании" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
-                <TaskColumn heading="Решены" taskCount={0}>
-                  <div>some</div>
-                </TaskColumn>
+                {project &&
+                  listTasks &&
+                  project.flow.possibleProjectStages.map((stages) => {
+                    const filteredTasks = listTasks.filter((task) => task.stage === stages.id);
+                    return (
+                      <TaskColumn
+                        key={stages.id}
+                        heading={stages.name}
+                        taskCount={filteredTasks.length}
+                      >
+                        {filteredTasks.map((task) => (
+                          <TaskCard
+                            key={task.id}
+                            link="#"
+                            id={task.id}
+                            priority={task.priority}
+                            name={task.name}
+                            users={task.users}
+                            task_type={task.task_type}
+                            task_component={project.flow.possibleProjectComponents[task.component]}
+                          />
+                        ))}
+                      </TaskColumn>
+                    );
+                  })}
               </div>
             </div>
           </>
