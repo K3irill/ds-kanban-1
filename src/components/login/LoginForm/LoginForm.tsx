@@ -4,7 +4,6 @@ import StandardButton from '@/components/ui/Button/StandardButton/StandardButton
 import UserService from '@/services/user.service';
 import { ILoginData, iLoginDataShema } from '@/types/user.type';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuthStore from '@/store/store';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -14,6 +13,7 @@ import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
 import Input, { useInputValidation } from '@/components/ui/Input/Input';
+import useAuthStore from '@/store/authStore';
 import styles from './LoginForm.module.scss';
 
 function LoginForm() {

@@ -5,7 +5,7 @@ import User from '@/components/user/User';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import useAuthStore from '@/store/store';
+import useAuthStore from '@/store/authStore';
 
 import styles from './Sidebar.module.scss';
 

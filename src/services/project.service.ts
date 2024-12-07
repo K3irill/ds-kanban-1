@@ -1,5 +1,5 @@
 import { instance } from '@/api/api';
-import { ListProjects, listProjectsSchema, Project, projectSchema } from '@/types/project.type';
+import { ListProjects, Project } from '@/types/project.type';
 
 import { ZodError } from 'zod';
 
@@ -69,7 +69,6 @@ class ProjectService {
   static async getListTasks(slug: string): Promise<Project> {
     try {
       const response = await instance.get<{ data: Project }>(`/project/${slug}/task`);
-
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {

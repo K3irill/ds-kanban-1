@@ -4,7 +4,7 @@ import styles from '@/styles/Home.module.scss';
 import { useRouter } from 'next/router';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
-import useAuthStore from '@/store/store';
+import useAuthStore from '@/store/authStore';
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 //----------------------------------------------------
 

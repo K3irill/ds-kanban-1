@@ -15,6 +15,7 @@ export interface AuthState {
   isAuthorized: boolean;
   user: IUser | null;
   token: string | null;
+
   setUser: (user: IUser, token: string) => void;
   logout: () => void;
   initialize: () => void;
@@ -24,7 +25,7 @@ const useAuthStore = create<AuthState>((set) => ({
   isAuthorized: false,
   user: null,
   token: null,
-
+  isModal: false,
   initialize: () => {
     if (typeof window !== 'undefined') {
       const token = getAccessToken();
