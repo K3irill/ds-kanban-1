@@ -17,11 +17,11 @@ import styles from './KanbanPage.module.scss';
 export default function KanbanPage() {
   const router = useRouter();
   const { slug } = router.query;
-
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
+
   const { project, isLoading, error } = useProject(projectSlug || '');
 
-  const { listTasks, isLoadingTasks } = useTasks(projectSlug || '');
+  const { listTasks, isLoadingTasks } = useTasks(project?.slug || '');
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
@@ -85,7 +85,6 @@ export default function KanbanPage() {
                         {filteredTasks.map((task) => (
                           <TaskCard
                             key={task.id}
-                            link="#"
                             id={task.id}
                             priority={task.priority}
                             name={task.name}

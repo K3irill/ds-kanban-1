@@ -6,8 +6,8 @@ import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
 
-const TaskCard = ({ link, id, priority, name, users, task_type, task_component }) => (
-  <Link href={id} className={cn(styles.task)}>
+const TaskCard = ({ id, priority, name, users, task_type, task_component }) => (
+  <Link href={String(id)} className={cn(styles.task)}>
     <div className={cn(styles.task__header)}>
       <p className={cn(styles['task__task-id'])}>
         id: <span>{id}</span>
