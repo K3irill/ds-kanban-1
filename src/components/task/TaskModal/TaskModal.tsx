@@ -2,27 +2,28 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import React from 'react';
 import useTaskStore from '@/store/taskStore';
 
-const TaskModal = () => {
-  const { isModal, setIsModal } = useTaskStore();
+import useTask from '@/hooks/useTask';
+import { useRouter } from 'next/router';
+import styles from './TaskModal.module.scss';
 
+const TaskModal = () => {
+  const { isModalTask, setIsModalTask, idTask } = useTaskStore();
+
+  const { task } = useTask(String(idTask));
   return (
-    <Dialog open={isModal} onClose={() => setIsModal(false)}>
-      <div>
-        <div>
-          <DialogPanel transition>
-            <DialogTitle as="h3">Payment successful</DialogTitle>
-            <p>
-              Your payment has been successfully submitted. We’ve sent you an email with all of the
-              details of your order.
-            </p>
-            <div className="mt-4">
-              <button type="button" onClick={() => setIsModal(false)}>
-                Got it, thanks!
-              </button>
-            </div>
-          </DialogPanel>
+    <Dialog className={styles.modal} open={isModalTask} onClose={() => setIsModalTask(false, null)}>
+      <DialogPanel className={styles.block}>
+        <DialogTitle>Payment successful</DialogTitle>
+        <p>
+          Your payment has been successfully submitted. We’ve sent you an email with all of the
+          details of your order.
+        </p>
+        <div className="mt-4">
+          <button type="button" onClick={() => setIsModalTask(false, null)}>
+            Got it, thanks!
+          </button>
         </div>
-      </div>
+      </DialogPanel>
     </Dialog>
   );
 };

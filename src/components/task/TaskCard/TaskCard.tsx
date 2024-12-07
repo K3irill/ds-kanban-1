@@ -3,7 +3,6 @@ import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
 
-import useAuthStore from '@/store/authStore';
 import useTaskStore from '@/store/taskStore';
 import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
@@ -11,10 +10,11 @@ import TaskComponent from '../TaskComponent/TaskComponent';
 import TaskModal from '../TaskModal/TaskModal';
 
 const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
-  const { setIsModal } = useTaskStore();
+  const { setIsModalTask } = useTaskStore();
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    modalTask(true);
+    setIsModalTask(true, id);
   };
   return (
     <Link href={String(id)} onClick={(e) => handleClick(e)} className={cn(styles.task)}>

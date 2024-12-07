@@ -3,16 +3,18 @@
 import { create } from 'zustand';
 
 export interface TaskState {
-  isModal: boolean;
-  setIsModal: (isModal: boolean) => void;
+  isModalTask: boolean;
+  idTask: number | null;
+  setIsModalTask: (isModal: boolean, idTask: number | null) => void;
 }
 
 const useTaskStore = create<TaskState>((set) => ({
-  isModal: false,
-
-  setIsModal: (isModal: boolean) => {
+  isModalTask: false,
+  idTask: null,
+  setIsModalTask: (isModalTask: boolean, idTask: number | null) => {
     set({
-      isModal,
+      isModalTask,
+      idTask,
     });
   },
 }));
