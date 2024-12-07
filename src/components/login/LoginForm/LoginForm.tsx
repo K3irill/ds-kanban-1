@@ -13,8 +13,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
-import styles from './LoginForm.module.scss';
 import Input, { useInputValidation } from '@/components/ui/Input/Input';
+import styles from './LoginForm.module.scss';
 
 function LoginForm() {
   const {

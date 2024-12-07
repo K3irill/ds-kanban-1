@@ -2,56 +2,39 @@
 
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import ProjectService from '@/services/project.service';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { Project } from '@/types/project.type';
+
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import Loader from '@/components/ui/Loader/loader';
 import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
+
+import useProject from '@/hooks/useProject';
+import useTasks from '@/hooks/useTasks';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
 import styles from './KanbanPage.module.scss';
 
-const fetchProjectBySlug = async (slug: string): Promise<Project> =>
-  ProjectService.getProject(slug);
-const fetchListTasksBySlug = async (slug: string): Promise<Project> =>
-  ProjectService.getListTasks(slug);
-const PROJECT_STAGES = 'flow.possibleProjectStages';
 export default function KanbanPage() {
   const router = useRouter();
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  const {
-    data: project,
-    isLoading,
-    error,
-  }: UseQueryResult<any, Error> = useQuery<any>({
-    queryKey: ['project', projectSlug],
-    queryFn: () => fetchProjectBySlug(projectSlug || ''),
-    enabled: !!projectSlug,
-  });
+  const { project, isLoading, error } = useProject(projectSlug || '');
 
-  const {
-    data: listTasks,
-    isLoadingTasks,
-    errorTasks,
-  }: UseQueryResult<any, Error> = useQuery<any>({
-    queryKey: ['listTasks', projectSlug],
-    queryFn: () => fetchListTasksBySlug(projectSlug || ''),
-    enabled: !!projectSlug,
-  });
+  const { listTasks, isLoadingTasks } = useTasks(project?.slug || '');
 
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты' },
     ...(project ? [{ href: `/projects/${slug}`, label: project.name, isActive: true }] : []),
   ];
+
   useEffect(() => {
     console.log(project);
     console.log(listTasks);
-  }, []);
+  }, [project]);
+
+  if (!router.isReady) return <Loader />;
   return (
     <>
       <Head>
@@ -102,7 +85,6 @@ export default function KanbanPage() {
                         {filteredTasks.map((task) => (
                           <TaskCard
                             key={task.id}
-                            link="#"
                             id={task.id}
                             priority={task.priority}
                             name={task.name}
