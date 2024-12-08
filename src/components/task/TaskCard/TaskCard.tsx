@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
