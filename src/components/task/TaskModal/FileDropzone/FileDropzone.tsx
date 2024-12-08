@@ -40,8 +40,8 @@ const FileDropzone = () => {
         minFileSize={0}
         clickable
       >
-        <svg className="social-icon" viewBox="0 0 16 16">
-          <use href="/sprite.svg#scraper" className={styles.icon} />
+        <svg viewBox="0 0 10 11">
+          <use href="/sprite.svg#scraper" />
         </svg>
         <span>Выбери файлы или перетащи их сюда</span>
       </Files>

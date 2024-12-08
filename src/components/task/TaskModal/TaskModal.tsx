@@ -1,22 +1,25 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import React, { useEffect } from 'react';
-import useTaskStore from '@/store/taskStore';
-import useTask from '@/hooks/useTask';
+
 import Loader from '@/components/ui/Loader/loader';
 import FileDropzone from './FileDropzone/FileDropzone';
 import styles from './TaskModal.module.scss';
 
-const TaskModal = () => {
-  const { isModalTask, setIsModalTask, idTask } = useTaskStore();
+interface PropsTaskModal {
+  isModal: boolean;
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  task: any;
+  isLoading: boolean;
+}
 
-  const { task, isFetching } = useTask(String(idTask));
-  console.log('taskApi', task);
-
-  useEffect(() => {}, []);
+const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, isLoading, task }) => {
+  useEffect(() => {
+    console.log('Fetching task...');
+  }, [isLoading]);
   return (
-    <Dialog className={styles.modal} open={isModalTask} onClose={() => setIsModalTask(false, null)}>
+    <Dialog className={styles.modal} open={isModal} onClose={() => setIsModal(false)}>
       <DialogPanel className={styles.wapperModal}>
-        {isFetching ? (
+        {isLoading ? (
           <Loader />
         ) : (
           <div className={styles.contentTask}>
