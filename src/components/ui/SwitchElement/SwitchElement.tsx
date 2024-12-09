@@ -3,8 +3,12 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './SwitchElement.module.scss';
 //-----------------------------------------------------
-
-const SwitchElement = ({ label, switchChecked, switchOnChange }) => (
+interface SwitchElementProps {
+  label: string;
+  switchChecked: boolean;
+  switchOnChange: (checked: boolean) => void;
+}
+const SwitchElement = ({ label, switchChecked, switchOnChange }: SwitchElementProps) => (
   <div className={cn(styles['switch-element'])}>
     <Switch
       checked={switchChecked}

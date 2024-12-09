@@ -3,6 +3,20 @@ import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headl
 import { useEffect, useState } from 'react';
 import styles from './CustomCombobox.module.scss';
 
+interface Option {
+  id: number;
+  name: string;
+}
+interface CustomComboboxProps {
+  label: string;
+  value: Option | null;
+  onChange: (value: Option | null) => void;
+  onQueryChange: (query: string) => void;
+  options: Option[];
+  displayValue: (option: Option | null) => string;
+  placeholder: string;
+}
+
 export default function CustomCombobox({
   label,
   value,
@@ -11,7 +25,7 @@ export default function CustomCombobox({
   options,
   displayValue,
   placeholder,
-}) {
+}: CustomComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -41,7 +55,6 @@ export default function CustomCombobox({
             displayValue={displayValue}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder={placeholder}
-            onClose={() => onQueryChange('')}
             onFocus={() => setIsOpen(true)}
             onBlur={() => setIsOpen(false)}
           />
