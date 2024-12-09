@@ -11,34 +11,46 @@ import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
 import useAuthStore from '@/store/store';
+import {
+  Task,
+  TaskComponent,
+  TaskType,
+  UseAuthStoreReturn,
+  UseProjectReturn,
+  User,
+  UseTasksReturn,
+} from '@/types/task';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const { user } = useAuthStore();
-  const [filteredTasks, setFilteredTasks] = useState([]);
-  const [taskNameValue, setTaskNameValue] = useState('');
-  const [onlyMyTask, setOnlyMyTask] = useState(false);
-  const [selectedPerson, setSelectedPerson] = useState(null);
-  const [selectedType, setSelectedType] = useState(null);
-  const [selectedComponent, setSelectedComponent] = useState(null);
-  const [peopleQuery, setPeopleQuery] = useState('');
-  const [typeQuery, setTypeQuery] = useState('');
-  const [componentQuery, setComponentQuery] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const { user } = useAuthStore() as UseAuthStoreReturn;
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+  const [taskNameValue, setTaskNameValue] = useState<string>('');
+  const [onlyMyTask, setOnlyMyTask] = useState<boolean>(false);
+  const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
+  const [selectedType, setSelectedType] = useState<TaskType | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<TaskComponent | null>(null);
+  const [peopleQuery, setPeopleQuery] = useState<string>('');
+  const [typeQuery, setTypeQuery] = useState<string>('');
+  const [componentQuery, setComponentQuery] = useState<string>('');
   const router = useRouter();
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
-  const { project, isLoading, error, projectUsers, isLoadingUsers } = useProject(projectSlug || '');
-  const { listTasks, taskTypes, taskPriority, isLoadingTasks, taskComponent } = useTasks(
-    project?.slug || ''
+
+  const { project, isLoading, error, projectUsers, isLoadingUsers }: UseProjectReturn = useProject(
+    projectSlug || ''
   );
-  const [filteredUsers, setFilteredUsers] = useState({});
-  const [filteredPeople, setFilteredPeople] = useState([]);
-  const [filteredTypes, setFilteredTypes] = useState([]);
-  const [filteredComponents, setFilteredComponents] = useState([]);
+  const { listTasks, taskTypes, taskPriority, isLoadingTasks, taskComponent }: UseTasksReturn =
+    useTasks(project?.slug || '');
+
+  const [filteredUsers, setFilteredUsers] = useState<{ [taskId: number]: User[] }>({});
+  const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
+  const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
+  const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты' },
@@ -47,10 +59,10 @@ export default function KanbanPage() {
 
   useEffect(() => {
     if (projectUsers && listTasks) {
-      const userMap = {};
+      const userMap: { [taskId: number]: User[] } = {};
       listTasks.forEach((task) => {
         const usersForTask = projectUsers.filter(
-          (user) => task.users && task.users.includes(user.id)
+          (projectUser) => task.users && task.users.includes(projectUser.id)
         );
         userMap[task.id] = usersForTask;
       });
@@ -134,7 +146,6 @@ export default function KanbanPage() {
     startDate,
     endDate,
   ]);
-  console.log(listTasks);
 
   if (!router.isReady)
     return (
