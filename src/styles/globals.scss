@@ -1,8 +1,9 @@
-@use './reset.scss';
-@use './variables/colors.scss';
-@use './variables/fonts.scss';
-@use './variables/effects.scss';
-@use './variables/spacing.scss';
+@use "./reset.scss";
+@use "./variables/colors.scss";
+@use "./variables/fonts.scss";
+@use "./variables/effects.scss";
+@use "./variables/spacing.scss";
+@use "./dropZone.scss";
 html,
 body {
   max-width: 100vw;

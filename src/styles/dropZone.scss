@@ -1,0 +1,56 @@
+.dropzone {
+	padding: 20px 0;
+	border: 1px dashed var(--grey-secondary);
+	border-radius: 8px;
+
+	color: var(--grey-secondary);
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 16px;
+	position: relative;
+}
+
+.dzu-previewImage {
+	width: 100px;
+}
+.dropzone .dzu-inputLabelWithFiles {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.dropzone .dzu-inputLabel svg {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	transform: translateY(3px);
+}
+.dropzone .dzu-inputLabelWithFiles .dzu-input {
+}
+.dropzone input {
+	opacity: 0;
+	visibility: hidden;
+
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.dropzone__preview {
+	width: calc(33.3333333333% - 8.6666666667px);
+
+	height: auto;
+
+	background-color: var(--neutral-200);
+
+	border-radius: 12px;
+	progress {
+		display: none;
+	}
+}

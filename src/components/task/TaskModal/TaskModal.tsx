@@ -1,9 +1,10 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Loader from '@/components/ui/Loader/loader';
-import FileDropzone from './FileDropzone/FileDropzone';
+
 import styles from './TaskModal.module.scss';
+import WriteComment from './WriteComment/WriteComment';
 
 interface PropsTaskModal {
   isModal: boolean;
@@ -22,7 +23,8 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, isLoading, t
           <DialogTitle className={styles.nameTask}>{task.name}</DialogTitle>
 
           <div dangerouslySetInnerHTML={{ __html: task.description }} />
-          <FileDropzone />
+
+          <WriteComment />
         </div>
       )}
     </DialogPanel>

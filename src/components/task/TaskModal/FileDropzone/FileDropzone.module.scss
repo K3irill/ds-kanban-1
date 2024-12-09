@@ -4,13 +4,11 @@
   padding: 24px 0;
   border: 1px dashed var(--grey-secondary);
   border-radius: 8px;
-
   color: var(--grey-secondary);
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
 
   svg {
     width: 16px;
@@ -22,6 +20,7 @@
 
 .fileList {
   display: flex;
+  justify-content: space-between;
   gap: 8px;
   grid-template-columns: repeat(3, 1fr);
   font-size: 12px;
