@@ -1,3 +1,9 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+}
+
 .title {
 	padding-bottom: 10px;
 	position: relative;
@@ -32,6 +38,7 @@
 }
 
 .textarea {
+	width: 100%;
 	resize: none;
 	height: 100px;
 	padding: 12px 20px;

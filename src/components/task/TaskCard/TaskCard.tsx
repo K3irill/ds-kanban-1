@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
@@ -24,6 +24,10 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
     // history.pushState({}, '', `/projects/${slug}/${id}`);
     // router.push(`/projects/${slug}/${id}`, undefined, { shallow: true });
   };
+
+  useEffect(() => {
+    console.log(task);
+  }, [task]);
   return (
     <>
       <Link

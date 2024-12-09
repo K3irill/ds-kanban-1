@@ -5,6 +5,7 @@ import Loader from '@/components/ui/Loader/loader';
 
 import styles from './TaskModal.module.scss';
 import WriteComment from './WriteComment/WriteComment';
+import ListComments from './ListComments/ListComments';
 
 interface PropsTaskModal {
   isModal: boolean;
@@ -25,6 +26,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, isLoading, t
           <div dangerouslySetInnerHTML={{ __html: task.description }} />
 
           <WriteComment />
+          <ListComments />
         </div>
       )}
     </DialogPanel>
