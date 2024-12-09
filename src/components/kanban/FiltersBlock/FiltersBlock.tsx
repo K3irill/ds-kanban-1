@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import CustomCombobox from '@/components/ui/CustomCombobox/CustomCombobox';
 import DateInput from '@/components/ui/DateInput/DateInput';
+import Input from '@/components/ui/Input/Input';
 import styles from './FiltersBlock.module.scss';
 
 const FiltersBlock = ({
@@ -57,7 +58,7 @@ const FiltersBlock = ({
           onQueryChange={setTypeQuery}
           options={filteredTypes}
           displayValue={(type) => type?.name || ''}
-          placeholder="Выберите тип задачи"
+          placeholder="Тип задачи"
         />
       </div>
 
@@ -69,7 +70,7 @@ const FiltersBlock = ({
           onQueryChange={setComponentQuery}
           options={filteredComponents}
           displayValue={(component) => component?.name || ''}
-          placeholder="Выберите компонент задачи"
+          placeholder="Компонент"
         />
       </div>
     </div>

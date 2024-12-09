@@ -1,0 +1,19 @@
+.calendar-input {
+  input {
+    color: var(--neutral-500);
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--neutral-200);
+    transition: border-color 0.3s ease-in-out;
+  }
+  input::placeholder {
+    color: var(--neutral-500);
+  }
+  input:focus {
+    border-color: var(--blue-primary);
+    outline: none;
+  }
+}
