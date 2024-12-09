@@ -145,7 +145,6 @@ export default function KanbanPage() {
     listTasks,
     startDate,
     endDate,
-    user.id,
   ]);
 
   if (!router.isReady)
