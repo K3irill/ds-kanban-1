@@ -8,19 +8,16 @@ import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
 import useProject from '@/hooks/useProject';
 import useTasks from '@/hooks/useTasks';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
-import {
-  Switch,
-  Combobox,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/react';
+import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
+import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
 import useAuthStore from '@/store/store';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const { user } = useAuthStore();
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [taskNameValue, setTaskNameValue] = useState('');
@@ -118,9 +115,26 @@ export default function KanbanPage() {
         task.name.toLowerCase().includes(taskNameValue.toLowerCase())
       );
     }
-
+    if (startDate) {
+      filtered = filtered.filter(
+        (task) => task.begin && new Date(task.begin) >= new Date(startDate)
+      );
+    }
+    if (endDate) {
+      filtered = filtered.filter((task) => task.end && new Date(task.end) <= new Date(endDate));
+    }
     setFilteredTasks(filtered);
-  }, [onlyMyTask, selectedPerson, selectedType, selectedComponent, taskNameValue, listTasks]);
+  }, [
+    onlyMyTask,
+    selectedPerson,
+    selectedType,
+    selectedComponent,
+    taskNameValue,
+    listTasks,
+    startDate,
+    endDate,
+  ]);
+  console.log(listTasks);
 
   if (!router.isReady)
     return (
@@ -147,168 +161,32 @@ export default function KanbanPage() {
           <>
             <div className={cn(styles['project-kanban__header'])}>
               <h1>{project?.name || 'Загрузка...'}</h1>{' '}
-              <div className={cn(styles['switch-element'])}>
-                <Switch
-                  checked={onlyMyTask}
-                  onChange={setOnlyMyTask}
-                  className={cn(styles['switch-container'], { [styles.active]: onlyMyTask })}
-                >
-                  <span className={cn(styles['switch-thumb'], { [styles.active]: onlyMyTask })} />
-                </Switch>
-                <span className={cn(styles['switch-element__text'])}>Только мои</span>
-              </div>
+              <SwitchElement
+                label="Только мои"
+                switchChecked={onlyMyTask}
+                switchOnChange={setOnlyMyTask}
+              />
             </div>
-            <div className={cn(styles['project-kanban__filters'])}>
-              <div className={cn(styles['project-kanban__inputs'])}>
-                {/* Инпуты */}
-                <div className={cn(styles['project-kanban__input'])}>
-                  <label htmlFor="">
-                    <span>Название задачи</span>
-                  </label>
-                  <input
-                    value={taskNameValue}
-                    onChange={(e) => setTaskNameValue(e.target.value)}
-                    type="text"
-                    placeholder="Название задачи"
-                  />
-                </div>
-
-                <div className={cn(styles['project-kanban__input'])}>
-                  <label htmlFor="assignee">
-                    <span>Выбрать пользователя</span>
-                  </label>
-                  <Combobox
-                    value={selectedPerson}
-                    onChange={setSelectedPerson}
-                    onClose={() => setPeopleQuery('')}
-                  >
-                    <div className={styles['combobox-container']}>
-                      <ComboboxInput
-                        className={styles['combobox-input']}
-                        aria-label="Assignee"
-                        displayValue={(person) => person?.name || ''}
-                        onChange={(event) => setPeopleQuery(event.target.value)}
-                        placeholder="Выберите пользователя"
-                      />
-                      <ComboboxOptions className={styles['combobox-options']}>
-                        {filteredPeople.length === 0 && peopleQuery !== '' ? (
-                          <ComboboxOption
-                            value="Нет совпадений"
-                            disabled
-                            className={styles['no-matches']}
-                          >
-                            Нет совпадений
-                          </ComboboxOption>
-                        ) : (
-                          filteredPeople.map((person) => (
-                            <ComboboxOption
-                              key={person.id}
-                              value={person}
-                              className={({ active }) =>
-                                cn(styles['combobox-option'], { [styles.selected]: active })
-                              }
-                            >
-                              {person.name}
-                            </ComboboxOption>
-                          ))
-                        )}
-                      </ComboboxOptions>
-                    </div>
-                  </Combobox>
-                </div>
-
-                <div className={cn(styles['project-kanban__input'])}>
-                  <label htmlFor="assignee">
-                    <span>Выбрать тип</span>
-                  </label>
-                  <Combobox
-                    value={selectedType}
-                    onChange={setSelectedType}
-                    onClose={() => setTypeQuery('')}
-                  >
-                    <div className={styles['combobox-container']}>
-                      <ComboboxInput
-                        className={styles['combobox-input']}
-                        aria-label="Assignee"
-                        displayValue={(type) => type?.name || ''}
-                        onChange={(event) => setTypeQuery(event.target.value)}
-                        placeholder="Выберите тип задачи"
-                      />
-                      <ComboboxOptions className={styles['combobox-options']}>
-                        {filteredTypes.length === 0 && typeQuery !== '' ? (
-                          <ComboboxOption
-                            value="Нет совпадений"
-                            disabled
-                            className={styles['no-matches']}
-                          >
-                            Нет совпадений
-                          </ComboboxOption>
-                        ) : (
-                          filteredTypes.map((type) => (
-                            <ComboboxOption
-                              key={type.id}
-                              value={type}
-                              className={({ active }) =>
-                                cn(styles['combobox-option'], { [styles.selected]: active })
-                              }
-                            >
-                              {type.name}
-                            </ComboboxOption>
-                          ))
-                        )}
-                      </ComboboxOptions>
-                    </div>
-                  </Combobox>
-                </div>
-
-                <div className={cn(styles['project-kanban__input'])}>
-                  <label htmlFor="assignee">
-                    <span>Выбрать компонент</span>
-                  </label>
-                  <Combobox
-                    value={selectedComponent}
-                    onChange={setSelectedComponent}
-                    onClose={() => setComponentQuery('')}
-                  >
-                    <div className={styles['combobox-container']}>
-                      <ComboboxInput
-                        className={styles['combobox-input']}
-                        aria-label="Assignee"
-                        displayValue={(component) => component?.name || ''}
-                        onChange={(event) => setComponentQuery(event.target.value)}
-                        placeholder="Выберите компонент задачи"
-                      />
-                      <ComboboxOptions className={styles['combobox-options']}>
-                        {filteredComponents.length === 0 && componentQuery !== '' ? (
-                          <ComboboxOption
-                            value="Нет совпадений"
-                            disabled
-                            className={styles['no-matches']}
-                          >
-                            Нет совпадений
-                          </ComboboxOption>
-                        ) : (
-                          filteredComponents.map((component) => (
-                            <ComboboxOption
-                              key={component.id}
-                              value={component}
-                              className={({ active }) =>
-                                cn(styles['combobox-option'], { [styles.selected]: active })
-                              }
-                            >
-                              {component.name}
-                            </ComboboxOption>
-                          ))
-                        )}
-                      </ComboboxOptions>
-                    </div>
-                  </Combobox>
-                </div>
-              </div>
-              <div className={cn(styles['project-kanban__calendars'])}>
-                {/* дата начала дата завершения */}
-              </div>
-            </div>
+            <FiltersBlock
+              taskNameValue={taskNameValue}
+              setTaskNameValue={setTaskNameValue}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              selectedPerson={selectedPerson}
+              setSelectedPerson={setSelectedPerson}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              selectedComponent={selectedComponent}
+              setSelectedComponent={setSelectedComponent}
+              filteredPeople={filteredPeople}
+              setPeopleQuery={setPeopleQuery}
+              filteredTypes={filteredTypes}
+              setTypeQuery={setTypeQuery}
+              filteredComponents={filteredComponents}
+              setComponentQuery={setComponentQuery}
+            />
             <div className={cn(styles['project-kanban__tasks-wrapper'])}>
               <div className={cn(styles['project-kanban__tasks-container'])}>
                 {isLoadingTasks ? (

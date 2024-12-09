@@ -1,0 +1,91 @@
+//combox
+.combobox-container {
+  position: relative;
+  width: 100%;
+}
+
+.combobox-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.combobox-input:focus {
+  border-color: var(--blue-primary);
+  outline: none;
+}
+
+.combobox-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: 4px;
+  padding: 4px 0;
+}
+
+.combobox-option {
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.combobox-option:hover {
+  background-color: var(--blue-primary);
+  color: #fff;
+}
+
+.combobox-option.selected {
+  background-color: var(--blue-primary);
+  color: #fff;
+}
+
+.no-matches {
+  padding: 10px;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+}
+
+.combobox-input-active {
+  border-color: var(--blue-primary);
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--blue-primary);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

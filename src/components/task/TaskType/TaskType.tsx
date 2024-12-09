@@ -3,22 +3,23 @@ import styles from './TaskType.module.scss';
 
 const TASK_TYPES = [
   {
-    type: 'task',
+    type: 'feature',
   },
   {
     type: 'bug',
   },
   {
+    type: 'task',
+  },
+
+  {
     type: 'improvement',
   },
   {
-    type: 'feature',
+    type: 'release',
   },
   {
     type: 'epic',
-  },
-  {
-    type: 'release',
   },
   {
     type: 'backlog',
