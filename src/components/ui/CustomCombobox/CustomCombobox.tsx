@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
+import { useEffect, useState } from 'react';
 import styles from './CustomCombobox.module.scss';
 
 export default function CustomCombobox({
@@ -11,18 +12,38 @@ export default function CustomCombobox({
   displayValue,
   placeholder,
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    if (isOpen) {
+      html.style.overflow = 'hidden';
+      html.style.paddingRight = '0';
+    } else {
+      html.style.overflow = '';
+      html.style.paddingRight = '';
+    }
+    return () => {
+      html.style.overflow = '';
+      html.style.paddingRight = '';
+    };
+  }, [isOpen]);
+
   return (
-    <div className={cn(styles['project-kanban__input'])}>
-      <label>
+    <div className={cn(styles['input-container'])}>
+      <label className={cn(styles.label)}>
         <span>{label}</span>
       </label>
-      <Combobox value={value} onChange={onChange} onClose={() => onQueryChange('')}>
+      <Combobox value={value} onChange={onChange}>
         <div className={styles['combobox-container']}>
           <ComboboxInput
             className={styles['combobox-input']}
             displayValue={displayValue}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder={placeholder}
+            onClose={() => onQueryChange('')}
+            onFocus={() => setIsOpen(true)}
+            onBlur={() => setIsOpen(false)}
           />
           <ComboboxOptions className={styles['combobox-options']}>
             {options.length === 0 ? (
