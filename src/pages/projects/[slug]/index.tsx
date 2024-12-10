@@ -129,11 +129,13 @@ export default function KanbanPage() {
     }
     if (startDate) {
       filtered = filtered.filter(
-        (task) => task.begin && new Date(task.begin) >= new Date(startDate)
+        (task) => task.date_start && new Date(task.date_start) >= new Date(startDate)
       );
     }
     if (endDate) {
-      filtered = filtered.filter((task) => task.end && new Date(task.end) <= new Date(endDate));
+      filtered = filtered.filter(
+        (task) => task.date_end && new Date(task.date_end) <= new Date(endDate)
+      );
     }
     setFilteredTasks(filtered);
   }, [
@@ -146,6 +148,9 @@ export default function KanbanPage() {
     startDate,
     endDate,
   ]);
+  useEffect(() => {
+    console.log(listTasks);
+  }, [listTasks]);
 
   if (!router.isReady)
     return (
