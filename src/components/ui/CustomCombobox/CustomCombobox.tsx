@@ -8,13 +8,13 @@ interface Option {
   name: string;
 }
 interface CustomComboboxProps {
-  label: string;
-  value: Option | null;
-  onChange: (value: Option | null) => void;
-  onQueryChange: (query: string) => void;
-  options: Option[];
-  displayValue: (option: Option | null) => string;
-  placeholder: string;
+  label?: string;
+  value?: Option | null;
+  onChange?: (value: Option | null) => void;
+  onQueryChange?: (query: string) => void;
+  options?: Option[];
+  displayValue?: (option: Option | null) => string;
+  placeholder?: string;
 }
 
 export default function CustomCombobox({
@@ -58,25 +58,27 @@ export default function CustomCombobox({
             onFocus={() => setIsOpen(true)}
             onBlur={() => setIsOpen(false)}
           />
-          <ComboboxOptions className={styles['combobox-options']}>
-            {options.length === 0 ? (
-              <ComboboxOption value="Нет совпадений" disabled className={styles['no-matches']}>
-                Нет совпадений
-              </ComboboxOption>
-            ) : (
-              options.map((option) => (
-                <ComboboxOption
-                  key={option.id}
-                  value={option}
-                  className={({ active }) =>
-                    cn(styles['combobox-option'], { [styles.selected]: active })
-                  }
-                >
-                  {option.name}
+          {options && (
+            <ComboboxOptions className={styles['combobox-options']}>
+              {options.length === 0 ? (
+                <ComboboxOption value="Нет совпадений" disabled className={styles['no-matches']}>
+                  Нет совпадений
                 </ComboboxOption>
-              ))
-            )}
-          </ComboboxOptions>
+              ) : (
+                options.map((option) => (
+                  <ComboboxOption
+                    key={option.id}
+                    value={option}
+                    className={({ active }) =>
+                      cn(styles['combobox-option'], { [styles.selected]: active })
+                    }
+                  >
+                    {option.name}
+                  </ComboboxOption>
+                ))
+              )}
+            </ComboboxOptions>
+          )}
         </div>
       </Combobox>
     </div>

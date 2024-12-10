@@ -1,4 +1,9 @@
 //combox
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
 .combobox-container {
   position: relative;
 

@@ -3,10 +3,19 @@
     margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
     h1 {
       font-size: 32px;
       font-weight: 600;
+    }
+    &_left {
+      gap: 24px;
+      display: flex;
+    }
+    &_right {
+      button {
+        height: 40px;
+      }
     }
   }
   &__tasks-wrapper {

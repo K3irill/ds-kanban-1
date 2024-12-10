@@ -11,6 +11,7 @@ import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
 import useAuthStore from '@/store/store';
+import CreateModal from '@/components/modals/CreateModal/CreateModal';
 import {
   Task,
   TaskComponent,
@@ -20,6 +21,7 @@ import {
   User,
   UseTasksReturn,
 } from '@/types/task';
+import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
@@ -176,13 +178,21 @@ export default function KanbanPage() {
         ) : (
           <>
             <div className={cn(styles['project-kanban__header'])}>
-              <h1>{project?.name || 'Загрузка...'}</h1>{' '}
-              <SwitchElement
-                label="Только мои"
-                switchChecked={onlyMyTask}
-                switchOnChange={setOnlyMyTask}
-              />
+              <div className={cn(styles['project-kanban__header_left'])}>
+                <h1>{project?.name || 'Загрузка...'}</h1>{' '}
+                <SwitchElement
+                  label="Только мои"
+                  switchChecked={onlyMyTask}
+                  switchOnChange={setOnlyMyTask}
+                />
+              </div>
+              <div className={cn(styles['project-kanban__header_right'])}>
+                <StandardButton iconPosition="left" icon="/icons/Create.svg">
+                  Добавить задачу
+                </StandardButton>
+              </div>
             </div>
+
             <FiltersBlock
               taskNameValue={taskNameValue}
               setTaskNameValue={setTaskNameValue}
