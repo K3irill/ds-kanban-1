@@ -36,11 +36,7 @@ class TaskService {
   // получить комментарии
   static async postCommit(id: string, data: IUserCommit) {
     try {
-      debugger;
-      const response = await instance.post(`/task/${id}/comment`, {
-        content: data.content,
-        files: [],
-      });
+      const response = await instance.post(`/task/${id}/comment`, data);
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {

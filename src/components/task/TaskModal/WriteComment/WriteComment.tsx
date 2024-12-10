@@ -7,24 +7,21 @@ import { IUserCommit, iUserCommitShema } from '@/types/task.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import styles from './WriteComment.module.scss';
-import FileDropzone from '../FileDropzone/FileDropzone';
+
+import FileInput from '../FileInput/FileInput';
 
 const WriteComment = () => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    reset,
-  } = useForm<IUserCommit>({
+  const { handleSubmit, register, reset, watch, setValue } = useForm<IUserCommit>({
     resolver: zodResolver(iUserCommitShema),
+    mode: 'onBlur',
   });
 
   const { mutate: mutatePostCommit } = useMutation({
     mutationKey: ['writeComment'],
-    mutationFn: (data: IUserCommit) => TaskService.postCommit('6', data),
+    mutationFn: (data: any) => TaskService.postCommit('6', data),
     onSuccess: (data) => {
       console.log(data);
-      debugger;
+
       reset();
     },
     onError: (error) => {
@@ -32,17 +29,41 @@ const WriteComment = () => {
     },
   });
 
+  const accept = {
+    'image/png': ['.png'],
+    'image/jpeg': ['.jpg', '.jpeg'],
+  };
+
   const onSubmit: SubmitHandler<IUserCommit> = (data) => {
-    mutatePostCommit(data);
+    const { content, files } = data;
+
+    const formData = new FormData();
+
+    formData.append('content', content);
+
+    if (files && files.length > 0) {
+      files.forEach((file, index) => {
+        debugger;
+        formData.append(`files[${index}]`, file);
+      });
+    }
+    mutatePostCommit(formData);
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <FileInput
+        accept={accept}
+        name="files"
+        register={register}
+        watch={watch}
+        setValue={setValue}
+      />
       <div className={styles.title}>
         <span>Комментарии</span>
       </div>
       <textarea placeholder="Описание" {...register('content')} className={styles.textarea} />
-      {/* <FileDropzone /> */}
+
       <StandardButton type="submit" className={styles.submit}>
         Отправить
       </StandardButton>

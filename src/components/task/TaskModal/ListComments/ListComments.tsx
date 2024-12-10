@@ -2,10 +2,9 @@ import useCommits from '@/hooks/useCommits';
 
 import React from 'react';
 
-const ListComments = () => {
-  const { commits } = useCommits('6');
+const ListComments = () => (
+  // const { commits } = useCommits('6');
 
-  return <div>ListComments</div>;
-};
-
+  <div>ListComments</div>
+);
 export default ListComments;
