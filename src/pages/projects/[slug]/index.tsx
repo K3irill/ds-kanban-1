@@ -11,9 +11,8 @@ import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
 import useAuthStore from '@/store/store';
-import CreateModal from '@/components/modals/CreateModal/CreateModal';
+
 import {
-  Task,
   TaskComponent,
   TaskType,
   UseAuthStoreReturn,
@@ -22,27 +21,19 @@ import {
   UseTasksReturn,
 } from '@/types/task';
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
+import useTaskFilters from '@/hooks/useTaskFilters';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
   const { user } = useAuthStore() as UseAuthStoreReturn;
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
-  const [taskNameValue, setTaskNameValue] = useState<string>('');
-  const [onlyMyTask, setOnlyMyTask] = useState<boolean>(false);
-  const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
-  const [selectedType, setSelectedType] = useState<TaskType | null>(null);
-  const [selectedComponent, setSelectedComponent] = useState<TaskComponent | null>(null);
   const [peopleQuery, setPeopleQuery] = useState<string>('');
   const [typeQuery, setTypeQuery] = useState<string>('');
   const [componentQuery, setComponentQuery] = useState<string>('');
   const router = useRouter();
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
-
   const { project, isLoading, error, projectUsers, isLoadingUsers }: UseProjectReturn = useProject(
     projectSlug || ''
   );
@@ -53,6 +44,31 @@ export default function KanbanPage() {
   const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
   const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
   const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
+  const {
+    startDate,
+    endDate,
+    selectedPerson,
+    selectedType,
+    taskNameValue,
+    selectedComponent,
+    onlyMyTask,
+    filteredTasks,
+    setStartDate,
+    setEndDate,
+    setTaskNameValue,
+    setOnlyMyTask,
+    setSelectedPerson,
+    setSelectedType,
+    setSelectedComponent,
+  } = useTaskFilters({
+    tasks: listTasks,
+    users: projectUsers,
+    taskTypes,
+    taskComponents: taskComponent,
+    currentUser: user,
+    priority: taskPriority,
+  });
+
   const breadcrumbs = [
     { href: '/', label: 'Главная', isFirst: true },
     { href: '/projects', label: 'Проекты' },
@@ -106,50 +122,6 @@ export default function KanbanPage() {
     }
   }, [componentQuery, taskComponent]);
 
-  useEffect(() => {
-    let filtered = listTasks || [];
-
-    if (onlyMyTask) {
-      filtered = filtered.filter((task) => task.users && task.users.includes(user.id));
-    }
-    if (selectedPerson) {
-      filtered = filtered.filter((task) => task.users && task.users.includes(selectedPerson.id));
-    }
-
-    if (selectedType) {
-      filtered = filtered.filter((task) => task.task_type === selectedType.id);
-    }
-
-    if (selectedComponent) {
-      filtered = filtered.filter((task) => task.component === selectedComponent.id);
-    }
-
-    if (taskNameValue) {
-      filtered = filtered.filter((task) =>
-        task.name.toLowerCase().includes(taskNameValue.toLowerCase())
-      );
-    }
-    if (startDate) {
-      filtered = filtered.filter(
-        (task) => task.date_start && new Date(task.date_start) >= new Date(startDate)
-      );
-    }
-    if (endDate) {
-      filtered = filtered.filter(
-        (task) => task.date_end && new Date(task.date_end) <= new Date(endDate)
-      );
-    }
-    setFilteredTasks(filtered);
-  }, [
-    onlyMyTask,
-    selectedPerson,
-    selectedType,
-    selectedComponent,
-    taskNameValue,
-    listTasks,
-    startDate,
-    endDate,
-  ]);
   useEffect(() => {
     console.log(listTasks);
   }, [listTasks]);
@@ -223,6 +195,7 @@ export default function KanbanPage() {
                   <p className={styles['error-message']}>Ошибка загрузки: {error.message}</p>
                 ) : (
                   project &&
+                  filteredTasks &&
                   project.flow.possibleProjectStages.length > 0 &&
                   project.flow.possibleProjectStages.map((stage) => {
                     const tasksForStage = filteredTasks.filter((task) => task.stage === stage.id);

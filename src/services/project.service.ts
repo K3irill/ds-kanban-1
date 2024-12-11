@@ -144,6 +144,22 @@ class ProjectService {
       throw error;
     }
   }
+
+  // создание новой задачи
+  static async createTask(slug: string, data: any): Promise<Project> {
+    try {
+      const response = await instance.post<{ data: Project }>(`/project/${slug}/task`, data);
+
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных задачи:', error.errors);
+      } else {
+        console.error('Неизвестная ошибка:', error);
+      }
+      throw error;
+    }
+  }
 }
 
 export default ProjectService;

@@ -6,6 +6,7 @@
     height: 100%;
     position: absolute;
     z-index: 1000;
+    // display: none;
   }
 
   background-color: white;
@@ -22,6 +23,7 @@
   border-radius: 16px;
   padding: 16px 24px 24px 24px;
   gap: 32px;
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -30,6 +32,23 @@
       font-size: 22px;
     }
   }
+  &__text-input {
+    text-align: left;
+
+    div {
+      width: 100%;
+    }
+    input {
+      height: 40px;
+      font-size: 14px;
+      padding: 10px 20px;
+
+      &::placeholder {
+        color: var(--neutral-500);
+      }
+    }
+  }
+
   &__main {
     flex: 1 auto;
     display: flex;
