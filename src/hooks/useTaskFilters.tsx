@@ -22,7 +22,7 @@ export default function useTaskFilters({
   const [taskNameValue, setTaskNameValue] = useState<string>('');
   const [onlyMyTask, setOnlyMyTask] = useState<boolean>(false);
   const [selectedPriority, setSelectedPriority] = useState(null);
-  const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
+  const [selectedPersons, setSelectedPersons] = useState<User[]>([]);
   const [selectedType, setSelectedType] = useState<TaskType | null>(null);
   const [selectedComponent, setSelectedComponent] = useState<TaskComponent | null>(null);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
@@ -33,8 +33,10 @@ export default function useTaskFilters({
     if (onlyMyTask) {
       filtered = filtered.filter((task) => task.users?.includes(currentUser.id));
     }
-    if (selectedPerson) {
-      filtered = filtered.filter((task) => task.users?.includes(selectedPerson.id));
+    if (selectedPersons.length > 0) {
+      filtered = filtered.filter((task) =>
+        selectedPersons.some((person) => task.users?.includes(person.id))
+      );
     }
     if (selectedType) {
       filtered = filtered.filter((task) => task.task_type === selectedType.id);
@@ -59,20 +61,20 @@ export default function useTaskFilters({
 
     setFilteredTasks(filtered);
   }, [
+    selectedPriority,
     onlyMyTask,
-    selectedPerson,
+    selectedPersons,
     selectedType,
     selectedComponent,
     taskNameValue,
     startDate,
     endDate,
-    tasks,
   ]);
 
   return {
     startDate,
     endDate,
-    selectedPerson,
+    selectedPersons,
     selectedType,
     taskNameValue,
     selectedComponent,
@@ -82,7 +84,7 @@ export default function useTaskFilters({
     setEndDate,
     setTaskNameValue,
     setOnlyMyTask,
-    setSelectedPerson,
+    setSelectedPersons,
     setSelectedType,
     setSelectedComponent,
     setSelectedPriority,

@@ -36,13 +36,13 @@ const CreateModal = () => {
   const {
     startDate,
     endDate,
-    selectedPerson,
+    selectedPersons,
     selectedType,
     selectedComponent,
     selectedPriority,
     setStartDate,
     setEndDate,
-    setSelectedPerson,
+    setSelectedPersons,
     setSelectedType,
     setSelectedComponent,
     setSelectedPriority,
@@ -97,7 +97,7 @@ const CreateModal = () => {
     isError,
     isSuccess,
   } = useMutation({
-    mutationFn: (taskData) => ProjectService.createTask('project1', taskData),
+    mutationFn: (taskData) => ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
     },
@@ -110,6 +110,10 @@ const CreateModal = () => {
   }, [selectedPriority]);
 
   const handleCreateTask = () => {
+    if (!projectSlug) {
+      alert('Не удалось определить проект для задачи.');
+      return;
+    }
     if (!taskName || !startDate || !endDate) {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
@@ -121,20 +125,21 @@ const CreateModal = () => {
       stage_id: 1,
       task_type_id: selectedType.id,
       component_id: selectedComponent.id,
-      priority_id: 2,
+      priority_id: 1,
       block_id: 1,
       release_id: 1,
       related_id: 1,
       epic_id: 1,
-      estimate_cost: 10,
-      estimate_worker: 1,
+      estimate_cost: 1,
+      estimate_worker: selectedPersons.map((p) => p.id).length,
       layout_link: '',
       markup_link: '',
       dev_link: '',
-      executors: [selectedPerson],
+      executors: selectedPersons.map((p) => p.id),
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
+    console.log('taskData:', taskData);
 
     createTask(taskData);
   };
@@ -176,13 +181,14 @@ const CreateModal = () => {
               options={filteredComponents}
             />
             <CustomCombobox
-              label="Исполнитель"
-              value={selectedPerson}
-              onChange={setSelectedPerson}
+              label="Исполнители"
+              value={selectedPersons}
+              onChange={setSelectedPersons}
               onQueryChange={setPeopleQuery}
-              displayValue={(person: User) => person?.name || ''}
-              placeholder="Исполнитель"
               options={filteredPeople}
+              displayValue={(person) => person.name}
+              placeholder="Выберите исполнителей"
+              isMulti
             />
           </div>
 

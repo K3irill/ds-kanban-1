@@ -148,7 +148,10 @@ class ProjectService {
   // создание новой задачи
   static async createTask(slug: string, data: any): Promise<Project> {
     try {
-      const response = await instance.post<{ data: Project }>(`/project/${slug}/task`, data);
+      const response = await instance.post<{ data: Project }>(
+        `/project/${slug}/task`,
+        JSON.stringify(data)
+      );
 
       return response.data.data;
     } catch (error) {
