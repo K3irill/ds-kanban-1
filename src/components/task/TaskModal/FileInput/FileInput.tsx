@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 
 import styles from './FileInput.module.scss';
 
-const FileInput = ({ name, watch, register, setValue, accept }: any) => {
+const FileInput = ({ name, watch, register, setValue }: any) => {
   const files = watch(name);
 
   const onDrop = useCallback(
@@ -13,19 +13,12 @@ const FileInput = ({ name, watch, register, setValue, accept }: any) => {
     [setValue, name]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ maxFiles: 1, onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ maxFiles: 2, onDrop });
 
   return (
     <>
       <div {...getRootProps()} className={styles.dropzone}>
-        <input
-          accept={accept}
-          {...register(name)}
-          type="file"
-          name={name}
-          id={name}
-          {...getInputProps()}
-        />
+        <input {...register(name)} type="file" name={name} id={name} {...getInputProps()} />
 
         <div className={isDragActive ? styles.red : styles.blue}>
           {isDragActive ? (

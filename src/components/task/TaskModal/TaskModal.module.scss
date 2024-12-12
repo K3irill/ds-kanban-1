@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: var(--font-family);
 }
 
 .wapperModal {
@@ -17,13 +18,12 @@
   border-radius: 16px;
   max-width: 1200px;
   width: 100%;
+  display: flex;
+  column-gap: 16px;
 }
 .contentTask {
   max-width: 710px;
-  width: 100%;
-  background-color: var(--white-primary);
-  padding: 20px;
-  border-radius: 12px;
+
   font-size: 13px;
   line-height: 1.3;
   display: flex;
@@ -45,8 +45,33 @@
   font-weight: 600;
   font-size: 20px;
 }
-.description {
+.contentTask,
+.taskDetails {
+  background-color: var(--white-primary);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
 }
+.taskDetails {
+  max-width: 426px;
+}
+.top {
+  color: var(--grey-secondary);
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+.actionPanel {
+  display: flex;
+  justify-content: space-between;
 
-.editor-paragraph {
+  align-items: center;
+}
+.idTask {
+  font-size: 14px;
+}
+.iconButton {
+  padding: 6px;
+  background-color: var(--neutral-200);
+  border-radius: 4px;
 }

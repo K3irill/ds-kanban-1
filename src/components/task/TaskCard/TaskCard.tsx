@@ -4,7 +4,6 @@ import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
-import useTask from '@/hooks/useTask';
 import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
@@ -12,7 +11,7 @@ import TaskModal from '../TaskModal/TaskModal';
 
 const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
   const [isModal, setIsModal] = useState(false);
-  const { task, isLoading } = useTask(String(String(id)));
+
   const router = useRouter();
   const { slug } = router.query;
 
@@ -25,9 +24,6 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
     // router.push(`/projects/${slug}/${id}`, undefined, { shallow: true });
   };
 
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
   return (
     <>
       <Link
@@ -60,8 +56,8 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
         <TaskModal
           id={id}
           isModal={isModal}
-          task={task}
-          isLoading={isLoading}
+          // task={task}
+          // isLoading={isLoading}
           setIsModal={setIsModal}
         />
       )}
