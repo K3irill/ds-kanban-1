@@ -26,10 +26,11 @@
     gap: 12px;
     width: 264px;
     flex-shrink: 0;
-    height: 100%;
+    height: calc(100vh - 200px);
     background-color: var(--neutral-200);
     border-radius: 12px;
     padding: 12px;
+    padding-bottom: 122px;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: rgb(171, 190, 209) rgb(244, 246, 248);

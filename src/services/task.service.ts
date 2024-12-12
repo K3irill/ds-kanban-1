@@ -34,7 +34,6 @@ class TaskService {
 
   static async postCommit(id: string, data: IUserCommit) {
     try {
-      debugger;
       const response = await instance.post(`/task/${id}/comment`, {
         content: data.content,
         files: data.files[0],
@@ -53,6 +52,7 @@ class TaskService {
   // получить комментарии
   static async getCommits(id: string) {
     try {
+      debugger;
       const response = await instance.get(`/task/${id}/comment`);
       return response.data.data;
     } catch (error) {
