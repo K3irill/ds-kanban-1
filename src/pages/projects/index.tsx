@@ -11,8 +11,7 @@ import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import useAuthStore from '@/store/authStore';
-import useTaskStore from '@/store/taskStore';
-import TaskModal from '@/components/task/TaskModal/TaskModal';
+
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */

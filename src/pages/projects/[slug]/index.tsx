@@ -10,7 +10,6 @@ import useTasks from '@/hooks/useTasks';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
-import useAuthStore from '@/store/store';
 import {
   Task,
   TaskComponent,
@@ -20,6 +19,7 @@ import {
   User,
   UseTasksReturn,
 } from '@/types/task';
+import useAuthStore from '@/store/store';
 import styles from './KanbanPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
