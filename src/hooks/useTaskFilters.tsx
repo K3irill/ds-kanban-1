@@ -28,7 +28,7 @@ export default function useTaskFilters({
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    let filtered = tasks;
+    let filtered = tasks || [];
 
     if (onlyMyTask) {
       filtered = filtered.filter((task) => task.users?.includes(currentUser.id));
