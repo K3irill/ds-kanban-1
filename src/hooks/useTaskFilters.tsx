@@ -9,14 +9,7 @@ type UseTaskFiltersProps = {
   currentUser: User;
 };
 
-export default function useTaskFilters({
-  tasks,
-  users,
-  taskTypes,
-  taskComponents,
-  currentUser,
-  priority,
-}: UseTaskFiltersProps) {
+export default function useTaskFilters({ tasks, currentUser }: UseTaskFiltersProps) {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [taskNameValue, setTaskNameValue] = useState<string>('');
@@ -83,6 +76,7 @@ export default function useTaskFilters({
     selectedComponent,
     onlyMyTask,
     filteredTasks,
+    selectedPriority,
     setStartDate,
     setEndDate,
     setTaskNameValue,

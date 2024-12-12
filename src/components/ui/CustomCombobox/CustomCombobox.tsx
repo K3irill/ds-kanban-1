@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './CustomCombobox.module.scss';
 
 interface Option {
@@ -40,7 +40,37 @@ export default function CustomCombobox({
     }
     return value ? displayValue(value) : '';
   };
+  useEffect(() => {
+    const htmlElement = document.documentElement;
 
+    const resetPadding = () => {
+      htmlElement.style.setProperty('padding-top', '0px', 'important');
+      htmlElement.style.setProperty('padding-bottom', '0px', 'important');
+      htmlElement.style.setProperty('padding-left', '0px', 'important');
+      htmlElement.style.setProperty('padding-right', '0px', 'important');
+    };
+
+    if (isOpen) {
+      resetPadding();
+    }
+
+    const observer = new MutationObserver(() => {
+      resetPadding();
+    });
+
+    observer.observe(htmlElement, {
+      attributes: true,
+      attributeFilter: ['style'],
+    });
+
+    return () => {
+      observer.disconnect();
+      htmlElement.style.removeProperty('padding-top');
+      htmlElement.style.removeProperty('padding-bottom');
+      htmlElement.style.removeProperty('padding-left');
+      htmlElement.style.removeProperty('padding-right');
+    };
+  }, [isOpen]);
   return (
     <div className={cn(styles['input-container'])}>
       {label && (

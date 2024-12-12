@@ -10,7 +10,7 @@ import useTasks from '@/hooks/useTasks';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
-import useAuthStore from '@/store/store';
+import useAuthStore, { useMainStore } from '@/store/store';
 
 import {
   TaskComponent,
@@ -27,6 +27,7 @@ import styles from './KanbanPage.module.scss';
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
+  const { isCreatedModalOpen, setIsCreatedModalOpen } = useMainStore();
   const { user } = useAuthStore() as UseAuthStoreReturn;
   const [peopleQuery, setPeopleQuery] = useState<string>('');
   const [typeQuery, setTypeQuery] = useState<string>('');
@@ -74,7 +75,9 @@ export default function KanbanPage() {
     { href: '/projects', label: 'Проекты' },
     ...(project ? [{ href: `/projects/${slug}`, label: project.name, isActive: true }] : []),
   ];
-
+  useEffect(() => {
+    console.log(isCreatedModalOpen);
+  }, [isCreatedModalOpen]);
   useEffect(() => {
     if (projectUsers && listTasks) {
       const userMap: { [taskId: number]: User[] } = {};
@@ -155,7 +158,11 @@ export default function KanbanPage() {
                 />
               </div>
               <div className={cn(styles['project-kanban__header_right'])}>
-                <StandardButton iconPosition="left" icon="/icons/Create.svg">
+                <StandardButton
+                  onClick={() => setIsCreatedModalOpen()}
+                  iconPosition="left"
+                  icon="/icons/Create.svg"
+                >
                   Добавить задачу
                 </StandardButton>
               </div>

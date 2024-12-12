@@ -5,25 +5,24 @@ import CustomCombobox from '@/components/ui/CustomCombobox/CustomCombobox';
 import DateInput from '@/components/ui/DateInput/DateInput';
 import useProject from '@/hooks/useProject';
 import useTasks from '@/hooks/useTasks';
-import useAuthStore from '@/store/store';
+import useAuthStore, { useMainStore } from '@/store/store';
 import { TaskComponent, TaskType, UseProjectReturn, User, UseTasksReturn } from '@/types/task';
 import useTaskFilters from '@/hooks/useTaskFilters';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import ProjectService from '@/services/project.service';
+import { useForm } from 'react-hook-form';
 import styles from './CreateModal.module.scss';
 
 const CreateModal = () => {
+  const { isCreatedModalOpen, setIsCreatedModalOpen } = useMainStore();
   const router = useRouter();
   const { slug } = router.query;
   const projectSlug = Array.isArray(slug) ? slug[0] : slug;
 
-  const { project, isLoading, error, projectUsers }: UseProjectReturn = useProject(
-    projectSlug || ''
-  );
+  const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug || '');
   const { taskTypes, taskComponent, taskPriority }: UseTasksReturn = useTasks(project?.slug || '');
   const { user } = useAuthStore();
-  const [taskName, setTaskName] = useState('');
   const [typeQuery, setTypeQuery] = useState('');
   const [componentQuery, setComponentQuery] = useState('');
   const [peopleQuery, setPeopleQuery] = useState('');
@@ -53,6 +52,27 @@ const CreateModal = () => {
     taskComponents: taskComponent,
     currentUser: user,
     priority: taskPriority,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      taskName: '',
+      selectedPriority: null,
+      selectedType: null,
+      selectedComponent: null,
+      selectedPersons: [],
+      startDate: null,
+      endDate: null,
+      layoutLink: '',
+      markupLink: '',
+      devLink: '',
+    },
+    mode: 'onBlur',
   });
 
   useEffect(() => {
@@ -105,130 +125,224 @@ const CreateModal = () => {
       alert('Произошла ошибка при создании задачи.');
     },
   });
-  useEffect(() => {
-    console.log(selectedPriority);
-  }, [selectedPriority]);
 
-  const handleCreateTask = () => {
-    if (!projectSlug) {
-      alert('Не удалось определить проект для задачи.');
-      return;
-    }
-    if (!taskName || !startDate || !endDate) {
+  const onSubmit = (data) => {
+    if (!projectSlug || !data.taskName || !startDate || !endDate) {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
     }
 
     const taskData = {
-      name: taskName,
+      name: data.taskName,
       description: '',
       stage_id: 1,
       task_type_id: selectedType.id,
       component_id: selectedComponent.id,
-      priority_id: 1,
-      block_id: 1,
-      release_id: 1,
-      related_id: 1,
-      epic_id: 1,
-      estimate_cost: 1,
-      estimate_worker: selectedPersons.map((p) => p.id).length,
-      layout_link: '',
-      markup_link: '',
-      dev_link: '',
+      priority_id: selectedPriority.id,
+      block_id: null,
+      release_id: null,
+      related_id: null,
+      epic_id: null,
+      estimate_cost: null,
+      estimate_worker: null,
+      layout_link: data.layoutLink,
+      markup_link: data.markupLink,
+      dev_link: data.devLink,
       executors: selectedPersons.map((p) => p.id),
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
-    console.log('taskData:', taskData);
 
     createTask(taskData);
   };
+
   return (
-    <div className={cn(styles.modal__wrapper)}>
+    <div className={cn(styles.modal__wrapper, { [styles.hidden]: isCreatedModalOpen })}>
       <div className={cn(styles.modal)}>
         <div className={cn(styles.modal__header)}>
           <h2 className={cn(styles.modal__header_title)}>Создание задачи</h2>
-          <button className={cn(styles.modal__header_close)} type="button">
+          <button
+            onClick={() => setIsCreatedModalOpen()}
+            className={cn(styles.modal__header_close)}
+            type="button"
+          >
             X
           </button>
         </div>
-        <div className={cn(styles.modal__main)}>
-          <div className={cn(styles['modal__text-input'])}>
-            <input
-              onChange={(e) => setTaskName(e.target.value)}
-              type="text"
-              placeholder="Название задачи"
-            />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={cn(styles.modal__main)}>
+            <div className={cn(styles['modal__text-input'])}>
+              <input
+                {...register('taskName', {
+                  required: 'Название задачи обязательно',
+                  maxLength: { value: 100, message: 'Максимальная длина — 100 символов' },
+                })}
+                type="text"
+                placeholder="Название задачи"
+              />
+              {errors.taskName && (
+                <span className={cn(styles.modal__error)}>{errors.taskName.message}</span>
+              )}
+            </div>
+
+            <div className={cn(styles['modal__main-comboboxes'])}>
+              <div>
+                <CustomCombobox
+                  label="Выбрать тип"
+                  value={selectedType}
+                  onChange={(value) => setSelectedType(value)}
+                  onQueryChange={setTypeQuery}
+                  displayValue={(type: TaskType) => type?.name || ''}
+                  placeholder="Тип задачи"
+                  options={filteredTypes}
+                />
+                {errors.selectedType && (
+                  <span className={cn(styles.modal__error)}>{errors.selectedType.message}</span>
+                )}
+              </div>
+
+              <div>
+                <CustomCombobox
+                  label="Компонент"
+                  value={selectedComponent}
+                  onChange={(value) => setSelectedComponent(value)}
+                  onQueryChange={setComponentQuery}
+                  displayValue={(component: TaskComponent) => component?.name || ''}
+                  placeholder="Компонент"
+                  options={filteredComponents}
+                />
+                {errors.selectedComponent && (
+                  <span className={cn(styles.modal__error)}>
+                    {errors.selectedComponent.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <CustomCombobox
+                  label="Исполнители"
+                  value={selectedPersons}
+                  onChange={(value) => setSelectedPersons(value)}
+                  onQueryChange={setPeopleQuery}
+                  options={filteredPeople}
+                  displayValue={(person) => person.name}
+                  placeholder="Выберите исполнителей"
+                  isMulti
+                />
+                {errors.selectedPersons && (
+                  <span className={cn(styles.modal__error)}>{errors.selectedPersons.message}</span>
+                )}
+              </div>
+            </div>
+
+            <div className={cn(styles['modal__extra-comboboxes'])}>
+              <div>
+                <CustomCombobox
+                  label="Приоритет"
+                  value={selectedPriority}
+                  onChange={(value) => setSelectedPriority(value)}
+                  onQueryChange={setPriorityQuery}
+                  displayValue={(priority) => priority?.name || ''}
+                  placeholder="Приоритет"
+                  options={filteredPriority}
+                />
+                {errors.selectedPriority && (
+                  <span className={cn(styles.modal__error)}>{errors.selectedPriority.message}</span>
+                )}
+              </div>
+
+              <div>
+                <DateInput
+                  selectedDate={startDate}
+                  onChange={(date: Date | null) => setStartDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  placeholder="Дата начала"
+                />
+                {errors.startDate && (
+                  <span className={cn(styles.modal__error)}>{errors.startDate.message}</span>
+                )}
+              </div>
+
+              <div>
+                <DateInput
+                  selectedDate={endDate}
+                  onChange={(date: Date | null) => setEndDate(date)}
+                  selectsEnd
+                  startDate={startDate}
+                  endDate={endDate}
+                  placeholder="Дата завершения"
+                />
+                {errors.endDate && (
+                  <span className={cn(styles.modal__error)}>{errors.endDate.message}</span>
+                )}
+              </div>
+            </div>
+
+            <div className={cn(styles['modal__links-wrapper'])}>
+              <label>
+                <span>Layout link</span>
+                <input
+                  type="text"
+                  placeholder="Layout link"
+                  {...register('layoutLink', {
+                    validate: (value) =>
+                      value === '' ||
+                      /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
+                      'Неверный формат URL',
+                  })}
+                />
+                {errors.layoutLink && (
+                  <span className={cn(styles.modal__error)}>{errors.layoutLink.message}</span>
+                )}
+              </label>
+
+              <label>
+                <span>Markup link</span>
+                <input
+                  type="text"
+                  placeholder="Markup link"
+                  {...register('markupLink', {
+                    validate: (value) =>
+                      value === '' ||
+                      /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
+                      'Неверный формат URL',
+                  })}
+                />
+                {errors.markupLink && (
+                  <span className={cn(styles.modal__error)}>{errors.markupLink.message}</span>
+                )}
+              </label>
+
+              <label>
+                <span>Dev link</span>
+                <input
+                  type="text"
+                  placeholder="Dev link"
+                  {...register('devLink', {
+                    validate: (value) =>
+                      value === '' ||
+                      /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value) ||
+                      'Неверный формат URL',
+                  })}
+                />
+                {errors.devLink && (
+                  <span className={cn(styles.modal__error)}>{errors.devLink.message}</span>
+                )}
+              </label>
+            </div>
           </div>
 
-          <div className={cn(styles['modal__main-comboboxes'])}>
-            <CustomCombobox
-              label="Выбрать тип"
-              value={selectedType}
-              onChange={setSelectedType}
-              onQueryChange={setTypeQuery}
-              displayValue={(type: TaskType) => type?.name || ''}
-              placeholder="Тип задачи"
-              options={filteredTypes}
-            />
-            <CustomCombobox
-              label="Компонент"
-              value={selectedComponent}
-              onChange={setSelectedComponent}
-              onQueryChange={setComponentQuery}
-              displayValue={(component: TaskComponent) => component?.name || ''}
-              placeholder="Компонент"
-              options={filteredComponents}
-            />
-            <CustomCombobox
-              label="Исполнители"
-              value={selectedPersons}
-              onChange={setSelectedPersons}
-              onQueryChange={setPeopleQuery}
-              options={filteredPeople}
-              displayValue={(person) => person.name}
-              placeholder="Выберите исполнителей"
-              isMulti
-            />
+          <div className={cn(styles.modal__footer)}>
+            <StandardButton type="submit" disabled={isLoading}>
+              {isCreating ? 'Создание...' : 'Добавить'}
+            </StandardButton>
+            <StandardButton onClick={() => setIsCreatedModalOpen()} view="secondary">
+              Отменить
+            </StandardButton>
           </div>
-
-          <div className={cn(styles['modal__extra-comboboxes'])}>
-            <CustomCombobox
-              label="Приоритет"
-              value={selectedPriority}
-              onChange={setSelectedPriority}
-              onQueryChange={setPriorityQuery}
-              displayValue={(priority) => priority?.name || ''}
-              placeholder="Приоритет"
-              options={filteredPriority}
-            />
-
-            <input type="text" placeholder="Оценка" />
-            <DateInput
-              selectedDate={startDate}
-              onChange={setStartDate}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              placeholder="Дата начала"
-            />
-            <DateInput
-              selectedDate={endDate}
-              onChange={setEndDate}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              placeholder="Дата завершения"
-            />
-          </div>
-        </div>
-
-        <div className={cn(styles.modal__footer)}>
-          <StandardButton onClick={handleCreateTask} disabled={isLoading}>
-            {isCreating ? 'Создание...' : 'Добавить'}
-          </StandardButton>
-          <StandardButton view="secondary">Отменить</StandardButton>
-        </div>
+        </form>
       </div>
     </div>
   );

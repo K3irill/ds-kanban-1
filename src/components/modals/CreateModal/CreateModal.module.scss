@@ -6,7 +6,6 @@
     height: 100%;
     position: absolute;
     z-index: 1000;
-    display: none;
   }
 
   background-color: white;
@@ -34,7 +33,8 @@
   }
   &__text-input {
     text-align: left;
-
+    display: flex;
+    flex-direction: column;
     div {
       width: 100%;
     }
@@ -48,7 +48,9 @@
       }
     }
   }
-
+  &__error {
+    color: red;
+  }
   &__main {
     flex: 1 auto;
     display: flex;
@@ -69,4 +71,19 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
+  &__links-wrapper {
+    display: flex;
+    justify-content: space-between;
+    label {
+      border: 1px solid #000;
+      span {
+        text-align: start;
+      }
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+.hidden {
+  display: none;
 }
