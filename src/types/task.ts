@@ -4,8 +4,8 @@ import { Project } from './project.type';
 export const TaskSchema = z.object({
   id: z.number(),
   name: z.string(),
-  begin: z.string().optional(),
-  end: z.string().optional(),
+  date_start: z.string().optional(),
+  date_end: z.string().optional(),
   task_type: z.number(),
   component: z.number(),
   stage: z.number(),

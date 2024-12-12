@@ -3,6 +3,9 @@ import ProjectService from '@/services/project.service';
 import { useEffect } from 'react';
 
 const useTasks = (projectSlug: string) => {
+  useEffect(() => {
+    console.log(projectSlug);
+  }, [projectSlug]);
   const {
     data: listTasks,
     isError: isErrorTasks,
@@ -13,7 +16,9 @@ const useTasks = (projectSlug: string) => {
     queryFn: () => ProjectService.getListTasks(projectSlug || ''),
     enabled: !!projectSlug,
   });
-
+  useEffect(() => {
+    console.log(listTasks);
+  }, [listTasks]);
   const {
     data: taskTypes,
     isError: isErrorTaskTypes,

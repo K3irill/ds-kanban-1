@@ -41,7 +41,12 @@ function StandardButton({
       disabled={isDisabled}
       {...rest}
     >
-      {icon && iconPosition === 'left' && <span className={styles.icon}>{icon}</span>}
+      {icon && iconPosition === 'left' && (
+        <span className={styles.icon}>
+          {/* {icon} */}
+          <Image src={icon} alt="+" width={16} height={16} />
+        </span>
+      )}
       {children}
       {loading && (
         <p

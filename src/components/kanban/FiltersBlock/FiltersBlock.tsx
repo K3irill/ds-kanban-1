@@ -14,8 +14,8 @@ interface FiltersBlockProps {
   setStartDate: (date: Date | null) => void;
   endDate: Date | null;
   setEndDate: (date: Date | null) => void;
-  selectedPerson: Person | null;
-  setSelectedPerson: (person: Person | null) => void;
+  selectedPersons: Person[] | null;
+  setSelectedPersons: (person: Person[] | null) => void;
   selectedType: Type | null;
   setSelectedType: (type: Type | null) => void;
   selectedComponent: Component | null;
@@ -35,8 +35,8 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
   setStartDate,
   endDate,
   setEndDate,
-  selectedPerson,
-  setSelectedPerson,
+  selectedPersons,
+  setSelectedPersons,
   selectedType,
   setSelectedType,
   selectedComponent,
@@ -64,13 +64,14 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
 
       <div className={cn(styles['project-kanban__input'])}>
         <CustomCombobox
-          label="Выбрать пользователя"
-          value={selectedPerson}
-          onChange={setSelectedPerson}
+          label="Исполнители"
+          value={selectedPersons}
+          onChange={setSelectedPersons}
           onQueryChange={setPeopleQuery}
           options={filteredPeople}
-          displayValue={(person: Person) => person?.name || ''}
-          placeholder="Выберите пользователя"
+          displayValue={(person) => person.name}
+          placeholder="Выберите исполнителей"
+          isMulti
         />
       </div>
 
@@ -80,21 +81,21 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           value={selectedType}
           onChange={setSelectedType}
           onQueryChange={setTypeQuery}
-          options={filteredTypes}
-          displayValue={(type: Type) => type?.name || ''}
+          displayValue={(type: TaskType) => type?.name || ''}
           placeholder="Тип задачи"
+          options={filteredTypes}
         />
       </div>
 
       <div className={cn(styles['project-kanban__input'])}>
         <CustomCombobox
-          label="Выбрать компонент"
+          label="Компонент"
           value={selectedComponent}
           onChange={setSelectedComponent}
           onQueryChange={setComponentQuery}
-          options={filteredComponents}
-          displayValue={(component: Component) => component?.name || ''}
+          displayValue={(component: TaskComponent) => component?.name || ''}
           placeholder="Компонент"
+          options={filteredComponents}
         />
       </div>
     </div>
