@@ -30,6 +30,35 @@
 
 .main {
   flex: 1;
+  overflow: hidden;
+  &__wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 430px;
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+
+      span {
+        color: var(--blue-primary);
+      }
+    }
+    h2 {
+      color: var(--neutral-500);
+      font-size: 18px;
+      span {
+        color: var(--red-primary);
+        font-weight: 500;
+      }
+    }
+  }
 }
 
 .footer {

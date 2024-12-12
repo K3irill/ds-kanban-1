@@ -1,5 +1,6 @@
 .column {
   width: 264px;
+
   &__heading-wrapper {
     display: flex;
     align-items: center;
@@ -30,7 +31,7 @@
     background-color: var(--neutral-200);
     border-radius: 12px;
     padding: 12px;
-    padding-bottom: 122px;
+    padding-bottom: 182px;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: rgb(171, 190, 209) rgb(244, 246, 248);
