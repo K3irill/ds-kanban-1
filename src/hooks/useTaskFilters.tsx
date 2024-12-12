@@ -28,7 +28,7 @@ export default function useTaskFilters({
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    let filtered = tasks || [];
+    let filtered = tasks;
 
     if (onlyMyTask) {
       filtered = filtered.filter((task) => task.users?.includes(currentUser.id));
@@ -58,8 +58,10 @@ export default function useTaskFilters({
     if (endDate) {
       filtered = filtered.filter((task) => new Date(task.date_end || 0) <= endDate);
     }
-
-    setFilteredTasks(filtered);
+    setFilteredTasks((prev) => {
+      const isSame = JSON.stringify(prev) === JSON.stringify(filtered);
+      return isSame ? prev : filtered;
+    });
   }, [
     selectedPriority,
     onlyMyTask,
@@ -69,6 +71,7 @@ export default function useTaskFilters({
     taskNameValue,
     startDate,
     endDate,
+    tasks,
   ]);
 
   return {

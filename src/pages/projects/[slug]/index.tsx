@@ -47,7 +47,7 @@ export default function KanbanPage() {
   const {
     startDate,
     endDate,
-    selectedPerson,
+    selectedPersons,
     selectedType,
     taskNameValue,
     selectedComponent,
@@ -57,7 +57,7 @@ export default function KanbanPage() {
     setEndDate,
     setTaskNameValue,
     setOnlyMyTask,
-    setSelectedPerson,
+    setSelectedPersons,
     setSelectedType,
     setSelectedComponent,
   } = useTaskFilters({
@@ -122,10 +122,6 @@ export default function KanbanPage() {
     }
   }, [componentQuery, taskComponent]);
 
-  useEffect(() => {
-    console.log(listTasks);
-  }, [listTasks]);
-
   if (!router.isReady)
     return (
       <div className={cn('loader-container')}>
@@ -172,8 +168,8 @@ export default function KanbanPage() {
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
-              selectedPerson={selectedPerson}
-              setSelectedPerson={setSelectedPerson}
+              selectedPersons={selectedPersons}
+              setSelectedPersons={setSelectedPersons}
               selectedType={selectedType}
               setSelectedType={setSelectedType}
               selectedComponent={selectedComponent}
