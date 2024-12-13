@@ -22,6 +22,11 @@
   border-radius: 16px;
   padding: 16px 24px 24px 24px;
   gap: 32px;
+  form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
   &__header {
     display: flex;
@@ -29,6 +34,10 @@
     &_title {
       font-weight: 600;
       font-size: 22px;
+    }
+    &_close {
+      width: 12px;
+      height: 12px;
     }
   }
   &__text-input {
@@ -52,8 +61,8 @@
     color: red;
   }
   &__main {
-    flex: 1 auto;
     display: flex;
+    flex: 1 0 auto;
     flex-direction: column;
     gap: 32px;
   }

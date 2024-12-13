@@ -12,7 +12,9 @@ import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ProjectService from '@/services/project.service';
 import { useForm } from 'react-hook-form';
+import IconButton from '@/components/ui/Button/IconButton/IconButton';
 import styles from './CreateModal.module.scss';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
 
 const CreateModal = () => {
   const { isCreatedModalOpen, setIsCreatedModalOpen } = useMainStore();
@@ -31,6 +33,7 @@ const CreateModal = () => {
   const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
   const [filteredPriority, setFilteredPriority] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const {
     startDate,
@@ -150,10 +153,12 @@ const CreateModal = () => {
       markup_link: data.markupLink,
       dev_link: data.devLink,
       executors: selectedPersons.map((p) => p.id),
-
+      data_start: startDate,
+      data_end: startDate,
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
+    console.log(taskData);
 
     createTask(taskData);
   };
@@ -161,15 +166,23 @@ const CreateModal = () => {
   return (
     <div className={cn(styles.modal__wrapper, { [styles.hidden]: !isCreatedModalOpen })}>
       <div className={cn(styles.modal)}>
+        <ConfirmModal
+          isOpen={isConfirmModalOpen}
+          closeConfirmModal={setIsConfirmModalOpen}
+          onClick={setIsCreatedModalOpen}
+        />
         <div className={cn(styles.modal__header)}>
           <h2 className={cn(styles.modal__header_title)}>Создание задачи</h2>
-          <button
-            onClick={() => setIsCreatedModalOpen()}
+
+          <IconButton
             className={cn(styles.modal__header_close)}
-            type="button"
+            onClick={() => setIsConfirmModalOpen(true)}
+            view="secondary"
           >
-            X
-          </button>
+            <svg className="social-icon" viewBox="0 0 24 24" width="24" height="24">
+              <use href="/sprite.svg#close" />
+            </svg>
+          </IconButton>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={cn(styles.modal__main)}>
@@ -340,7 +353,7 @@ const CreateModal = () => {
             <StandardButton type="submit" loading={isLoading}>
               {isCreating ? 'Создание...' : 'Добавить'}
             </StandardButton>
-            <StandardButton onClick={() => setIsCreatedModalOpen()} view="secondary">
+            <StandardButton onClick={() => setIsConfirmModalOpen(true)} view="secondary">
               Отменить
             </StandardButton>
           </div>
