@@ -9,7 +9,7 @@ import useAuthStore, { useMainStore } from '@/store/store';
 import { TaskComponent, TaskType, UseProjectReturn, User, UseTasksReturn } from '@/types/task';
 import useTaskFilters from '@/hooks/useTaskFilters';
 import { useRouter } from 'next/router';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ProjectService from '@/services/project.service';
 import { useForm } from 'react-hook-form';
 import styles from './CreateModal.module.scss';
@@ -110,7 +110,7 @@ const CreateModal = () => {
       setFilteredPriority(filtered);
     }
   }, [priorityQuery, taskPriority]);
-
+  const queryClient = useQueryClient();
   const {
     mutate: createTask,
     isLoading: isCreating,
@@ -120,6 +120,7 @@ const CreateModal = () => {
     mutationFn: (taskData) => ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
+      queryClient.invalidateQueries(['tasks', projectSlug]);
     },
     onError: () => {
       alert('Произошла ошибка при создании задачи.');
@@ -149,6 +150,7 @@ const CreateModal = () => {
       markup_link: data.markupLink,
       dev_link: data.devLink,
       executors: selectedPersons.map((p) => p.id),
+
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
@@ -335,7 +337,7 @@ const CreateModal = () => {
           </div>
 
           <div className={cn(styles.modal__footer)}>
-            <StandardButton type="submit" disabled={isLoading}>
+            <StandardButton type="submit" loading={isLoading}>
               {isCreating ? 'Создание...' : 'Добавить'}
             </StandardButton>
             <StandardButton onClick={() => setIsCreatedModalOpen()} view="secondary">
