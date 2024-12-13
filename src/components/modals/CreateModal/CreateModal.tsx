@@ -159,7 +159,7 @@ const CreateModal = () => {
   };
 
   return (
-    <div className={cn(styles.modal__wrapper, { [styles.hidden]: isCreatedModalOpen })}>
+    <div className={cn(styles.modal__wrapper, { [styles.hidden]: !isCreatedModalOpen })}>
       <div className={cn(styles.modal)}>
         <div className={cn(styles.modal__header)}>
           <h2 className={cn(styles.modal__header_title)}>Создание задачи</h2>
