@@ -11,7 +11,6 @@ const TASK_TYPES = [
   {
     type: 'task',
   },
-
   {
     type: 'improvement',
   },
@@ -23,6 +22,9 @@ const TASK_TYPES = [
   },
   {
     type: 'backlog',
+  },
+  {
+    type: 'guarantee',
   },
   {
     type: 'guarantee',
