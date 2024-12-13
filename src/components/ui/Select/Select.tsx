@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
 import { PossibleTaskNextStages, TypeStage } from '@/types/task.type';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
-import React, { useState } from 'react';
-import { string } from 'zod';
+
+import styles from './Select.module.scss';
 
 interface PropsSelectUi {
   possibleTaskNextStages: PossibleTaskNextStages;
@@ -14,13 +15,14 @@ const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage }) =>
   const onChange = (valueSelect: string) => {
     setSelectedPerson(valueSelect);
   };
+  console.log(possibleTaskNextStages);
 
   return (
     <Listbox value={selectedPerson} onChange={(valueSelect) => onChange(valueSelect)}>
-      <ListboxButton>{selectedPerson}</ListboxButton>
-      <ListboxOptions anchor="bottom">
+      <ListboxButton className={styles.select}>{selectedPerson}</ListboxButton>
+      <ListboxOptions className={styles.listOptions} anchor="bottom">
         {possibleTaskNextStages.map((it) => (
-          <ListboxOption key={it.id} value={it.name}>
+          <ListboxOption className={styles.option} key={it.id} value={it.name}>
             {it.name}
           </ListboxOption>
         ))}
