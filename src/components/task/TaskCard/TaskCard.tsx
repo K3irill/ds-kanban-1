@@ -35,7 +35,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
           <p className={cn(styles['task__task-id'])}>
             id: <span>{id}</span>
           </p>
-          <PriorityItem type={priority} />
+          {/* <PriorityItem type={priority} /> */}
         </div>
         <div className={cn(styles.task__main)}>
           <h4 className={cn(styles['task__task-name'])}>{name}</h4>
@@ -49,7 +49,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component }) => {
         <div className={cn(styles.task__footer)}>
           {task_component && <TaskComponent component={task_component} />}
 
-          <TaskType type={task_type} />
+          {/* <TaskType type={task_type} /> */}
         </div>
       </Link>
       {isModal && (

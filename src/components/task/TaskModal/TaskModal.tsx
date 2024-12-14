@@ -48,10 +48,12 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                   </div>
                 </div>
                 <div className={styles.select}>
-                  <SelectUi
-                    possibleTaskNextStages={task.possibleTaskNextStages}
-                    stage={task.stage}
-                  />
+                  {task?.possibleTaskNextStages.length !== 0 && (
+                    <SelectUi
+                      possibleTaskNextStages={task.possibleTaskNextStages}
+                      stage={task.stage}
+                    />
+                  )}
                 </div>
               </div>
             </div>
