@@ -1,0 +1,43 @@
+.switch-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 32px;
+  height: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--neutral-500);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.active {
+    border: 1px solid transparent;
+    background-color: var(--blue-primary);
+    .switch-thumb {
+      background-color: var(--white-primary);
+    }
+  }
+
+  .switch-thumb {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background-color: var(--neutral-500);
+    border-radius: 50%;
+    top: 1.5px;
+    left: 1.5px;
+    transition: transform 0.3s ease;
+
+    &.active {
+      transform: translateX(16px);
+    }
+  }
+}
+
+.switch-element {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  &__text {
+    color: var(--neutral-500);
+  }
+}

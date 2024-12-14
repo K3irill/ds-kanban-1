@@ -4,6 +4,7 @@ import cn from 'classnames';
 import Sidebar from '@/components/layout/Sidebar/Sidebar';
 import Breadcrumb, { BreadcrumbProps } from '@/components/ui/Navigations/Breadcrumb/Breadcrumb';
 import React from 'react';
+import CreateModal from '@/components/modals/CreateModal/CreateModal';
 import styles from './ProjectLayout.module.scss';
 
 interface ProjectLayoutProps {
@@ -14,6 +15,7 @@ interface ProjectLayoutProps {
 function ProjectLayout({ breadcrumbs, children }: ProjectLayoutProps) {
   return (
     <div className={cn(styles['page-layout'])}>
+      <CreateModal />
       <div>
         <Sidebar />
       </div>

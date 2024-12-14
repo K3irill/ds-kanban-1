@@ -18,9 +18,7 @@
     &:hover {
       background-color: #4b93ed;
     }
-    &:not(:active):focus {
-      border: 2px solid #000;
-    }
+
     &:active {
       background-color: var(--blue-dark);
     }
@@ -34,9 +32,7 @@
     &:hover {
       background-color: var(--blue-light-background);
     }
-    &:not(:active):focus {
-      border: 2px solid #000;
-    }
+
     &:active {
       background-color: var(--blue-light-background);
       border: 1px solid var(--blue-primary);

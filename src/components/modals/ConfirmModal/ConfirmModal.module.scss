@@ -1,0 +1,41 @@
+.modal {
+  position: absolute;
+  z-index: 200;
+  background-color: var(--white-primary);
+  width: 304px;
+  height: 115px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    button {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  &__buttons {
+    display: flex;
+    gap: 8px;
+    button {
+      height: 32px;
+      width: 100%;
+    }
+  }
+}
+.hidden {
+  display: none;
+}

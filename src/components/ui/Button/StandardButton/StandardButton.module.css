@@ -6,6 +6,7 @@
   line-height: 24px;
   transition: background-color 0.4s;
   display: flex;
+  gap: 8px;
   justify-content: center;
   align-items: center;
 }
@@ -123,4 +124,7 @@
   100% {
     transform: rotate(360deg);
   }
+}
+.icon {
+  display: flex;
 }

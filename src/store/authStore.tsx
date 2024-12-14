@@ -20,7 +20,11 @@ export interface AuthState {
   logout: () => void;
   initialize: () => void;
 }
+export interface MainState {
+  isCreatedModalOpen: boolean;
 
+  setIsCreatedModalOpen: () => void;
+}
 const useAuthStore = create<AuthState>((set) => ({
   isAuthorized: false,
   user: null,
@@ -66,4 +70,13 @@ const useAuthStore = create<AuthState>((set) => ({
   },
 }));
 
+export const useMainStore = create<MainState>((set) => ({
+  isCreatedModalOpen: false,
+
+  setIsCreatedModalOpen: () => {
+    set((state: any) => ({
+      isCreatedModalOpen: !state.isCreatedModalOpen,
+    }));
+  },
+}));
 export default useAuthStore;

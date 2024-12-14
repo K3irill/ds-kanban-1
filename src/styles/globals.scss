@@ -56,3 +56,8 @@ body {
     transform: rotate(360deg) translateX(20px) rotate(-360deg);
   }
 }
+//react-datepicker
+.react-datepicker__input-container,
+.react-datepicker-wrapper {
+  width: 100%;
+}
