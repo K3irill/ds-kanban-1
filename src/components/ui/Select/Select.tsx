@@ -9,33 +9,34 @@ import styles from './Select.module.scss';
 interface PropsSelectUi {
   possibleTaskNextStages: PossibleTaskNextStages;
   stage: TypeStage;
+  task: any;
 }
 
-const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage }) => {
+const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage, task }) => {
   const [selectedPerson, setSelectedPerson] = useState(stage.name);
 
   const { mutate: mutatePostCommit } = useMutation({
     mutationKey: ['pathTask'],
     mutationFn: () =>
       TaskService.patchTask('6', {
-        name: 'string',
-        description: 'string',
-        stage_id: 0,
-        task_type_id: 0,
-        component_id: 0,
-        priority_id: 0,
-        block_id: 0,
-        release_id: 0,
-        related_id: 0,
-        epic_id: 0,
-        estimate_cost: 0,
-        estimate_worker: 0,
-        layout_link: 'string',
-        markup_link: 'string',
-        dev_link: 'string',
-        executors: [0],
-        begin: '2022-11-30T08:48:00.000000Z',
-        end: '2022-12-31T16:48:00.000000Z',
+        name: task.name,
+        description: task.description,
+        stage_id: task.stage.id,
+        task_type_id: task.task_type.id,
+        component_id: task.component.id,
+        priority_id: task.priority.id,
+        block_id: null,
+        release_id: null,
+        related_id: null,
+        epic_id: null,
+        estimate_cost: null,
+        estimate_worker: null,
+        layout_link: null,
+        markup_link: null,
+        dev_link: null,
+        executors: null,
+        begin: task.begin,
+        end: task.end,
         date_start: '01.01.2024',
         date_end: '31.12.2024',
       }),
@@ -46,7 +47,6 @@ const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage }) =>
   });
 
   const onChange = (valueSelect: string) => {
-    debugger;
     setSelectedPerson(valueSelect);
     mutatePostCommit();
   };

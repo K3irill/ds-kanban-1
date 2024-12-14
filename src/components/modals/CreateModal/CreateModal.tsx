@@ -5,7 +5,7 @@ import CustomCombobox from '@/components/ui/CustomCombobox/CustomCombobox';
 import DateInput from '@/components/ui/DateInput/DateInput';
 import useProject from '@/hooks/useProject';
 import useTasks from '@/hooks/useTasks';
-import useAuthStore, { useMainStore } from '@/store/store';
+import useAuthStore, { useMainStore } from '@/store/authStore';
 import { TaskComponent, TaskType, UseProjectReturn, User, UseTasksReturn } from '@/types/task';
 import useTaskFilters from '@/hooks/useTaskFilters';
 import { useRouter } from 'next/router';
