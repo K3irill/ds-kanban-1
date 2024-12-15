@@ -20,8 +20,7 @@ class TaskService {
 
   static async patchTask(id: number, task: any) {
     try {
-      debugger;
-      const response = await instance.patch(`/task/${id}`, task);
+      const response = await instance.patch(`/task/${id}`, JSON.stringify(task));
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {
@@ -64,6 +63,21 @@ class TaskService {
   static async deleteCommit(id: number) {
     try {
       const response = await instance.delete(`/comment/${id}`);
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
+      }
+      throw error;
+    }
+  }
+
+  static async getCommits(id: number) {
+    try {
+      debugger;
+      const response = await instance.get(`task/${id}/comment`);
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {
