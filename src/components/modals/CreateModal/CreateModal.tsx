@@ -9,31 +9,52 @@ import useAuthStore, { useMainStore } from '@/store/store';
 import { TaskComponent, TaskType, UseProjectReturn, User, UseTasksReturn } from '@/types/task';
 import useTaskFilters from '@/hooks/useTaskFilters';
 import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import ProjectService from '@/services/project.service';
 import { useForm } from 'react-hook-form';
 import IconButton from '@/components/ui/Button/IconButton/IconButton';
+import useTaskStore from '@/store/taskStore';
+import TaskService from '@/services/task.service';
 import styles from './CreateModal.module.scss';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 
-const CreateModal = () => {
-  const { isCreatedModalOpen, setIsCreatedModalOpen } = useMainStore();
+interface TaskFormValues {
+  taskName: string;
+  selectedPriority: string | null;
+  selectedType: string | null;
+  selectedComponent: string | null;
+  selectedPersons: User[];
+  startDate: Date | null;
+  endDate: Date | null;
+  layoutLink: string;
+  markupLink: string;
+  devLink: string;
+}
+
+type ModalType = 'creating' | 'editing';
+
+const CreateModal: React.FC = () => {
+  const { idTask: id } = useTaskStore();
+  const { isCreatedModalOpen, setIsCreatedModalOpen, modalType: type } = useMainStore();
   const router = useRouter();
   const { slug } = router.query;
-  const projectSlug = Array.isArray(slug) ? slug[0] : slug;
+  const projectSlug = Array.isArray(slug) ? slug[0] : slug || '';
 
-  const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug || '');
+  const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug);
   const { taskTypes, taskComponent, taskPriority }: UseTasksReturn = useTasks(project?.slug || '');
   const { user } = useAuthStore();
-  const [typeQuery, setTypeQuery] = useState('');
-  const [componentQuery, setComponentQuery] = useState('');
-  const [peopleQuery, setPeopleQuery] = useState('');
-  const [priorityQuery, setPriorityQuery] = useState('');
+
+  const [typeQuery, setTypeQuery] = useState<string>('');
+  const [componentQuery, setComponentQuery] = useState<string>('');
+  const [peopleQuery, setPeopleQuery] = useState<string>('');
+  const [priorityQuery, setPriorityQuery] = useState<string>('');
+
   const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
   const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
-  const [filteredPriority, setFilteredPriority] = useState([]);
+  const [filteredPriority, setFilteredPriority] = useState<TaskType[]>([]);
   const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
   const {
     startDate,
@@ -60,9 +81,8 @@ const CreateModal = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<TaskFormValues>({
     defaultValues: {
       taskName: '',
       selectedPriority: null,
@@ -113,20 +133,35 @@ const CreateModal = () => {
       setFilteredPriority(filtered);
     }
   }, [priorityQuery, taskPriority]);
+
   const queryClient = useQueryClient();
-  const {
-    mutate: createTask,
-    isLoading: isCreating,
-    isError,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (taskData) => ProjectService.createTask(projectSlug, taskData),
+
+  const { mutate: createTask } = useMutation({
+    mutationFn: (taskData: Partial<TaskFormValues>) =>
+      ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
       queryClient.invalidateQueries(['tasks', projectSlug]);
     },
     onError: () => {
       alert('Произошла ошибка при создании задачи.');
+    },
+  });
+
+  const { data: taskInfo }: UseQueryResult<any, Error> = useQuery<any>({
+    queryKey: ['taskInfo'],
+    queryFn: () => TaskService.getTask(id),
+    enabled: !!id,
+  });
+
+  const { mutate: editTask } = useMutation({
+    mutationFn: (taskData: Partial<TaskFormValues>) => TaskService.patchTask(id, taskData),
+    onSuccess: () => {
+      alert('Задача успешно изменена!');
+      queryClient.invalidateQueries(['tasks', projectSlug]);
+    },
+    onError: () => {
+      alert('Произошла ошибка при редактировании задачи.');
     },
   });
 
@@ -137,30 +172,27 @@ const CreateModal = () => {
     }
 
     const taskData = {
-      name: data.taskName,
-      description: '',
-      stage_id: 1,
-      task_type_id: selectedType.id,
-      component_id: selectedComponent.id,
-      priority_id: selectedPriority.id,
-      block_id: null,
-      release_id: null,
-      related_id: null,
-      epic_id: null,
-      estimate_cost: null,
-      estimate_worker: null,
-      layout_link: data.layoutLink,
-      markup_link: data.markupLink,
-      dev_link: data.devLink,
+      name: data.taskName ?? taskInfo?.name,
+      description: '' ?? taskInfo?.description,
+      stage_id: taskInfo?.stage?.id ?? 1,
+      task_type_id: selectedType?.id,
+      component_id: selectedComponent?.id,
+      priority_id: selectedPriority?.id,
+      layout_link: data.layoutLink ?? taskInfo?.layout_link,
+      markup_link: data.markupLink ?? taskInfo?.markup_link,
+      dev_link: data.devLink ?? taskInfo?.dev_link,
       executors: selectedPersons.map((p) => p.id),
       data_start: startDate,
-      data_end: startDate,
+      data_end: endDate,
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
-    console.log(taskData);
 
-    createTask(taskData);
+    if (type === 'creating') {
+      createTask(taskData);
+    } else {
+      editTask(taskData);
+    }
   };
 
   return (
@@ -172,7 +204,9 @@ const CreateModal = () => {
           onClick={setIsCreatedModalOpen}
         />
         <div className={cn(styles.modal__header)}>
-          <h2 className={cn(styles.modal__header_title)}>Создание задачи</h2>
+          <h2 className={cn(styles.modal__header_title)}>
+            {type === 'creating' ? 'Создание задачи' : 'Редактирование задачи'}
+          </h2>
 
           <IconButton
             className={cn(styles.modal__header_close)}
@@ -351,7 +385,7 @@ const CreateModal = () => {
 
           <div className={cn(styles.modal__footer)}>
             <StandardButton type="submit" loading={isLoading}>
-              {isCreating ? 'Создание...' : 'Добавить'}
+              {type === 'creating' ? 'Добавить' : 'Сохранить'}
             </StandardButton>
             <StandardButton onClick={() => setIsConfirmModalOpen(true)} view="secondary">
               Отменить

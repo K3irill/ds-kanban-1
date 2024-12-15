@@ -1,11 +1,11 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useTask from '@/hooks/useTask';
 import Loader from '@/components/ui/Loader/loader';
 import Select from '@/components/ui/Select/Select';
-
 import TaskPriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import { formatDateUtils } from '@/utils/utils';
+import { useMainStore } from '@/store/store';
 import WriteComment from './WriteComment/WriteComment';
 import ListComments from './ListComments/ListComments';
 
@@ -23,8 +23,16 @@ interface PropsTaskModal {
 
 const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
   const { task, isLoading } = useTask(String(String(id)));
+  const { setIsCreatedModalOpen, setModalType } = useMainStore();
 
-  console.log(task);
+  const handleEditButton = () => {
+    setIsCreatedModalOpen();
+    setModalType('editing');
+  };
+  // useEffect(() => {
+  //   debugger;
+  //   console.log(task);
+  // }, [task]);
 
   return (
     <Dialog className={styles.modal} open={isModal} onClose={() => setIsModal(false)}>
@@ -45,7 +53,11 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                   <div className={styles.actionPanel}>
                     <div className={styles.idTask}>id:{task.id}</div>
                     <div className={styles.actionBtn}>
-                      <button type="button" className={styles.iconButton}>
+                      <button
+                        onClick={handleEditButton}
+                        type="button"
+                        className={styles.iconButton}
+                      >
                         <svg viewBox="0 0 20 20" width="20" height="20">
                           <use href="/sprite.svg#changeTask" />
                         </svg>
@@ -115,7 +127,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                     <div key={indx} className={styles.executorItem}>
                       <img
                         src={
-                          it.avatar
+                          it.avatar !== null
                             ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
                             : '/default_user.png'
                         }
@@ -131,7 +143,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                   <div className={styles.executorItem}>
                     <img
                       src={
-                        task.created_by.avatar
+                        task.created_by.avatar !== null
                           ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
                           : '/default_user.png'
                       }

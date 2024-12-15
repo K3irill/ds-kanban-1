@@ -27,7 +27,11 @@ import styles from './KanbanPage.module.scss';
 /* eslint-disable no-nested-ternary */
 
 export default function KanbanPage() {
-  const { isCreatedModalOpen, setIsCreatedModalOpen } = useMainStore();
+  const { isCreatedModalOpen, setIsCreatedModalOpen, setModalType } = useMainStore();
+  const handleCreateButton = () => {
+    setIsCreatedModalOpen();
+    setModalType('creating');
+  };
   const { user } = useAuthStore() as UseAuthStoreReturn;
   const [peopleQuery, setPeopleQuery] = useState<string>('');
   const [typeQuery, setTypeQuery] = useState<string>('');
@@ -159,7 +163,7 @@ export default function KanbanPage() {
               </div>
               <div className={cn(styles['project-kanban__header_right'])}>
                 <StandardButton
-                  onClick={() => setIsCreatedModalOpen()}
+                  onClick={() => handleCreateButton()}
                   iconPosition="left"
                   icon="/icons/Create.svg"
                 >
