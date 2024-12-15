@@ -32,11 +32,7 @@ const useProject = (projectSlug: string) => {
     }
   }, [isSuccess, project]);
 
-  useEffect(() => {
-    if (isError) {
-      console.log('Ошибка');
-    }
-  }, [isError]);
+  useEffect(() => {}, [isError]);
 
   return { project, isLoading, error, isSuccess, isError, projectUsers, isLoadingUsers };
 };

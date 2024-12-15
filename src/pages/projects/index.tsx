@@ -9,8 +9,10 @@ import ProjectCard from '@/components/projectCard/projectCard';
 import ProjectLayout from '@/components/layout/Project/ProjectLayout';
 import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
-import useAuthStore from '@/store/store';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
+import useAuthStore from '@/store/authStore';
+import useTaskStore from '@/store/taskStore';
+import TaskModal from '@/components/task/TaskModal/TaskModal';
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */

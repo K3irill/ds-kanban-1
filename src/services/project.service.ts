@@ -1,5 +1,5 @@
 import { instance } from '@/api/api';
-import { ListProjects, listProjectsSchema, Project, projectSchema } from '@/types/project.type';
+import { ListProjects, Project } from '@/types/project.type';
 
 import { ZodError } from 'zod';
 

@@ -18,7 +18,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: '/projects/:path*',
 };
-
-// на будущее
-// const redirectToLogin = (request: NextRequest) =>
-//   NextResponse.redirect(new URL('/404', request.url));

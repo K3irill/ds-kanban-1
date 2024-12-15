@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import cn from 'classnames';
 import Provider from '@/provider/Provider';
-import useAuthStore from '@/store/store';
+import useAuthStore from '@/store/authStore';
 import { useEffect } from 'react';
 
 const inter = localFont({

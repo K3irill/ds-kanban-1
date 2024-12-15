@@ -2,10 +2,12 @@ import React from 'react';
 import styles from '@/styles/Home.module.scss';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
+
 import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
-import useAuthStore from '@/store/store';
+import useAuthStore from '@/store/authStore';
 import { useRouter } from 'next/router';
+
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';
 
 export default function Home() {

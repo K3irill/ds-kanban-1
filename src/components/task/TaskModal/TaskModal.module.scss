@@ -1,0 +1,131 @@
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: hsla(0, 0%, 12%, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family);
+}
+
+.wapperModal {
+  background-color: var(--neutral-200);
+  padding: 24px;
+  border-radius: 16px;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  column-gap: 16px;
+}
+.contentTask {
+  max-width: 710px;
+
+  font-size: 13px;
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  p {
+    position: relative;
+    word-break: break-all;
+    text-wrap: balance;
+    &:not(:last-child) {
+      margin: 0 0 8px;
+    }
+  }
+  a {
+    color: var(--blue-primary);
+  }
+}
+.nameTask {
+  font-weight: 600;
+  font-size: 20px;
+}
+.contentTask,
+.taskDetails {
+  background-color: var(--white-primary);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+}
+
+.taskDetails {
+  max-width: 426px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  color: var(--grey-secondary);
+}
+.top {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+.actionPanel {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+}
+.idTask {
+  font-size: 14px;
+}
+.iconButton {
+  padding: 6px;
+  background-color: var(--neutral-200);
+  border-radius: 4px;
+}
+.evaluation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    &:last-child {
+      display: flex;
+      align-items: center;
+      column-gap: 6px;
+      color: var(--neutral-700);
+    }
+  }
+}
+.tags {
+  display: flex;
+}
+.tagItem {
+  flex: 0 1 33.333%;
+}
+
+.label {
+  margin-bottom: 8px;
+}
+.date {
+  display: flex;
+  justify-content: space-between;
+}
+.dateContent {
+  color: var(--neutral-700);
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+}
+.executorItem {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  color: var(--neutral-700);
+  font-weight: 500;
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+.link {
+  color: var(--blue-primary);
+}

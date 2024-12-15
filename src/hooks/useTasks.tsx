@@ -1,5 +1,7 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import ProjectService from '@/services/project.service';
+
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
 import { useEffect } from 'react';
 
 const useTasks = (projectSlug: string) => {
@@ -51,30 +53,6 @@ const useTasks = (projectSlug: string) => {
     queryFn: () => ProjectService.getTaskComponent(),
     enabled: !!projectSlug,
   });
-
-  useEffect(() => {
-    if (isSuccessTasks) {
-      console.log('Задачи загружены');
-    }
-    if (isSuccessTaskTypes) {
-      console.log('Типы задач загружены');
-    }
-    if (isSuccessTaskPriority) {
-      console.log('Приоритеты задач загружены');
-    }
-  }, [isSuccessTasks, isSuccessTaskTypes, isSuccessTaskPriority]);
-
-  useEffect(() => {
-    if (isErrorTasks) {
-      console.log('Ошибка при загрузке задач');
-    }
-    if (isErrorTaskTypes) {
-      console.log('Ошибка при загрузке типов задач');
-    }
-    if (isErrorTaskPriority) {
-      console.log('Ошибка при загрузке приоритетов задач');
-    }
-  }, [isErrorTasks, isErrorTaskTypes, isErrorTaskPriority]);
 
   return {
     listTasks,
