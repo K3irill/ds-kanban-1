@@ -32,10 +32,11 @@ export const iProjectSchema = z.object({
 });
 
 export const avatarSchema = z.object({
-  userId: z.number(),
   id: z.number(),
-  title: z.string(),
-  completed: z.boolean(),
+  original_name: z.string(),
+  link: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export const UserSchema = z.object({

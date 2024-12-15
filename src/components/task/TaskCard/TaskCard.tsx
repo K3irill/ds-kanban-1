@@ -3,8 +3,6 @@ import React, { MouseEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
-
-import { useRouter } from 'next/router';
 import useTaskStore from '@/store/taskStore';
 import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
@@ -14,16 +12,13 @@ import TaskModal from '../TaskModal/TaskModal';
 const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }) => {
   const [isModal, setIsModal] = useState(false);
   const { idTask, setIdTask } = useTaskStore();
-  const router = useRouter();
-  const { slug } = router.query;
+
   useEffect(() => {}, []);
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     setIsModal(true);
     e.preventDefault();
     setIdTask(id);
-    /* eslint-disable-next-line no-restricted-globals */
-    // history.pushState({}, '', `/projects/${slug}/${id}`);
     // router.push(`/projects/${slug}/${id}`, undefined, { shallow: true });
   };
   useEffect(() => {

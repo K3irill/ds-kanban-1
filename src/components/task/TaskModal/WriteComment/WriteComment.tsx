@@ -11,26 +11,20 @@ import styles from './WriteComment.module.scss';
 
 import FileInput from '../FileInput/FileInput';
 
-const WriteComment = () => {
+interface PropsWriteComment {
+  id: Number;
+}
+
+const WriteComment = ({ id }: PropsWriteComment) => {
   const { handleSubmit, register, reset, watch, setValue } = useForm<IUserCommit>({
     resolver: zodResolver(iUserCommitShema),
     mode: 'onBlur',
   });
 
-  // const { mutate: mutatePatchFileCommit } = useMutation({
-  //   mutationKey: ['PatchFileComment'],
-  //   mutationFn: (data: any) => TaskService.patchFileCommit(slug, anem),
-  //   onSuccess: () => reset(),
-  //   onError: (error) => {
-  //     const err = error as AxiosError;
-  //   },
-  // });
-
   const { mutate: mutatePostCommit } = useMutation({
     mutationKey: ['writeComment'],
-    mutationFn: (data: any) => TaskService.postCommit('6', data),
+    mutationFn: (data: any) => TaskService.postCommit(id, data),
     onSuccess: () => {
-      // mutatePatchFileCommit()
       reset();
     },
     onError: (error) => {
@@ -39,43 +33,12 @@ const WriteComment = () => {
   });
 
   const onSubmit: SubmitHandler<IUserCommit> = (data) => {
-    const { content, files } = data;
-    const formData = new FormData();
-
-    Array.from(files).forEach((file: any) => {
-      const newFile = {
-        path: parseInt(file.path.replace(/^\.\//, ''), 10), // Преобразует строку в целое число
-        relativePath: file.relativePath.replace(/^\.\//, ''),
-        lastModified: file.lastModified,
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        webkitRelativePath: file.webkitRelativePath,
-      };
-
-      // Используем newFile в FormData
-
-      formData.append(
-        'files',
-        new File([file], newFile.name, {
-          type: newFile.type,
-          lastModified: newFile.lastModified,
-        })
-      );
-    });
-    formData.append('content', content);
-
-    // formData.append('content', content);
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value.size}`);
-    // }
-    debugger;
-    mutatePostCommit(formData);
+    mutatePostCommit(data);
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <FileInput name="files" register={register} watch={watch} setValue={setValue} />
+      {/* <FileInput name="files" register={register} watch={watch} setValue={setValue} /> */}
 
       {/* <input type="file" {...register('files')} name="files" /> */}
       <div className={styles.title}>
