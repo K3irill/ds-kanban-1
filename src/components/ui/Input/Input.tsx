@@ -25,30 +25,21 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   name?: string;
 }
 
-export const useInputValidation = (error?: FieldError) => {
-  return {
-    status: error ? ('error' as InputStatus) : undefined,
-    message: error?.message,
-  };
-};
-
 const PasswordIcon: React.FC<{ visible: boolean; onToggle: () => void }> = ({
   visible,
   onToggle,
-}) => {
-  return (
-    <svg
-      className={cn(styles.icon, styles.iconPassword, { [styles.iconActive]: visible })}
-      aria-label="Toggle password visibility"
-      role="button"
-      tabIndex={0}
-      onClick={onToggle}
-      onMouseDown={(e) => e.preventDefault()}
-    >
-      <use href={ICONS.eyeOff} />
-    </svg>
-  );
-};
+}) => (
+  <svg
+    className={cn(styles.icon, styles.iconPassword, { [styles.iconActive]: visible })}
+    aria-label="Toggle password visibility"
+    role="button"
+    tabIndex={0}
+    onClick={onToggle}
+    onMouseDown={(e) => e.preventDefault()}
+  >
+    <use href={ICONS.eyeOff} />
+  </svg>
+);
 
 const Input: React.FC<InputProps> = ({
   label,

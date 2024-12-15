@@ -73,21 +73,6 @@ class TaskService {
       throw error;
     }
   }
-
-  static async getCommits(id: number) {
-    try {
-      debugger;
-      const response = await instance.get(`task/${id}/comment`);
-      return response.data.data;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.error('Ошибка валидации данных проекта:', error.errors);
-      } else {
-        console.error('Ошибка при получении данных:', error);
-      }
-      throw error;
-    }
-  }
 }
 
 export default TaskService;
