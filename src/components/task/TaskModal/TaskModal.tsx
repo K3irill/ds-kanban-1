@@ -46,7 +46,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                 <DialogTitle className={styles.nameTask}>{task.name}</DialogTitle>
                 <div dangerouslySetInnerHTML={{ __html: task.description }} />
                 <WriteComment id={id} />
-                <ListComments comments={task.comments} />
+                <ListComments task={task} idTask={id} comments={task.comments} />
               </div>
               <div className={styles.taskDetails}>
                 <div className={styles.top}>
