@@ -140,9 +140,9 @@ const CreateModal = () => {
     isSuccess: isSuccessTasks,
     isLoading: isLoadingTasks,
   }: UseQueryResult<any, Error> = useQuery<any>({
-    queryKey: ['tasks', projectSlug],
+    queryKey: ['taskInfo'],
     queryFn: () => TaskService.getTask(id),
-    enabled: !!projectSlug,
+    enabled: !!id,
   });
   useEffect(() => {
     console.log(taskInfo);
@@ -169,11 +169,11 @@ const CreateModal = () => {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
     }
-    console.log(id);
+    console.log(taskInfo);
     const taskData = {
-      name: taskInfo.name || data.taskName,
-      description: taskInfo.description || '',
-      stage_id: taskInfo.stage.id || 1,
+      name: data.taskName ?? taskInfo.name,
+      description: '' ?? taskInfo.description,
+      stage_id: taskInfo.stage.id ?? 1,
       task_type_id: selectedType.id,
       component_id: selectedComponent.id,
       priority_id: selectedPriority.id,
@@ -183,9 +183,9 @@ const CreateModal = () => {
       epic_id: null,
       estimate_cost: null,
       estimate_worker: null,
-      layout_link: taskInfo.layout_link || data.layoutLink,
-      markup_link: taskInfo.markup_link || data.markupLink,
-      dev_link: taskInfo.dev_link || data.devLink,
+      layout_link: data.layoutLink ?? taskInfo.layout_link,
+      markup_link: data.markupLink ?? taskInfo.markup_link,
+      dev_link: data.devLink ?? taskInfo.dev_link,
       executors: selectedPersons.map((p) => p.id),
       data_start: startDate,
       data_end: startDate,
