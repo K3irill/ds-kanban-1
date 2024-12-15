@@ -29,10 +29,10 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
     setIsCreatedModalOpen();
     setModalType('editing');
   };
-  // useEffect(() => {
-  //   debugger;
-  //   console.log(task);
-  // }, [task]);
+  useEffect(() => {
+    // debugger;
+    console.log(task);
+  }, [task]);
 
   return (
     <Dialog className={styles.modal} open={isModal} onClose={() => setIsModal(false)}>
@@ -127,8 +127,8 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                     <div key={indx} className={styles.executorItem}>
                       <img
                         src={
-                          it.avatar !== null
-                            ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
+                          it.avatar
+                            ? `https://trainee-academy.devds.ru/${it.avatar.link}`
                             : '/default_user.png'
                         }
                         alt="Исполнитель"
@@ -143,7 +143,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                   <div className={styles.executorItem}>
                     <img
                       src={
-                        task.created_by.avatar !== null
+                        task.created_by.avatar
                           ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
                           : '/default_user.png'
                       }
