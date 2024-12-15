@@ -119,14 +119,6 @@ export default function ProjectsPage() {
     );
   };
 
-  const onChangeInputNameProject = (e: ChangeEvent<HTMLInputElement>) => {
-    setNameValueProject(e.target.value);
-  };
-
-  const onChangeInputNumberProject = (e: ChangeEvent<HTMLInputElement>) => {
-    setNumberValueProject(e.target.value);
-  };
-
   return (
     <>
       <Head>

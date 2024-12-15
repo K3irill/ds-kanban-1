@@ -133,7 +133,6 @@ class ProjectService {
   static async getTaskComponent(): Promise<Project> {
     try {
       const response = await instance.get<{ data: Project }>(`/component`);
-
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {

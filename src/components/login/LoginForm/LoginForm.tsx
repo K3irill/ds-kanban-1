@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
-import Input, { useInputValidation } from '@/components/ui/Input/Input';
+import Input,  from '@/components/ui/Input/Input';
 import useAuthStore from '@/store/store';
 import styles from './LoginForm.module.scss';
 
@@ -23,7 +23,7 @@ function LoginForm() {
     formState: { errors },
     reset,
     setError,
-    clearErrors,
+
   } = useForm<ILoginData>({
     resolver: zodResolver(iLoginDataShema),
   });
@@ -58,26 +58,6 @@ function LoginForm() {
     mutateLogin(data);
   };
 
-  const emailValidation = useInputValidation(errors.email);
-  const passwordValidation = useInputValidation(errors.password);
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const email = e.target.value;
-    if (email && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
-      setError('email', { type: 'manual', message: 'Неверный формат email' });
-    } else {
-      clearErrors('email');
-    }
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const password = e.target.value;
-    if (password && password.length < 9) {
-      setError('password', { type: 'manual', message: 'Пароль слишком короткий' });
-    } else {
-      clearErrors('password');
-    }
-  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -91,9 +71,7 @@ function LoginForm() {
         register={register}
         placeholder="Электронная почта"
         error={errors.email}
-        status={emailValidation.status}
-        statusMessage={emailValidation.message}
-        onChange={handleEmailChange}
+ 
       />
 
       <Input
@@ -104,9 +82,6 @@ function LoginForm() {
         register={register}
         placeholder="Пароль"
         error={errors.password}
-        status={passwordValidation.status}
-        statusMessage={passwordValidation.message}
-        onChange={handlePasswordChange}
       />
 
       <StandardButton type="submit" className={styles.submit} loading={isPending}>
