@@ -173,7 +173,7 @@ const CreateModal: React.FC = () => {
 
     const taskData = {
       name: data.taskName ?? taskInfo?.name,
-      description: taskInfo?.description,
+      description: '' /*taskInfo?.description*/,
       stage_id: taskInfo?.stage?.id ?? 1,
       task_type_id: selectedType?.id,
       component_id: selectedComponent?.id,
