@@ -1,0 +1,17 @@
+.user {
+  display: flex;
+  align-items: center;
+  &__avatar {
+    border-radius: 50%;
+  }
+  &__main-info {
+    margin-left: 8px;
+  }
+  &__name {
+    color: var(--white-primary);
+    margin-bottom: 4px;
+  }
+  &__position {
+    color: var(--neutral-600);
+  }
+}

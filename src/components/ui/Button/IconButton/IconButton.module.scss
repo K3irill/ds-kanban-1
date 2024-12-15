@@ -1,0 +1,85 @@
+.button {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.4s;
+  &:disabled {
+    background-color: var(--blue-light-background);
+    color: var(--grey-secondary);
+    border: 1px solid transparent;
+    cursor: not-allowed;
+  }
+  &--primary {
+    background-color: var(--blue-primary);
+    &:hover {
+      background-color: #4b93ed;
+    }
+
+    &:active {
+      background-color: var(--blue-dark);
+    }
+    &-load {
+      background-color: var(--blue-dark);
+    }
+  }
+
+  &--secondary {
+    background-color: transparent;
+    &:hover {
+      background-color: var(--blue-light-background);
+    }
+
+    &:active {
+      background-color: var(--blue-light-background);
+      border: 1px solid var(--blue-primary);
+    }
+    &-load {
+      background-color: var(--blue-light-background);
+    }
+  }
+
+  &--medium {
+    width: 48px;
+    height: 48px;
+  }
+  &--small {
+    width: 32px;
+    height: 32px;
+    p * {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+.loading-element {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  transform-origin: center;
+  animation: rotating 2s linear infinite;
+}
+
+.loading-small {
+  width: 12px;
+  height: 12px;
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  background-color: var(--blue-dark);
+}
