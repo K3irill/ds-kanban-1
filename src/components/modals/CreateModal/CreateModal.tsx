@@ -18,25 +18,43 @@ import TaskService from '@/services/task.service';
 import styles from './CreateModal.module.scss';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 
-const CreateModal = () => {
+interface TaskFormValues {
+  taskName: string;
+  selectedPriority: string | null;
+  selectedType: string | null;
+  selectedComponent: string | null;
+  selectedPersons: User[];
+  startDate: Date | null;
+  endDate: Date | null;
+  layoutLink: string;
+  markupLink: string;
+  devLink: string;
+}
+
+type ModalType = 'creating' | 'editing';
+
+const CreateModal: React.FC = () => {
   const { idTask: id } = useTaskStore();
   const { isCreatedModalOpen, setIsCreatedModalOpen, modalType: type } = useMainStore();
   const router = useRouter();
   const { slug } = router.query;
-  const projectSlug = Array.isArray(slug) ? slug[0] : slug;
+  const projectSlug = Array.isArray(slug) ? slug[0] : slug || '';
 
-  const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug || '');
+  const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug);
   const { taskTypes, taskComponent, taskPriority }: UseTasksReturn = useTasks(project?.slug || '');
   const { user } = useAuthStore();
-  const [typeQuery, setTypeQuery] = useState('');
-  const [componentQuery, setComponentQuery] = useState('');
-  const [peopleQuery, setPeopleQuery] = useState('');
-  const [priorityQuery, setPriorityQuery] = useState('');
+
+  const [typeQuery, setTypeQuery] = useState<string>('');
+  const [componentQuery, setComponentQuery] = useState<string>('');
+  const [peopleQuery, setPeopleQuery] = useState<string>('');
+  const [priorityQuery, setPriorityQuery] = useState<string>('');
+
   const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
   const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
-  const [filteredPriority, setFilteredPriority] = useState([]);
+  const [filteredPriority, setFilteredPriority] = useState<TaskType[]>([]);
   const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
   const {
     startDate,
@@ -63,9 +81,8 @@ const CreateModal = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<TaskFormValues>({
     defaultValues: {
       taskName: '',
       selectedPriority: null,
@@ -116,15 +133,12 @@ const CreateModal = () => {
       setFilteredPriority(filtered);
     }
   }, [priorityQuery, taskPriority]);
+
   const queryClient = useQueryClient();
-  // создание задачи-------------------------------------
-  const {
-    mutate: createTask,
-    isLoading: isCreating,
-    isError,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (taskData) => ProjectService.createTask(projectSlug, taskData),
+
+  const { mutate: createTask } = useMutation({
+    mutationFn: (taskData: Partial<TaskFormValues>) =>
+      ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
       queryClient.invalidateQueries(['tasks', projectSlug]);
@@ -134,27 +148,14 @@ const CreateModal = () => {
     },
   });
 
-  const {
-    data: taskInfo,
-    isError: isErrorTask,
-    isSuccess: isSuccessTasks,
-    isLoading: isLoadingTasks,
-  }: UseQueryResult<any, Error> = useQuery<any>({
+  const { data: taskInfo }: UseQueryResult<any, Error> = useQuery<any>({
     queryKey: ['taskInfo'],
     queryFn: () => TaskService.getTask(id),
     enabled: !!id,
   });
-  useEffect(() => {
-    console.log(taskInfo);
-  }, [taskInfo]);
-  // редактирование задачи---------------------------------
-  const {
-    mutate: editTask,
-    isLoading: isEditing,
-    isError: isEditingError,
-    isSuccess: isEditingSuccess,
-  } = useMutation({
-    mutationFn: (taskData) => TaskService.patchTask(id, taskData),
+
+  const { mutate: editTask } = useMutation({
+    mutationFn: (taskData: Partial<TaskFormValues>) => TaskService.patchTask(id, taskData),
     onSuccess: () => {
       alert('Задача успешно изменена!');
       queryClient.invalidateQueries(['tasks', projectSlug]);
@@ -169,30 +170,24 @@ const CreateModal = () => {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
     }
-    console.log(taskInfo);
+
     const taskData = {
-      name: data.taskName ?? taskInfo.name,
-      description: '' ?? taskInfo.description,
-      stage_id: taskInfo.stage.id ?? 1,
-      task_type_id: selectedType.id,
-      component_id: selectedComponent.id,
-      priority_id: selectedPriority.id,
-      block_id: null,
-      release_id: null,
-      related_id: null,
-      epic_id: null,
-      estimate_cost: null,
-      estimate_worker: null,
-      layout_link: data.layoutLink ?? taskInfo.layout_link,
-      markup_link: data.markupLink ?? taskInfo.markup_link,
-      dev_link: data.devLink ?? taskInfo.dev_link,
+      name: data.taskName ?? taskInfo?.name,
+      description: '' ?? taskInfo?.description,
+      stage_id: taskInfo?.stage?.id ?? 1,
+      task_type_id: selectedType?.id,
+      component_id: selectedComponent?.id,
+      priority_id: selectedPriority?.id,
+      layout_link: data.layoutLink ?? taskInfo?.layout_link,
+      markup_link: data.markupLink ?? taskInfo?.markup_link,
+      dev_link: data.devLink ?? taskInfo?.dev_link,
       executors: selectedPersons.map((p) => p.id),
       data_start: startDate,
-      data_end: startDate,
+      data_end: endDate,
       begin: startDate.toISOString(),
       end: endDate.toISOString(),
     };
-    console.log(taskData);
+
     if (type === 'creating') {
       createTask(taskData);
     } else {
