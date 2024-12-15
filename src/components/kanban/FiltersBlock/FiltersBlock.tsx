@@ -81,7 +81,7 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           value={selectedType}
           onChange={setSelectedType}
           onQueryChange={setTypeQuery}
-          displayValue={(type: TaskType) => type?.name || ''}
+          displayValue={(type: any) => type?.name || ''}
           placeholder="Тип задачи"
           options={filteredTypes}
         />
@@ -93,7 +93,7 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           value={selectedComponent}
           onChange={setSelectedComponent}
           onQueryChange={setComponentQuery}
-          displayValue={(component: TaskComponent) => component?.name || ''}
+          displayValue={(component: any) => component?.name || ''}
           placeholder="Компонент"
           options={filteredComponents}
         />

@@ -10,11 +10,11 @@ interface Option {
 
 interface CustomComboboxProps {
   label?: string;
-  value?: Option | Option[];
-  onChange?: (value: Option | Option[] | null) => void;
+  value?: any;
+  onChange?: (value: any) => void;
   onQueryChange?: (query: string) => void;
   options?: Option[];
-  displayValue?: (option: Option) => string;
+  displayValue?: (option: any) => string;
   placeholder?: string;
   isMulti?: boolean;
 }

@@ -127,7 +127,7 @@ const CreateModal: React.FC = () => {
 
   useEffect(() => {
     if (taskPriority) {
-      const filtered = taskPriority.filter((priority) =>
+      const filtered = taskPriority.filter((priority: any) =>
         priority.name.toLowerCase().includes(priorityQuery.toLowerCase())
       );
       setFilteredPriority(filtered);
@@ -141,7 +141,7 @@ const CreateModal: React.FC = () => {
       ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
-      queryClient.invalidateQueries(['tasks', projectSlug]);
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectSlug] });
     },
     onError: () => {
       alert('Произошла ошибка при создании задачи.');
