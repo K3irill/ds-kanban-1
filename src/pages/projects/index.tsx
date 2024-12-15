@@ -12,6 +12,8 @@ import Loader from '@/components/ui/Loader/loader';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import useAuthStore from '@/store/store';
 
+import InputDefault from '@/components/ui/Input/InputDefault/InputDefault';
+
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
@@ -143,29 +145,26 @@ export default function ProjectsPage() {
           <div className={cn(styles['projects__projects-activities'])}>
             <div className={cn(styles['projects__inputs-container'])}>
               <div className={cn(styles['projects__inputs-wrapper'])}>
-                <label htmlFor="project-name">
-                  <span>Название проекта</span>
-
-                  <input
-                    value={nameValueProject}
-                    onChange={(e) => onChangeInputNameProject(e)}
-                    id="project-name"
-                    style={{ background: 'var(--blue-light-background)' }}
-                    type="text"
-                  />
-                </label>
+                <InputDefault
+                  id="project-name"
+                  onChange={(e) => setNameValueProject(e.target.value)}
+                  type="text"
+                  labelText="Название проекта"
+                  value={nameValueProject}
+                  onClear={() => setNameValueProject('')}
+                  isClear
+                  placeholder="Введите название"
+                />
               </div>
               <div className={cn(styles['projects__inputs-wrapper'])}>
-                <label htmlFor="project-number">
-                  <span>Номер задачи</span>
-                  <input
-                    id="project-number"
-                    value={numberValueProject}
-                    onChange={onChangeInputNumberProject}
-                    style={{ background: 'var(--blue-light-background)' }}
-                    type="text"
-                  />
-                </label>
+                <InputDefault
+                  id="project-number"
+                  onChange={(e) => setNumberValueProject(e.target.value)}
+                  type="text"
+                  labelText="Номер задачи"
+                  placeholder="Введите номер задачи"
+                  value={numberValueProject}
+                />
               </div>
             </div>
             {user?.is_admin && (

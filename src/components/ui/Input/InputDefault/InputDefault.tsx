@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import { FieldError, UseFormRegister } from 'react-hook-form';
 import { ILoginData } from '@/types/user.type';
-import styles from './Input.module.scss';
+import styles from './InputDefault.module.scss';
 
 type TypeData = ILoginData;
 
@@ -20,7 +20,7 @@ interface PropsInput {
   isClear?: boolean;
 }
 
-const Input: React.FC<PropsInput> = ({
+const InputDefault: React.FC<PropsInput> = ({
   type,
   error,
   register,
@@ -58,4 +58,4 @@ const Input: React.FC<PropsInput> = ({
   </div>
 );
 
-export default Input;
+export default InputDefault;
