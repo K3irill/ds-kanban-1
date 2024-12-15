@@ -51,7 +51,7 @@ export default function Sidebar() {
             {isOpen && (
               <div className={cn(styles['sidebar__user-info'])}>
                 <User
-                  user_avatar={user?.avatar || '/avatar-test.jpg'}
+                  user_avatar={user?.avatar ? user?.avatar.link : '/avatar-test.jpg'}
                   user_name={`${user?.name} ${user?.surname}`}
                   user_position={user?.position || `1`}
                 />

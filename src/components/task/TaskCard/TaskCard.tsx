@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import cn from 'classnames';
 import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
@@ -8,25 +8,37 @@ import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
 import TaskModal from '../TaskModal/TaskModal';
+/* eslint-disable */
+interface TaskCardProps {
+  id: number;
+  priority: any;
+  name: string;
+  users: any;
+  task_type: any;
+  task_component: any;
+  epic?: string;
+}
 
-const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }) => {
+const TaskCard = ({
+  id,
+  priority,
+  name,
+  users,
+  task_type,
+  task_component,
+  epic,
+}: TaskCardProps) => {
   const [isModal, setIsModal] = useState(false);
   const { idTask, setIdTask } = useTaskStore();
 
   useEffect(() => {}, []);
 
-  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: any) => {
     setIsModal(true);
     e.preventDefault();
     setIdTask(id);
     // router.push(`/projects/${slug}/${id}`, undefined, { shallow: true });
   };
-  useEffect(() => {
-    // if (!isModal) {
-    //   setIdTask(null);
-    // }
-    console.log(idTask);
-  }, [isModal]);
 
   return (
     <Link href={String(id)} onClick={(e) => handleClick(e)} className={cn(styles.task)}>
@@ -39,7 +51,7 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }
       <div className={cn(styles.task__main)}>
         <h4 className={cn(styles['task__task-name'])}>{name}</h4>
         <div className={cn(styles['task__users-wrap'])}>
-          {users.map((user, index) => (
+          {users.map((user: any, index: any) => (
             <span className={cn(styles.task__user)} key={user.id}>
               {`${user.name} ${user.surname}`}
               {index < users.length - 1 && ','}

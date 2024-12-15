@@ -1,5 +1,5 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useTask from '@/hooks/useTask';
 import Loader from '@/components/ui/Loader/loader';
 import Select from '@/components/ui/Select/Select';
@@ -12,7 +12,7 @@ import ListComments from './ListComments/ListComments';
 import styles from './TaskModal.module.scss';
 import TaskComponent from '../TaskComponent/TaskComponent';
 import TaskType from '../TaskType/TaskType';
-
+/* eslint-disable */
 interface PropsTaskModal {
   isModal: boolean;
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,10 +29,6 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
     setIsCreatedModalOpen();
     setModalType('editing');
   };
-  useEffect(() => {
-    // debugger;
-    console.log(task);
-  }, [task]);
 
   return (
     <Dialog className={styles.modal} open={isModal} onClose={() => setIsModal(false)}>
@@ -46,7 +42,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                 <DialogTitle className={styles.nameTask}>{task.name}</DialogTitle>
                 <div dangerouslySetInnerHTML={{ __html: task.description }} />
                 <WriteComment id={id} />
-                <ListComments task={task} idTask={id} comments={task.comments} />
+                <ListComments comments={task.comments} />
               </div>
               <div className={styles.taskDetails}>
                 <div className={styles.top}>
@@ -67,7 +63,6 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                   <div className={styles.select}>
                     {task?.possibleTaskNextStages.length !== 0 && (
                       <Select
-                        task={task}
                         possibleTaskNextStages={task.possibleTaskNextStages}
                         stage={task.stage}
                       />
@@ -123,7 +118,7 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                 </div>
                 <div className={styles.executor}>
                   <div className={styles.label}>Исполнитель</div>
-                  {task.users?.map((it, indx) => (
+                  {task.users?.map((it: any, indx: number) => (
                     <div key={indx} className={styles.executorItem}>
                       <img
                         src={

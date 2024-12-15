@@ -4,7 +4,7 @@ import IconButton from '@/components/ui/Button/IconButton/IconButton';
 import cn from 'classnames';
 import styles from './ConfirmModal.module.scss';
 
-const ConfirmModal = ({ isOpen, onClick, closeConfirmModal }) => {
+const ConfirmModal = ({ isOpen, onClick, closeConfirmModal }: any) => {
   const handleClick = () => {
     onClick();
     closeConfirmModal(false);

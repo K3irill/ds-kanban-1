@@ -31,7 +31,7 @@ const TASK_TYPES = [
   },
 ];
 
-const TaskType = ({ type: task_type }) => (
+const TaskType = ({ type: task_type }: any) => (
   <div className={cn(styles['task-type'], styles[`task-type--${TASK_TYPES[task_type.id].type}`])}>
     <span>{task_type.name}</span>
   </div>

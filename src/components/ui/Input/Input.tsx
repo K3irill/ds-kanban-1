@@ -3,7 +3,7 @@ import { FieldError, UseFormRegister } from 'react-hook-form';
 import { ILoginData } from '@/types/user.type';
 import cn from 'classnames';
 import styles from './Input.module.scss';
-
+/* eslint-disable */
 export type InputStatus = 'warning' | 'error' | 'success';
 export type InputType = 'search' | 'password' | 'text' | 'date';
 

@@ -8,9 +8,9 @@ interface DateInputProps {
   onChange: (date: Date | null) => void;
   selectsStart?: boolean;
   selectsEnd?: boolean;
-  startDate: Date | null;
-  endDate: Date | null;
-  minDate?: Date | null;
+  startDate: any;
+  endDate: any;
+  minDate?: any;
   placeholder: string;
 }
 

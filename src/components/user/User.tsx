@@ -4,6 +4,7 @@ import styles from './User.module.scss';
 
 interface UserProps {
   user_avatar: string;
+
   user_name: string;
   user_position: string;
 }

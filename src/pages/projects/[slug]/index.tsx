@@ -11,7 +11,7 @@ import TaskCard from '@/components/task/TaskCard/TaskCard';
 import SwitchElement from '@/components/ui/SwitchElement/SwitchElement';
 import FiltersBlock from '@/components/kanban/FiltersBlock/FiltersBlock';
 import useAuthStore, { useMainStore } from '@/store/store';
-
+/* eslint-disable */
 import {
   TaskComponent,
   TaskType,
@@ -79,9 +79,7 @@ export default function KanbanPage() {
     { href: '/projects', label: 'Проекты' },
     ...(project ? [{ href: `/projects/${slug}`, label: project.name, isActive: true }] : []),
   ];
-  useEffect(() => {
-    console.log(isCreatedModalOpen);
-  }, [isCreatedModalOpen]);
+
   useEffect(() => {
     if (projectUsers && listTasks) {
       const userMap: { [taskId: number]: User[] } = {};

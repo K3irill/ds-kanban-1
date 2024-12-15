@@ -24,7 +24,6 @@ const WriteComment = ({ id }: PropsWriteComment) => {
     onSuccess: () => {
       reset();
     },
-    onError: (error) => {},
   });
 
   const onSubmit: SubmitHandler<IUserCommit> = (data) => {

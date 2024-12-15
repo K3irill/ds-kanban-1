@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
-import Input,  from '@/components/ui/Input/Input';
+import Input from '@/components/ui/Input/Input';
 import useAuthStore from '@/store/store';
 import styles from './LoginForm.module.scss';
 
@@ -23,7 +23,6 @@ function LoginForm() {
     formState: { errors },
     reset,
     setError,
-
   } = useForm<ILoginData>({
     resolver: zodResolver(iLoginDataShema),
   });
@@ -58,7 +57,6 @@ function LoginForm() {
     mutateLogin(data);
   };
 
-
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.title}>Вход</div>
@@ -71,7 +69,6 @@ function LoginForm() {
         register={register}
         placeholder="Электронная почта"
         error={errors.email}
- 
       />
 
       <Input

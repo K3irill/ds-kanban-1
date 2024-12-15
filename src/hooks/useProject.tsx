@@ -26,12 +26,6 @@ const useProject = (projectSlug: string) => {
       enabled: !!projectSlug,
     });
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log('Запрос успешный');
-    }
-  }, [isSuccess, project]);
-
   useEffect(() => {}, [isError]);
 
   return { project, isLoading, error, isSuccess, isError, projectUsers, isLoadingUsers };

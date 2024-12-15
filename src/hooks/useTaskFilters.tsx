@@ -3,10 +3,11 @@ import { Task, TaskComponent, TaskType, User } from '@/types/task';
 
 type UseTaskFiltersProps = {
   tasks: Task[];
-  users: User[];
+  users: User[] | null;
   taskTypes: TaskType[];
   taskComponents: TaskComponent[];
-  currentUser: User;
+  currentUser: any;
+  priority: any;
 };
 
 export default function useTaskFilters({ tasks, currentUser }: UseTaskFiltersProps) {
@@ -14,7 +15,7 @@ export default function useTaskFilters({ tasks, currentUser }: UseTaskFiltersPro
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [taskNameValue, setTaskNameValue] = useState<string>('');
   const [onlyMyTask, setOnlyMyTask] = useState<boolean>(false);
-  const [selectedPriority, setSelectedPriority] = useState(null);
+  const [selectedPriority, setSelectedPriority] = useState<any>(null);
   const [selectedPersons, setSelectedPersons] = useState<User[]>([]);
   const [selectedType, setSelectedType] = useState<TaskType | null>(null);
   const [selectedComponent, setSelectedComponent] = useState<TaskComponent | null>(null);

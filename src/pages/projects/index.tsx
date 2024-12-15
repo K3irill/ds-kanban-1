@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Head from 'next/head';
 import ProjectService from '@/services/project.service';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';

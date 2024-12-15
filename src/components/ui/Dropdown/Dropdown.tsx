@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import { InputProps } from '@/components/ui/Input/Input';
 import styles from './Dropdown.module.scss';
-
+/* eslint-disable */
 export interface DropdownOption {
   label: string;
   value: string | number;

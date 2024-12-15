@@ -10,11 +10,11 @@ interface Option {
 
 interface CustomComboboxProps {
   label?: string;
-  value?: Option | Option[];
-  onChange?: (value: Option | Option[] | null) => void;
+  value?: any;
+  onChange?: (value: any | null) => void;
   onQueryChange?: (query: string) => void;
-  options?: Option[];
-  displayValue?: (option: Option) => string;
+  options?: any;
+  displayValue?: any;
   placeholder?: string;
   isMulti?: boolean;
 }
@@ -26,7 +26,7 @@ export default function CustomCombobox({
   onChange,
   onQueryChange,
   options = [],
-  displayValue = (option) => option.name,
+  displayValue = (option: any) => option.name,
   placeholder,
 }: CustomComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +97,7 @@ export default function CustomCombobox({
                   Нет совпадений
                 </ComboboxOption>
               ) : (
-                options.map((option) => {
+                options.map((option: any) => {
                   const isSelected =
                     isMulti && Array.isArray(value)
                       ? value.some((v) => v.id === option.id)

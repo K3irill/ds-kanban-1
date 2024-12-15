@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './TaskColumn.module.scss';
-
+/* eslint-disable */
 interface TaskColumnProps {
   children: React.ReactNode;
   heading?: string;

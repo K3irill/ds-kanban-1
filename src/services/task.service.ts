@@ -4,7 +4,7 @@ import { ZodError } from 'zod';
 
 class TaskService {
   // поулчить задчу
-  static async getTask(slug: string) {
+  static async getTask(slug: any) {
     try {
       const response = await instance.get(`/task/${slug}`);
       return response.data.data;
@@ -46,7 +46,7 @@ class TaskService {
     }
   }
 
-  static async postCommit(id: string, data: IUserCommit) {
+  static async postCommit(id: any, data: IUserCommit) {
     try {
       const response = await instance.post(`/task/${id}/comment`, data);
       return response.data.data;

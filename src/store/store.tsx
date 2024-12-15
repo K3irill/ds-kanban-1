@@ -20,14 +20,12 @@ export interface AuthState {
   logout: () => void;
   initialize: () => void;
 }
-export type ModalType = {
-  modalType: 'creating' | 'editing';
-};
+
 export interface MainState {
   isCreatedModalOpen: boolean;
-  modalType: ModalType;
+  modalType: string;
   setIsCreatedModalOpen: () => void;
-  setModalType: (type: ModalType) => void;
+  setModalType: (type: string) => void;
 }
 const useAuthStore = create<AuthState>((set) => ({
   isAuthorized: false,

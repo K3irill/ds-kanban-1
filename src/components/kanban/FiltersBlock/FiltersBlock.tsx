@@ -2,7 +2,6 @@ import cn from 'classnames';
 import CustomCombobox from '@/components/ui/CustomCombobox/CustomCombobox';
 import DateInput from '@/components/ui/DateInput/DateInput';
 import InputDefault from '@/components/ui/Input/InputDefault/InputDefault';
-import { useState } from 'react';
 import styles from './FiltersBlock.module.scss';
 
 type Person = { id: number; name: string };
@@ -17,7 +16,7 @@ interface FiltersBlockProps {
   endDate: Date | null;
   setEndDate: (date: Date | null) => void;
   selectedPersons: Person[] | null;
-  setSelectedPersons: (person: Person[] | null) => void;
+  setSelectedPersons: any;
   selectedType: Type | null;
   setSelectedType: (type: Type | null) => void;
   selectedComponent: Component | null;
@@ -72,7 +71,7 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           onChange={setSelectedPersons}
           onQueryChange={setPeopleQuery}
           options={filteredPeople}
-          displayValue={(person) => person.name}
+          displayValue={(person: any) => person.name}
           placeholder="Выберите исполнителей"
           isMulti
         />
@@ -84,7 +83,7 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           value={selectedType}
           onChange={setSelectedType}
           onQueryChange={setTypeQuery}
-          displayValue={(type: TaskType) => type?.name || ''}
+          displayValue={(type: any) => type?.name || ''}
           placeholder="Тип задачи"
           options={filteredTypes}
         />
@@ -96,7 +95,7 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
           value={selectedComponent}
           onChange={setSelectedComponent}
           onQueryChange={setComponentQuery}
-          displayValue={(component: TaskComponent) => component?.name || ''}
+          displayValue={(component: any) => component?.name || ''}
           placeholder="Компонент"
           options={filteredComponents}
         />

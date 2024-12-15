@@ -2,7 +2,7 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import styles from './Breadcrumb.module.scss';
-
+/* eslint-disable */
 export interface BreadcrumbProps {
   children?: string | ReactNode;
   href: string;

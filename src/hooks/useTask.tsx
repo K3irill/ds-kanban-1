@@ -16,9 +16,6 @@ const useTask = (taskSlug: string) => {
     enabled: !!taskSlug,
   });
 
-  useEffect(() => {
-    console.log('task', task);
-  }, [isSuccess]);
   useEffect(() => {}, [isError]);
 
   return { task, isLoading, isSuccess, isError };

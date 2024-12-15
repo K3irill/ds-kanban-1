@@ -15,10 +15,9 @@ import { useForm } from 'react-hook-form';
 import IconButton from '@/components/ui/Button/IconButton/IconButton';
 import useTaskStore from '@/store/taskStore';
 import TaskService from '@/services/task.service';
-import InputDefault from '@/components/ui/Input/InputDefault/InputDefault';
 import styles from './CreateModal.module.scss';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
-
+/* eslint-disable */
 interface TaskFormValues {
   taskName: string;
   selectedPriority: string | null;
@@ -32,14 +31,15 @@ interface TaskFormValues {
   devLink: string;
 }
 
-type ModalType = 'creating' | 'editing';
+// type ModalType = 'creating' | 'editing';
 
 const CreateModal: React.FC = () => {
   const { idTask: id } = useTaskStore();
+
   const { isCreatedModalOpen, setIsCreatedModalOpen, modalType: type } = useMainStore();
   const router = useRouter();
   const { slug } = router.query;
-  const projectSlug = Array.isArray(slug) ? slug[0] : slug || '';
+  const projectSlug: string = Array.isArray(slug) ? slug[0] : slug || '';
 
   const { project, isLoading, projectUsers }: UseProjectReturn = useProject(projectSlug);
   const { taskTypes, taskComponent, taskPriority }: UseTasksReturn = useTasks(project?.slug || '');
@@ -52,7 +52,7 @@ const CreateModal: React.FC = () => {
 
   const [filteredPeople, setFilteredPeople] = useState<User[]>([]);
   const [filteredTypes, setFilteredTypes] = useState<TaskType[]>([]);
-  const [filteredPriority, setFilteredPriority] = useState<TaskType[]>([]);
+  const [filteredPriority, setFilteredPriority] = useState<any>([]);
   const [filteredComponents, setFilteredComponents] = useState<TaskComponent[]>([]);
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -128,7 +128,7 @@ const CreateModal: React.FC = () => {
 
   useEffect(() => {
     if (taskPriority) {
-      const filtered = taskPriority.filter((priority) =>
+      const filtered = taskPriority.filter((priority: any) =>
         priority.name.toLowerCase().includes(priorityQuery.toLowerCase())
       );
       setFilteredPriority(filtered);
@@ -138,11 +138,10 @@ const CreateModal: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { mutate: createTask } = useMutation({
-    mutationFn: (taskData: Partial<TaskFormValues>) =>
-      ProjectService.createTask(projectSlug, taskData),
+    mutationFn: (taskData: Partial<any>) => ProjectService.createTask(projectSlug, taskData),
     onSuccess: () => {
       alert('Задача успешно создана!');
-      queryClient.invalidateQueries(['tasks', projectSlug]);
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectSlug] });
     },
     onError: () => {
       alert('Произошла ошибка при создании задачи.');
@@ -156,17 +155,17 @@ const CreateModal: React.FC = () => {
   });
 
   const { mutate: editTask } = useMutation({
-    mutationFn: (taskData: Partial<TaskFormValues>) => TaskService.patchTask(id, taskData),
+    mutationFn: (taskData: Partial<any>) => TaskService.patchTask(id, taskData),
     onSuccess: () => {
       alert('Задача успешно изменена!');
-      queryClient.invalidateQueries(['tasks', projectSlug]);
+      queryClient.invalidateQueries({ queryKey: ['tasks', projectSlug] });
     },
     onError: () => {
       alert('Произошла ошибка при редактировании задачи.');
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     if (!projectSlug || !data.taskName || !startDate || !endDate) {
       alert('Пожалуйста, заполните все обязательные поля.');
       return;
@@ -174,7 +173,7 @@ const CreateModal: React.FC = () => {
 
     const taskData = {
       name: data.taskName ?? taskInfo?.name,
-      description: '' ?? taskInfo?.description,
+      description: taskInfo?.description,
       stage_id: taskInfo?.stage?.id ?? 1,
       task_type_id: selectedType?.id,
       component_id: selectedComponent?.id,
@@ -275,7 +274,7 @@ const CreateModal: React.FC = () => {
                   onChange={(value) => setSelectedPersons(value)}
                   onQueryChange={setPeopleQuery}
                   options={filteredPeople}
-                  displayValue={(person) => person.name}
+                  displayValue={(person: any) => person.name}
                   placeholder="Выберите исполнителей"
                   isMulti
                 />
@@ -292,7 +291,7 @@ const CreateModal: React.FC = () => {
                   value={selectedPriority}
                   onChange={(value) => setSelectedPriority(value)}
                   onQueryChange={setPriorityQuery}
-                  displayValue={(priority) => priority?.name || ''}
+                  displayValue={(priority: any) => priority?.name || ''}
                   placeholder="Приоритет"
                   options={filteredPriority}
                 />

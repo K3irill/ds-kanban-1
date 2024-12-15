@@ -7,7 +7,7 @@ const useFavoriteMutation = () => {
   const addToFavorite = useMutation({
     mutationFn: (id: number) => ProjectService.addProjectToFavorite(id, 'project'),
     onSuccess: () => {
-      queryClient.invalidateQueries(['projects']);
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
     onError: (error) => {
       console.error('Ошибка при добавлении в избранное:', error);
@@ -17,7 +17,7 @@ const useFavoriteMutation = () => {
   const removeFromFavorite = useMutation({
     mutationFn: (id: number) => ProjectService.deleteProjectToFavorite(id, 'project'),
     onSuccess: () => {
-      queryClient.invalidateQueries(['projects']);
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
     onError: (error) => {
       console.error('Ошибка при удалении из избранного:', error);

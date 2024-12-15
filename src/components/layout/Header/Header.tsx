@@ -7,7 +7,7 @@ import StandardButton from '@/components/ui/Button/StandardButton/StandardButton
 
 interface HeaderProps {
   handleSignClick: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
   isAuthorized: boolean;
 }
 export default function Header({ handleSignClick, isLoading, isAuthorized }: HeaderProps) {
