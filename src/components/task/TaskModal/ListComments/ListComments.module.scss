@@ -1,0 +1,35 @@
+.comment {
+	padding-top: 16px;
+	&:not(:last-child) {
+		border-bottom: 1px solid #eeeeee;
+		padding-bottom: 16px;
+	}
+}
+.commentTop {
+	display: flex;
+	margin-bottom: 16px;
+}
+.commentRightBlock {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.avatar {
+	width: 32px;
+	height: 32px;
+}
+.commentUserName {
+	font-weight: 700;
+	font-size: 13px;
+	margin-bottom: 4px;
+}
+.commentUserDate {
+	color: #abbed1;
+	font-size: 12px;
+}
+.commentBottom {
+	a {
+		color: var(--blue-primary);
+	}
+}

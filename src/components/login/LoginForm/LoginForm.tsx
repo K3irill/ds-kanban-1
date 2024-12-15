@@ -13,7 +13,7 @@ import { AxiosError } from 'axios';
 import { getAccessToken } from '@/services/services.helper';
 
 import Input, { useInputValidation } from '@/components/ui/Input/Input';
-import useAuthStore from '@/store/authStore';
+import useAuthStore from '@/store/store';
 import styles from './LoginForm.module.scss';
 
 function LoginForm() {

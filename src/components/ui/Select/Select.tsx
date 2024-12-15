@@ -12,7 +12,7 @@ interface PropsSelectUi {
   task: any;
 }
 
-const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage, task }) => {
+const Select: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage, task }) => {
   const [selectedPerson, setSelectedPerson] = useState(stage.name);
 
   const { mutate: mutatePostCommit } = useMutation({
@@ -51,8 +51,6 @@ const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage, task
     mutatePostCommit();
   };
 
-  console.log(possibleTaskNextStages);
-
   return (
     <Listbox value={selectedPerson} onChange={(valueSelect) => onChange(valueSelect)}>
       <ListboxButton className={styles.select}>{selectedPerson}</ListboxButton>
@@ -67,4 +65,4 @@ const SelectUi: React.FC<PropsSelectUi> = ({ possibleTaskNextStages, stage, task
   );
 };
 
-export default SelectUi;
+export default Select;

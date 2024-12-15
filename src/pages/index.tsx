@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer/Footer';
 
 import TaskColumn from '@/components/task/TaskColumn/TaskColumn';
 import TaskCard from '@/components/task/TaskCard/TaskCard';
-import useAuthStore from '@/store/authStore';
+import useAuthStore from '@/store/store';
 import { useRouter } from 'next/router';
 
 import StandardButton from '@/components/ui/Button/StandardButton/StandardButton';

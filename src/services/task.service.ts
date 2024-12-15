@@ -18,7 +18,7 @@ class TaskService {
     }
   }
 
-  static async patchTask(id: string, task: any) {
+  static async patchTask(id: number, task: any) {
     try {
       debugger;
       const response = await instance.patch(`/task/${id}`, task);
@@ -49,10 +49,8 @@ class TaskService {
 
   static async postCommit(id: string, data: IUserCommit) {
     try {
-      const response = await instance.post(`/task/${id}/comment`, {
-        content: data.content,
-        files: data.files[0],
-      });
+      debugger;
+      const response = await instance.post(`/task/${id}/comment`, data);
       return response.data.data;
     } catch (error) {
       if (error instanceof ZodError) {
