@@ -5,6 +5,7 @@ import PriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
+import useTaskStore from '@/store/taskStore';
 import styles from './TaskCard.module.scss';
 import TaskType from '../TaskType/TaskType';
 import TaskComponent from '../TaskComponent/TaskComponent';
@@ -12,7 +13,7 @@ import TaskModal from '../TaskModal/TaskModal';
 
 const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }) => {
   const [isModal, setIsModal] = useState(false);
-
+  const { idTask, setIdTask } = useTaskStore();
   const router = useRouter();
   const { slug } = router.query;
   useEffect(() => {}, []);
@@ -20,11 +21,17 @@ const TaskCard = ({ id, priority, name, users, task_type, task_component, epic }
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     setIsModal(true);
     e.preventDefault();
-
+    setIdTask(id);
     /* eslint-disable-next-line no-restricted-globals */
     // history.pushState({}, '', `/projects/${slug}/${id}`);
     // router.push(`/projects/${slug}/${id}`, undefined, { shallow: true });
   };
+  useEffect(() => {
+    // if (!isModal) {
+    //   setIdTask(null);
+    // }
+    console.log(idTask);
+  }, [isModal]);
 
   return (
     <Link href={String(id)} onClick={(e) => handleClick(e)} className={cn(styles.task)}>

@@ -163,22 +163,6 @@ class ProjectService {
       throw error;
     }
   }
-
-  // обновление новой задачи
-  static async updateTask(id: number, data: any): Promise<Project> {
-    try {
-      const response = await instance.patch<{ data: Project }>(`/task/${id}`, JSON.stringify(data));
-
-      return response.data.data;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.error('Ошибка валидации данных задачи:', error.errors);
-      } else {
-        console.error('Неизвестная ошибка:', error);
-      }
-      throw error;
-    }
-  }
 }
 
 export default ProjectService;

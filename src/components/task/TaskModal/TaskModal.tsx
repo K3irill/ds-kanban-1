@@ -5,6 +5,7 @@ import Loader from '@/components/ui/Loader/loader';
 import SelectUi from '@/components/ui/Select/Select';
 
 import TaskPriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
+import { useMainStore } from '@/store/authStore';
 import WriteComment from './WriteComment/WriteComment';
 import ListComments from './ListComments/ListComments';
 
@@ -22,7 +23,12 @@ interface PropsTaskModal {
 
 const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
   const { task, isLoading } = useTask(String(String(id)));
+  const { setIsCreatedModalOpen, setModalType } = useMainStore();
 
+  const handleEditButton = () => {
+    setIsCreatedModalOpen();
+    setModalType('editing');
+  };
   console.log(task);
 
   return (
@@ -43,7 +49,11 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
                 <div className={styles.actionPanel}>
                   <div className={styles.idTask}>id:{task.id}</div>
                   <div className={styles.actionBtn}>
-                    <button type="button" className={styles.iconButton}>
+                    <button
+                      onClick={() => handleEditButton()}
+                      type="button"
+                      className={styles.iconButton}
+                    >
                       <svg viewBox="0 0 20 20" width="20" height="20">
                         <use href="/sprite.svg#changeTask" />
                       </svg>
