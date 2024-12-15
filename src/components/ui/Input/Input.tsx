@@ -31,7 +31,7 @@ const Input: React.FC<PropsInput> = ({
   placeholder = '',
   id = '',
   labelText = '',
-  value = '',
+  value,
 }) => (
   <div className={styles.wrapperInput}>
     {labelText && <label htmlFor={id}>{labelText}</label>}

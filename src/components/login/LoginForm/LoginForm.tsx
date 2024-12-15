@@ -67,7 +67,7 @@ function LoginForm() {
         name="email"
         id="loginEmail"
         register={register}
-        placeholder="Пароль"
+        placeholder="Электронная почта"
         error={errors.email}
       />
 
