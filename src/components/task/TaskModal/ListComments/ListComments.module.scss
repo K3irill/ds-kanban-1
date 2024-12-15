@@ -8,8 +8,9 @@
 .commentTop {
 	display: flex;
 	margin-bottom: 16px;
+	justify-content: space-between;
 }
-.commentRightBlock {
+.commentLeftBlock {
 	display: flex;
 	align-items: center;
 	column-gap: 8px;
@@ -32,4 +33,8 @@
 	a {
 		color: var(--blue-primary);
 	}
+}
+.commentRightBlock {
+}
+.commentBtn {
 }

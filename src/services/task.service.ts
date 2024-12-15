@@ -49,7 +49,6 @@ class TaskService {
 
   static async postCommit(id: string, data: IUserCommit) {
     try {
-      debugger;
       const response = await instance.post(`/task/${id}/comment`, data);
       return response.data.data;
     } catch (error) {
@@ -62,7 +61,19 @@ class TaskService {
     }
   }
 
-  зф;
+  static async deleteCommit(id: number) {
+    try {
+      const response = await instance.delete(`/comment/${id}`);
+      return response.data.data;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Ошибка валидации данных проекта:', error.errors);
+      } else {
+        console.error('Ошибка при получении данных:', error);
+      }
+      throw error;
+    }
+  }
 }
 
 export default TaskService;
