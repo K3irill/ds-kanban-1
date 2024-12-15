@@ -2,9 +2,10 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import React from 'react';
 import useTask from '@/hooks/useTask';
 import Loader from '@/components/ui/Loader/loader';
-import SelectUi from '@/components/ui/Select/Select';
+import Select from '@/components/ui/Select/Select';
 
 import TaskPriorityItem from '@/components/TaskPriorityItem/TaskPriorityItem';
+import { formatDateUtils } from '@/utils/utils';
 import WriteComment from './WriteComment/WriteComment';
 import ListComments from './ListComments/ListComments';
 
@@ -27,144 +28,145 @@ const TaskModal: React.FC<PropsTaskModal> = ({ setIsModal, isModal, id }) => {
 
   return (
     <Dialog className={styles.modal} open={isModal} onClose={() => setIsModal(false)}>
-      <DialogPanel className={styles.wapperModal}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <div className={styles.contentTask}>
-              <DialogTitle className={styles.nameTask}>{task.name}</DialogTitle>
-              <div dangerouslySetInnerHTML={{ __html: task.description }} />
-              <WriteComment />
-              <ListComments />
-            </div>
-            <div className={styles.taskDetails}>
-              <div className={styles.top}>
-                <div className={styles.actionPanel}>
-                  <div className={styles.idTask}>id:{task.id}</div>
-                  <div className={styles.actionBtn}>
-                    <button type="button" className={styles.iconButton}>
-                      <svg viewBox="0 0 20 20" width="20" height="20">
-                        <use href="/sprite.svg#changeTask" />
+      <div className={styles.modalWrap}>
+        <DialogPanel className={styles.wapperModal}>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <div className={styles.contentTask}>
+                <DialogTitle className={styles.nameTask}>{task.name}</DialogTitle>
+                <div dangerouslySetInnerHTML={{ __html: task.description }} />
+                <WriteComment id={id} />
+                <ListComments comments={task.comments} />
+              </div>
+              <div className={styles.taskDetails}>
+                <div className={styles.top}>
+                  <div className={styles.actionPanel}>
+                    <div className={styles.idTask}>id:{task.id}</div>
+                    <div className={styles.actionBtn}>
+                      <button type="button" className={styles.iconButton}>
+                        <svg viewBox="0 0 20 20" width="20" height="20">
+                          <use href="/sprite.svg#changeTask" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.select}>
+                    {task?.possibleTaskNextStages.length !== 0 && (
+                      <Select
+                        task={task}
+                        possibleTaskNextStages={task.possibleTaskNextStages}
+                        stage={task.stage}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.tags}>
+                  <div className={styles.tagItem}>
+                    <div className={styles.label}>Приоритет</div>
+                    {!!task.priority && <TaskPriorityItem priority={task.priority} />}
+                  </div>
+                  <div className={styles.tagItem}>
+                    <div className={styles.label}>Компонент</div>
+
+                    {task.component && <TaskComponent component={task.component} />}
+                  </div>{' '}
+                  <div className={styles.tagItem}>
+                    <div className={styles.label}>Тип</div>
+
+                    {task.task_type && <TaskType type={task.task_type} />}
+                  </div>
+                </div>
+                <div className={styles.evaluation}>
+                  <span>Оценка</span>
+                  <span>
+                    {task.total_logged_time}
+                    <svg viewBox="0 0 18 18" width="18" height="18">
+                      <use href="/sprite.svg#time" />
+                    </svg>
+                  </span>
+                </div>
+                <div className={styles.date}>
+                  <div className={styles.dateItem}>
+                    <div className={styles.label}>Дата создания</div>
+                    <div className={styles.dateContent}>
+                      <svg viewBox="0 0 13 13" width="13" height="13">
+                        <use href="/sprite.svg#calendar" />
                       </svg>
-                    </button>
+                      {formatDateUtils(task.begin)}
+                    </div>
                   </div>
-                </div>
-                <div className={styles.select}>
-                  {task?.possibleTaskNextStages.length !== 0 && (
-                    <SelectUi
-                      task={task}
-                      possibleTaskNextStages={task.possibleTaskNextStages}
-                      stage={task.stage}
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.tags}>
-                <div className={styles.tagItem}>
-                  <div className={styles.label}>Приоритет</div>
-                  {!!task.priority && <TaskPriorityItem priority={task.priority} />}
-                </div>
-                <div className={styles.tagItem}>
-                  <div className={styles.label}>Компонент</div>
-
-                  {task.component && <TaskComponent component={task.component} />}
-                </div>{' '}
-                <div className={styles.tagItem}>
-                  <div className={styles.label}>Тип</div>
-
-                  {task.task_type && <TaskType type={task.task_type} />}
-                </div>
-              </div>
-              <div className={styles.evaluation}>
-                <span>Оценка</span>
-                <span>
-                  {task.total_logged_time}
-                  <svg viewBox="0 0 18 18" width="18" height="18">
-                    <use href="/sprite.svg#time" />
-                  </svg>
-                </span>
-              </div>
-              <div className={styles.date}>
-                <div className={styles.dateItem}>
-                  <div className={styles.label}>Дата создания</div>
-                  <div className={styles.dateContent}>
-                    <svg viewBox="0 0 13 13" width="13" height="13">
-                      <use href="/sprite.svg#calendar" />
-                    </svg>
-                    {new Intl.DateTimeFormat('ru-RU', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                    }).format(new Date(task.begin))}
+                  <div className={styles.dateItem}>
+                    <div className={styles.label}>Дата начала</div>
+                    <div className={styles.dateContent}>
+                      <svg viewBox="0 0 13 13" width="13" height="13">
+                        <use href="/sprite.svg#calendar" />
+                      </svg>
+                      {formatDateUtils(task.end)}
+                    </div>
                   </div>
+                  <div />
                 </div>
-                <div className={styles.dateItem}>
-                  <div className={styles.label}>Дата начала</div>
-                  <div className={styles.dateContent}>
-                    <svg viewBox="0 0 13 13" width="13" height="13">
-                      <use href="/sprite.svg#calendar" />
-                    </svg>
-                    {new Intl.DateTimeFormat('ru-RU', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                    }).format(new Date(task.end))}
-                  </div>
+                <div className={styles.executor}>
+                  <div className={styles.label}>Исполнитель</div>
+                  {task.users?.map((it, indx) => (
+                    <div key={indx} className={styles.executorItem}>
+                      <img
+                        src={
+                          it.avatar
+                            ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
+                            : '/default_user.png'
+                        }
+                        alt="Исполнитель"
+                      />
+                      {it.name}
+                    </div>
+                  ))}
                 </div>
-                <div />
-              </div>
-              <div className={styles.executor}>
-                <div className={styles.label}>Исполнитель</div>
-                {task.users?.map((it) => (
+                <div className={styles.executor}>
+                  <div className={styles.label}>Постановщик</div>
+
                   <div className={styles.executorItem}>
-                    <img src={it.avatar ? it.avatar.link : '/default_user.png'} alt="Исполнитель" />
-                    {it.name}
+                    <img
+                      src={
+                        task.created_by.avatar
+                          ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
+                          : '/default_user.png'
+                      }
+                      alt="Постановщик"
+                    />
+                    {task.created_by.patronymic}
                   </div>
-                ))}
+                </div>
+                {task.layout_link && (
+                  <div>
+                    <div className={styles.label}>Layout Link</div>
+                    <a
+                      href={`https://trainee-academy.devds.ru/${task.layout_link}`}
+                      className={styles.link}
+                    >
+                      {task.layout_link}
+                    </a>
+                  </div>
+                )}
+                {task.dev_link && (
+                  <div>
+                    <div className={styles.label}>Dev Link</div>
+                    <a
+                      className={styles.link}
+                      href={`https://trainee-academy.devds.ru/${task.dev_link}`}
+                    >
+                      {task.dev_link}
+                    </a>
+                  </div>
+                )}
               </div>
-              <div className={styles.executor}>
-                <div className={styles.label}>Постановщик</div>
-
-                <div className={styles.executorItem}>
-                  <img
-                    src={
-                      task.created_by.avatar
-                        ? `https://trainee-academy.devds.ru/${task.created_by.avatar.link}`
-                        : '/default_user.png'
-                    }
-                    alt="Постановщик"
-                  />
-                  {task.created_by.patronymic}
-                </div>
-              </div>
-              {task.layout_link && (
-                <div>
-                  <div className={styles.label}>Layout Link</div>
-                  <a
-                    href={`https://trainee-academy.devds.ru/${task.layout_link}`}
-                    className={styles.link}
-                  >
-                    {task.layout_link}
-                  </a>
-                </div>
-              )}
-              {task.dev_link && (
-                <div>
-                  <div className={styles.label}>Dev Link</div>
-                  <a
-                    className={styles.link}
-                    href={`https://trainee-academy.devds.ru/${task.dev_link}`}
-                  >
-                    {task.dev_link}
-                  </a>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </DialogPanel>
+            </>
+          )}
+        </DialogPanel>
+      </div>
     </Dialog>
   );
 };
