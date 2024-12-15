@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import CustomCombobox from '@/components/ui/CustomCombobox/CustomCombobox';
 import DateInput from '@/components/ui/DateInput/DateInput';
+import InputDefault from '@/components/ui/Input/InputDefault/InputDefault';
+import { useState } from 'react';
 import styles from './FiltersBlock.module.scss';
 
 type Person = { id: number; name: string };
@@ -51,14 +53,15 @@ const FiltersBlock: React.FC<FiltersBlockProps> = ({
   <div className={cn(styles['project-kanban__filters'])}>
     <div className={cn(styles['project-kanban__inputs'])}>
       <div className={cn(styles['project-kanban__input'])}>
-        <label htmlFor="">
-          <span>Название задачи</span>
-        </label>
-        <input
-          value={taskNameValue}
+        <InputDefault
+          id="project-name"
           onChange={(e) => setTaskNameValue(e.target.value)}
           type="text"
-          placeholder="Название задачи"
+          labelText="Название проекта"
+          value={taskNameValue}
+          onClear={() => setTaskNameValue('')}
+          isClear
+          placeholder="Введите название"
         />
       </div>
 

@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import IconButton from '@/components/ui/Button/IconButton/IconButton';
 import useTaskStore from '@/store/taskStore';
 import TaskService from '@/services/task.service';
+import InputDefault from '@/components/ui/Input/InputDefault/InputDefault';
 import styles from './CreateModal.module.scss';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 
