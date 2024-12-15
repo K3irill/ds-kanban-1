@@ -11,8 +11,7 @@ import cn from 'classnames';
 import Loader from '@/components/ui/Loader/loader';
 import useFavoriteMutation from '@/hooks/useFavoriteMutation';
 import useAuthStore from '@/store/store';
-import TaskModal from '@/components/task/TaskModal/TaskModal';
-import useTaskStore from '@/store/taskStore';
+
 import styles from './ProjectsPage.module.scss';
 //----------------------------------------------------
 /* eslint-disable no-nested-ternary */
@@ -146,6 +145,7 @@ export default function ProjectsPage() {
               <div className={cn(styles['projects__inputs-wrapper'])}>
                 <label htmlFor="project-name">
                   <span>Название проекта</span>
+
                   <input
                     value={nameValueProject}
                     onChange={(e) => onChangeInputNameProject(e)}
