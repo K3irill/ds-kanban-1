@@ -1,0 +1,43 @@
+.task {
+  background-color: white;
+  padding: 14px 12px;
+  border-radius: 6px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  &__task-id {
+    color: var(--grey-primary);
+  }
+  &__task-name {
+    font-weight: 600;
+    line-height: 16.8px;
+  }
+  &__user {
+    color: var(--grey-primary);
+    margin-right: 5px;
+  }
+  &__users-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  &__epic-name {
+    color: var(--grey-primary);
+    span {
+      color: var(--blue-primary);
+    }
+  }
+}

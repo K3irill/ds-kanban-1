@@ -1,0 +1,21 @@
+.project-kanban {
+  &__inputs {
+    display: flex;
+    gap: 16px;
+  }
+  &__input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  &__calendars {
+    display: flex;
+    gap: 16px;
+  }
+  &__filters {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

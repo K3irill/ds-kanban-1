@@ -1,0 +1,24 @@
+.element {
+  color: var(--black-primary);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  transition:
+    background-color 0.4s,
+    color 0.4s;
+  &:hover {
+    color: var(--black-primary);
+    background-color: var(--blue-light-background);
+  }
+  &:not(:active):focus {
+    border: 2px solid var(--black-primary);
+  }
+  &--active {
+    color: var(--white-primary);
+    background-color: var(--blue-primary);
+  }
+  &__more {
+    color: var(--blue-primary);
+  }
+}

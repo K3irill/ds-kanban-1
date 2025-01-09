@@ -1,0 +1,185 @@
+.label {
+  display: inline-block;
+  padding-bottom: 6px;
+  font-size: 14px;
+  color: #a6a6a6;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: auto 0;
+  width: 300px;
+
+  &.iconLeft {
+    .input {
+      padding-left: 52px;
+    }
+  }
+
+  &.iconRight {
+    .input {
+      padding-right: 56px;
+    }
+  }
+}
+
+.input {
+  background-color: #f4f6f8;
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  resize: none;
+  font-family: inherit;
+  transition: all 0.3s ease-in-out;
+
+  &::placeholder {
+    font-family: inherit;
+  }
+
+  &:hover {
+    border-color: #3787eb;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #ffffff;
+    border-color: #3787eb;
+  }
+}
+
+.textarea {
+  min-height: 54px;
+  overflow: hidden;
+}
+
+.icon {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.4s ease;
+
+  &Search {
+    left: 20px;
+    pointer-events: none;
+  }
+
+  &Password {
+    right: 20px;
+    cursor: pointer;
+  }
+
+  &Active {
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+  }
+}
+
+.statusContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+.statusIcon {
+  display: block;
+  width: 14px;
+  height: 13px;
+  flex-shrink: 0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.statusMessage {
+  font-size: 12px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.warning {
+  .input {
+    background-color: #fff8e1;
+
+    &:hover,
+    &:focus {
+      background-color: #fff8e1;
+      border: 1px solid #eee5c8;
+    }
+  }
+
+  .statusMessage {
+    color: #ffd700;
+  }
+}
+
+.error {
+  .input {
+    background-color: #fff0f0;
+
+    &:hover,
+    &:focus {
+      background-color: #fff0f0;
+      border: 1px solid transparent;
+    }
+  }
+
+  .statusMessage {
+    color: #ff4444;
+  }
+}
+
+.success {
+  .input {
+    background-color: #f0fff0;
+
+    &:hover,
+    &:focus {
+      background-color: #f0fff0;
+      border: 1px solid #cbe5cb;
+    }
+  }
+
+  .statusMessage {
+    color: #00c853;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

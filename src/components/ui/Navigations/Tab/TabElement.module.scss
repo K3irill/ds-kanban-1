@@ -1,0 +1,45 @@
+.element {
+  color: var(--grey-secondary);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding-bottom: 10px;
+  span {
+    transition: color 0.4s;
+
+    position: relative;
+    padding-bottom: 10px;
+    &::after {
+      transition: opacity 0.4s;
+      content: '';
+
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1.6px;
+      background-color: var(--grey-secondary);
+    }
+  }
+  & span:hover {
+    color: var(--black-primary);
+  }
+  &:not(:active):focus {
+    border: 2px solid var(--black-primary);
+  }
+  &--active {
+    color: var(--black-primary);
+    span {
+      &::after {
+        background-color: var(--blue-primary);
+      }
+    }
+  }
+  &:disabled {
+    color: var(--disabled);
+    span {
+      &::after {
+        background-color: var(--disabled);
+      }
+    }
+  }
+}
